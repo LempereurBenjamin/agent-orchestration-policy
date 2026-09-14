@@ -18,6 +18,8 @@ The policy is compatible only when the deployment provides all of the following:
    lifecycle messaging, and recovery inspection required by the policy.
 5. The deployment can verify the effective Pi provider, exact model, reasoning
    effort, and model-switch controls required by the selected routing profile.
+6. For `astra-deepseek-flash`, Pi exposes the exact direct-API route
+   `deepseek/deepseek-v4-flash` with supported low and high reasoning efforts.
 
 If a required capability is absent, the affected work is blocked. The policy does
 not authorize substituting a harness, provider, model family, or lifecycle mechanism.
@@ -28,6 +30,7 @@ not authorize substituting a harness, provider, model family, or lifecycle mecha
 pi --version
 orca --version
 test -f "$HOME/.pi/agent/skills/orchestration-policy/SKILL.md"
+pi --list-models deepseek
 orca skills get orchestration --full
 ```
 
@@ -35,6 +38,9 @@ Record the Pi/Orca versions and the observed capability results with the objecti
 when the policy requires orchestration. Confirm runtime routing using the procedure
 in `skills/orchestration-policy/references/model-routing.md`; requested CLI options
 alone are not sufficient evidence.
+
+Keep the DeepSeek API key in local Pi credential configuration. Never add it, other
+credentials, request payloads, or session output to this repository.
 
 ## Compatibility changes
 

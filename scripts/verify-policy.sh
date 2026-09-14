@@ -10,9 +10,11 @@ required_files=(
   skills/orchestration-policy/references/acceptance-manifest.md
   skills/orchestration-policy/references/model-routing-gpt56.md
   skills/orchestration-policy/references/model-routing-gpt6-astra.md
+  skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md
   skills/orchestration-policy/references/model-routing.md
   skills/orchestration-policy/references/recovery-and-learning.md
   skills/orchestration-policy/references/worker-contracts.md
+  tests/astra-deepseek-flash-scenarios.md
 )
 
 for file in "${required_files[@]}"; do
@@ -28,6 +30,19 @@ if rg -n '2\.3\.1' --glob '*.md' .; then
   echo 'Embedded policy version marker found.' >&2
   exit 1
 fi
+
+for required_literal in \
+  'astra-deepseek-flash' \
+  'deepseek/deepseek-v4-flash' \
+  'DEEPSEEK_FLASH_BLOCKED'; do
+  if ! rg -F -q "$required_literal" \
+    AGENTS.md \
+    skills/orchestration-policy \
+    tests/astra-deepseek-flash-scenarios.md; then
+    echo "Missing required composite-routing literal: $required_literal" >&2
+    exit 1
+  fi
+done
 
 for prohibited in \
   auth.json \

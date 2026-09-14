@@ -30,9 +30,11 @@ After restart, compaction, timeout, interrupted mutation, or uncertain side effe
 6. resume only reconciled work.
 
 Restore the recorded routing profile and its user authorization, not the current
-model picker or latest available model. If an Astra scope cannot be established,
-pause affected launches and recover its authority; do not invent consent or silently
-substitute GPT-5.6. New objectives without a profile request default to GPT-5.6.
+model picker or latest available model. For a composite objective, restore each
+recorded Astra/Flash role binding, including provider, exact model, and effort. If
+an Astra or Flash scope cannot be established, pause affected launches and recover
+its authority; do not invent consent or silently substitute another profile. New
+objectives without a profile request default to GPT-5.6.
 
 Conversation memory alone is not authority to retry or accept.
 Inspect before repeating potentially non-idempotent effects.
@@ -68,11 +70,14 @@ For approved migration, record old/new identities, preserve counters, reconcile 
 contracts/Manifest compatibility, and rerun only evidence invalidated by the change.
 
 Changing the routing family of active work is a scoped migration. An explicit Astra
-request covers only its named objective or roles; propagate it to affected future
-dispatches after reconciliation. Preserve prior worker routing and evidence history.
-Revocation stops new Astra launches immediately and pauses further substantive work
-by affected active workers through the supported lifecycle protocol before rerouting.
-Neither migration nor revocation resets attempt, retry, correction, or capacity counts.
+or Flash request covers only its named objective or roles; propagate it to affected
+future dispatches after reconciliation. Preserve prior worker routing and evidence
+history. Revocation stops new affected launches immediately and pauses further
+substantive work by affected active workers through the supported lifecycle protocol
+before rerouting. After the configured transient retry allowance, an unavailable,
+mismatched, or unverifiable Flash role reports `DEEPSEEK_FLASH_BLOCKED`; it does not
+fall back automatically. Neither migration nor revocation resets attempt, retry,
+correction, or capacity counts.
 
 ## Learning
 

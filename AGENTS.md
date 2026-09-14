@@ -25,10 +25,11 @@ If required guidance is unavailable, report the gap and pause dependent launches
 or modifications. Safe discovery may continue; do not bypass policy by going solo.
 Simple informational questions do not require orchestration.
 
-GPT-5.6 is the default routing family. The parallel GPT-6 Astra profile is opt-in
-only for the objective or role the user explicitly names. A request to review or
-edit Astra routing rules does not activate that profile. The policy's model-routing
-reference owns selection, dispatch inheritance, verification, and recovery.
+GPT-5.6 is the default routing family. The GPT-6 Astra and Astra–DeepSeek Flash
+profiles are opt-in only for the objective or role the user explicitly names. A
+request to review or edit routing rules does not activate either profile. The
+policy's model-routing reference owns selection, dispatch inheritance, verification,
+and recovery.
 
 ## Scope and repository discipline
 

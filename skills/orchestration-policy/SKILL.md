@@ -38,7 +38,8 @@ silently expand scope, weaken acceptance, or perform unauthorized side effects.
 User instructions may override these for the current objective:
 
 - Pi is the harness; Orca is the orchestrator.
-- Routing profile: GPT-5.6; GPT-6 Astra requires an explicit user request for its scope.
+- Routing profile: GPT-5.6; GPT-6 Astra and Astra–DeepSeek Flash require an explicit
+  user request for their scope.
 - Concurrent workers <= 3.
 - Concurrent flagship workers (Sol, Astra, or unknown routing combined) <= 1, Lead excluded.
 - Worker execution attempts <= 12 per objective.
@@ -177,7 +178,8 @@ Do not batch launches against stale capacity.
 
 Graph nodes inherit the recorded objective profile unless an explicit user request
 authorizes a narrower override. Retry, correction, and recovery nodes preserve
-that scope and cumulative counters; they cannot opt into Astra themselves.
+that scope and cumulative counters; they cannot opt into Astra or DeepSeek Flash
+themselves.
 
 ## Corrections
 

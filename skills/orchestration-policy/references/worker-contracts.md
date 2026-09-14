@@ -15,7 +15,7 @@ OBJECTIVE
 <one observable outcome>
 
 ROUTING
-Pi / <profile: gpt-5.6 | gpt-6-astra> / <exact model ID> / <effort>
+Pi / <profile: gpt-5.6 | gpt-6-astra | astra-deepseek-flash> / <exact model ID> / <effort>
 Selection authority: <default or user request reference + authorized scope>
 Runtime verification: <evidence/status; exact-model failover controls>
 
@@ -49,6 +49,11 @@ Follow injected Orca task/dispatch/heartbeat/question/completion instructions.
 
 Do not paste whole manifests, ADRs, issues, transcripts, private reasoning, or
 persuasive worker summaries when the worker can read authoritative artifacts directly.
+
+For `astra-deepseek-flash`, bind every contract to the exact route in its composite
+role table. Flash contracts record available token/cache metrics and terminal failure
+status without including credentials or request payloads. A worker cannot select,
+escalate, or replace its own route.
 
 ## Explorer
 

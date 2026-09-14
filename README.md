@@ -14,6 +14,18 @@ evidence, independent review, recovery, and closure.
 Git commits and release tags identify policy bundles. Do not add a bundle version
 inside policy documents.
 
+## Routing profiles
+
+- `gpt-5.6` is the default profile.
+- `gpt-6-astra` is an explicit Astra-only profile.
+- `astra-deepseek-flash` is an explicit composite profile: Astra coordinates,
+  integrates, validates, and reviews; only focused research, coding/debugging, and
+  writing/summaries use `deepseek/deepseek-v4-flash` at their documented efforts.
+
+The composite profile records actual routing and available token/cache metrics, but
+does not make cost, quality, or savings claims. It never falls back automatically
+when Flash is unavailable; see the policy's `DEEPSEEK_FLASH_BLOCKED` rule.
+
 ## Setup on macOS
 
 Pi's standard global agent directory is `~/.pi/agent`. Keep the repository clone
