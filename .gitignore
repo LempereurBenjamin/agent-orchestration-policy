@@ -1,0 +1,13 @@
+.DS_Store
+*.log
+*.jsonl
+auth.json
+models.json
+models-store.json
+pi-multi-account-proxy-oauth.json
+provider-failover.json
+provider-failover-state.json
+provider-failover-debug.log
+sessions/
+reviews/
+npm/
