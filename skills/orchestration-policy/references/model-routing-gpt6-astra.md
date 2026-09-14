@@ -23,11 +23,11 @@ interpret "GPT-6 family" as permission to use an unverified future model.
 | Architecture/spec documentation | Astra / low | medium for unresolved adjudication |
 
 These are local routing defaults, not measured performance or cost guarantees.
-The user relayed OpenAI team feedback that Astra/low matches or exceeds Sol/high.
-Treat that feedback as the rationale for this low-first policy, not a universal
-benchmark or proof of equivalent quota consumption. Do not copy GPT-5.6 effort
-labels onto Astra: use low when selecting a new Astra route unless the user
-explicitly requests another effort or task-specific evidence justifies escalation.
+Use low as the local starting point for this profile. It is not a universal
+performance benchmark or a claim about comparable quota consumption. Do not copy
+GPT-5.6 effort labels onto Astra: use low when selecting a new Astra route unless
+the user explicitly requests another effort or task-specific evidence justifies
+escalation.
 
 Escalate low -> medium -> high for a concrete unresolved reasoning problem, not
 for missing inputs, infrastructure failures, or routine review formalities.
