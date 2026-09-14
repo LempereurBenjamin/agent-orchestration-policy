@@ -1,7 +1,5 @@
 # Acceptance Manifest
 
-Policy reference: 2.3.1.
-
 This file owns baseline, ticket-boundary, freeze/unfreeze, Implementation Approach,
 and review-finding taxonomy.
 

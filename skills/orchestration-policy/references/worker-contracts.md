@@ -1,7 +1,5 @@
 # Worker Contracts
 
-Policy reference: 2.3.1.
-
 This file owns worker handoffs. Prompts carry assignments; artifacts carry authority.
 
 ## Envelope

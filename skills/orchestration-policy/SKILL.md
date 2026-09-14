@@ -4,8 +4,6 @@ description: >-
   Coordinate non-trivial engineering work with Pi and Orca using bounded graphs,
   worker contracts, correction loops, and candidate acceptance. Simple questions
   do not require orchestration.
-metadata:
-  version: "2.3.1"
 ---
 
 # Orchestration Policy

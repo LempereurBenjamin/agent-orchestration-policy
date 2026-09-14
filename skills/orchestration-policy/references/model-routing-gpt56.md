@@ -1,7 +1,5 @@
 # GPT-5.6 routing — default
 
-Policy reference: 2.3.1.
-
 Selected by `model-routing.md` unless the user explicitly requests another profile
 for the relevant scope.
 

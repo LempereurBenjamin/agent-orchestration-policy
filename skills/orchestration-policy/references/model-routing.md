@@ -1,7 +1,5 @@
 # Model Routing
 
-Policy reference: 2.3.1.
-
 This reference owns Pi profile selection and effective routing. Provider/account
 choice is machine configuration. Profile names below are policy labels, not CLI flags.
 

@@ -1,7 +1,5 @@
 # GPT-6 Astra routing — explicit opt-in only
 
-Policy reference: 2.3.1.
-
 Load for an explicitly authorized Astra objective or role after selection by
 `model-routing.md`. All common authority, acceptance, graph, loop, and budget rules
 remain in force.

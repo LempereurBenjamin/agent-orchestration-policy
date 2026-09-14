@@ -1,7 +1,5 @@
 # Recovery, Exceptions, and Learning
 
-Policy reference: 2.3.1.
-
 This file owns abnormal paths.
 
 ## Checkpoint
