@@ -8,12 +8,13 @@ authority, acceptance, graph, loop, budget, and recovery rules remain in force.
 | Responsibility | Route | Escalation |
 | --- | --- | --- |
 | Lead / root coordination | `gpt-6-astra` / medium | high for a concrete unresolved synthesis problem |
-| Focused research | `deepseek/deepseek-v4-flash` / low | block/escalate; no automatic effort or profile change |
-| Coding and debugging | `deepseek/deepseek-v4-flash` / high | block/escalate; no automatic effort or profile change |
-| Writing and summaries | `deepseek/deepseek-v4-flash` / low | block/escalate; no automatic effort or profile change |
-| Integration | `gpt-6-astra` / medium | high for difficult interaction |
-| Validation | deterministic tool node when sufficient; otherwise `gpt-6-astra` / medium | high for semantic diagnosis |
-| Architecture and final independent review | `gpt-6-astra` / high | block/escalate if high remains insufficient |
+| Explorer / focused research | `deepseek/deepseek-v4-flash` / low | block/escalate; no automatic effort or profile change |
+| Implementer / coding and debugging | `deepseek/deepseek-v4-flash` / high | block/escalate; no automatic effort or profile change |
+| Writer / writing and summaries | `deepseek/deepseek-v4-flash` / low | block/escalate; no automatic effort or profile change |
+| Integrator / integration | `gpt-6-astra` / medium | high for difficult interaction |
+| Validator / validation | deterministic tool node when sufficient; otherwise `gpt-6-astra` / medium | high for semantic diagnosis |
+| Architect / architecture | `gpt-6-astra` / high | block/escalate if high remains insufficient |
+| Reviewer / final independent review | `gpt-6-astra` / high | block/escalate if high remains insufficient |
 
 The role table is closed for the initial rollout. In particular, Flash does not own
 integration, validation, architecture, or final independent review. A final review

@@ -13,11 +13,12 @@ Luna = `gpt-5.6-luna`.
 | Lead / routine coordination and synthesis | Terra / medium | Sol/high for difficult synthesis, conflicting evidence, or high-risk adjudication; xhigh only if justified |
 | Explorer | Terra / medium | high for subtle semantic investigation |
 | Implementer | Terra / medium | high/xhigh for difficult correctness |
+| Writer | Terra / medium | high for difficult source-backed synthesis |
+| Architect | Terra / medium | high/Sol for difficult adjudication |
 | Meaningful independent review | Sol / high | xhigh for high-risk invariants |
 | Small low-risk review | Terra / medium | high/Sol as uncertainty grows |
 | Validator / deterministic collection | Tool node when sufficient; otherwise Luna / low | Luna/medium for nontrivial interpretation; Terra/medium for semantic diagnosis |
 | Integrator | Terra / medium | high for difficult interaction |
-| Architecture/spec documentation | Terra / medium | high/Sol for adjudication |
 
 Use `medium` as the routine engineering baseline. Increase reasoning only when task
 difficulty or measured quality justifies it. Reserve `max` for rare focused,

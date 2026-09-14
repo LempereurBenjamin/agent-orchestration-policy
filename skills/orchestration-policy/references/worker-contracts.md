@@ -9,7 +9,7 @@ EXECUTION MODE
 WORKER. Execute only this assignment; do not orchestrate, reroute, or expand scope.
 
 ROLE
-Explorer | Implementer | Reviewer | Validator | Integrator
+Explorer | Implementer | Writer | Architect | Reviewer | Validator | Integrator
 
 OBJECTIVE
 <one observable outcome>
@@ -75,6 +75,21 @@ Return exact candidate identity, changed artifacts, required evidence actually
 produced, and residual risks.
 
 A canonical contradiction stops affected work; do not change acceptance to fit code.
+
+## Writer
+
+Default WRITE OWNER for scoped authored artifacts; otherwise READ-ONLY when producing
+a summary or draft. Model and effort come from the selected profile's Writer row.
+
+Return the exact artifact, its required evidence, and residual risks. Do not turn a
+summary or draft into a change of authority, acceptance, or implementation scope.
+
+## Architect
+
+Default READ-ONLY. Model and effort come from the selected profile's Architect row.
+
+Analyze canonical authority, boundaries, invariants, and evidence strategy. Return a
+bounded decision or approach; do not implement speculative changes or alter acceptance.
 
 ## Reviewer
 

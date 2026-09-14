@@ -14,11 +14,12 @@ interpret "GPT-6 family" as permission to use an unverified future model.
 | Lead / synthesis | Astra / low | medium for unresolved synthesis or high-risk adjudication |
 | Explorer | Astra / low | medium for subtle semantic investigation |
 | Implementer | Astra / low | medium for difficult correctness |
+| Writer | Astra / low | medium for difficult source-backed synthesis |
+| Architect | Astra / low | medium for unresolved adjudication |
 | Meaningful independent review | Astra / low | medium for subtle invariants or conflicting evidence |
 | Small low-risk review | Astra / low | medium for demonstrated uncertainty |
 | Validator / deterministic collection | Tool node when sufficient; otherwise Astra / low | medium for semantic diagnosis |
 | Integrator | Astra / low | medium for difficult interaction |
-| Architecture/spec documentation | Astra / low | medium for unresolved adjudication |
 
 These are local routing defaults, not measured performance or cost guarantees.
 Use low as the local starting point for this profile. It is not a universal
