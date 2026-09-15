@@ -96,6 +96,9 @@ Read `acceptance-manifest.md`.
 Always capture repository identity, exact base SHA, working-tree state, and relevant
 pre-existing changes. Run only baseline checks that materially improve comparison
 or causality. Prefer comparable before/after checks; broad suites are not ritual.
+When a relevant baseline check is already dirty, define its gate scope and evaluation
+mode explicitly before candidate evaluation. Pre-existing debt is evidence to classify,
+not an automatic ticket blocker.
 
 Patterns C/D require a frozen Manifest before production implementation, except
 for an explicitly bounded experiment. Pattern B normally requires one; a bounded
@@ -216,14 +219,33 @@ already has valid approval.
 
 ## Closure
 
+Evaluate ticket acceptance from the frozen ticket criteria and gate verdicts, not from
+whether every repository-wide command exits zero. Raw check failures remain visible.
+A ticket gate may be `SATISFIED_WITH_BASELINE_DEBT` when proven inherited debt is
+unchanged and the frozen gate mode permits no-regression or changed-scope evaluation.
+
+Use outcome states precisely:
+
+- **DONE** — requested ticket scope satisfies its acceptance contract; documented
+  baseline debt or out-of-scope follow-up may remain.
+- **PARTIAL** — a useful subset is complete, but requested in-scope work remains incomplete.
+- **BLOCKED** — progress or acceptance cannot currently be determined because a required
+  external dependency, decision, authority, environment, or evidence is unavailable.
+- **FAILED** — the in-scope candidate does not satisfy acceptance and the permitted
+  correction path has been exhausted or deliberately stopped.
+
+Known inherited debt with sufficient no-regression evidence is not, by itself, BLOCKED.
+Ticket acceptance, merge readiness, and release readiness remain separate decisions.
+
 Normal DONE requires:
-- applicable frozen Manifest;
+- applicable frozen Manifest, or the recorded bounded contract for an allowed Pattern B omission;
 - exact final candidate;
 - criteria mapped to required evidence;
-- required mechanical evidence;
+- all required TICKET gates evaluated as `SATISFIED` or `SATISFIED_WITH_BASELINE_DEBT`,
+  unless explicitly waived by applicable authority;
 - required independent review of the final candidate;
-- no unresolved blocker;
-- explicit treatment of missing/waived/non-blocking/out-of-scope findings;
+- no unresolved ticket blocker;
+- explicit treatment of missing/waived/non-blocking/out-of-scope findings and baseline debt;
 - no ambiguously active owned work;
 - clear Git/external state.
 
@@ -233,10 +255,10 @@ Distinguish implementation complete, ticket accepted, release ready, merged, and
 Default final report is concise:
 
 **Outcome** — DONE/PARTIAL/BLOCKED/FAILED; pattern; candidate.  
-**Evidence** — relevant baseline delta, required checks, review verdict.  
+**Evidence** — relevant baseline delta, ticket gate verdicts, required checks, review verdict.  
 **Changes** — substantive result.  
-**Residuals** — risks, follow-ups, missing evidence/decisions.  
-**State** — commit/push/merge/deploy/external-write status.
+**Residuals** — baseline debt, risks, follow-ups, missing evidence/decisions.  
+**State** — ticket acceptance plus commit/push/merge/release/deploy/external-write status.
 
 Include graph, worker, routing, policy, or Manifest internals only when material,
 requested, or needed for audit/debugging.
