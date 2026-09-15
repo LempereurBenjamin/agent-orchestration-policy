@@ -103,6 +103,10 @@ Implementation Approach only as non-contractual context when relevant.
 Do not receive implementer transcript/self-assessment.
 Use the finding taxonomy owned by `acceptance-manifest.md`.
 
+Review ticket acceptance against gate verdicts and semantic criteria, while preserving
+raw check outcomes. A raw repository-wide FAIL that is proven unchanged from baseline
+does not become a semantic defect merely because the command exits non-zero.
+
 Verdict: PASS | PASS WITH NON-BLOCKING FINDINGS | FAIL | BLOCKED.
 
 A FAIL verdict may still mean worker execution DONE.
@@ -113,8 +117,19 @@ Do not edit the candidate or call self-review independent.
 Default VALIDATION-ONLY. Prefer deterministic tools without an agent when possible;
 otherwise use the selected profile's Validator row.
 
-Validate the exact candidate. Return command/procedure, environment, result,
-output reference, and relevant baseline comparison.
+Validate the exact candidate. Return:
+- the raw command/procedure result and exit status where applicable;
+- environment and evidence/output reference;
+- relevant baseline result;
+- normalized baseline-vs-candidate delta when the gate mode is `NO_REGRESSION`;
+- changed-scope findings when the gate mode is `CHANGED_SCOPE`;
+- candidate-only findings, or an explicit reason they cannot be established.
+
+Do not collapse raw check result into ticket acceptance. The Validator reports facts;
+the Lead evaluates the gate using the frozen Manifest's scope, mode, and acceptance rule.
+
+Equal finding counts alone do not prove no regression when individual findings can
+change. Prefer finding-set comparison or deterministic changed-scope evidence.
 
 Do not silently fix, weaken tests, or hide earlier failures.
 Escalate semantic diagnosis through the coordinator using the selected profile.

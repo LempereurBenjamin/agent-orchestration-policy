@@ -15,6 +15,7 @@ required_files=(
   skills/orchestration-policy/references/recovery-and-learning.md
   skills/orchestration-policy/references/worker-contracts.md
   tests/astra-deepseek-flash-scenarios.md
+  tests/acceptance-gate-scenarios.md
 )
 
 for file in "${required_files[@]}"; do
@@ -40,6 +41,20 @@ for required_literal in \
     skills/orchestration-policy \
     tests/astra-deepseek-flash-scenarios.md; then
     echo "Missing required composite-routing literal: $required_literal" >&2
+    exit 1
+  fi
+done
+
+for required_literal in \
+  'SATISFIED_WITH_BASELINE_DEBT' \
+  'NO_REGRESSION' \
+  'CHANGED_SCOPE'; do
+  if ! rg -F -q "$required_literal" \
+    skills/orchestration-policy/SKILL.md \
+    skills/orchestration-policy/references/acceptance-manifest.md \
+    skills/orchestration-policy/references/worker-contracts.md \
+    tests/acceptance-gate-scenarios.md; then
+    echo "Missing required baseline-aware acceptance literal: $required_literal" >&2
     exit 1
   fi
 done
