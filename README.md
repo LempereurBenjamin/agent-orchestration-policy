@@ -16,7 +16,7 @@ inside policy documents.
 
 ## Routing profiles
 
-- `gpt-5.6` is the default profile.
+- `gpt-6` is the default Sol/Luna profile.
 - `gpt-6-astra` is an explicit Astra-only profile.
 - `astra-deepseek-flash` is an explicit composite profile: Astra coordinates,
   integrates, validates, and reviews; only focused research, coding/debugging, and
