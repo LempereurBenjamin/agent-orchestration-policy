@@ -17,10 +17,12 @@ inside policy documents.
 ## Routing profiles
 
 - `gpt-6` is the default Sol/Luna profile.
-- `gpt-6-astra` is an explicit Astra-only profile.
-- `astra-deepseek-flash` is an explicit composite profile: Astra coordinates,
-  integrates, validates, and reviews; only focused research, coding/debugging, and
-  writing/summaries use `deepseek/deepseek-v4-flash` at their documented efforts.
+- `gpt-6-astra` is an explicit quality-first GPT-6 profile: Astra owns high-impact
+  coordination, architecture, and review; Sol/Luna handle bounded execution roles.
+- `astra-deepseek-flash` is an explicit specialist composite profile: Astra owns
+  coordination/architecture/review, DeepSeek Flash handles focused research,
+  coding/debugging and routine writing, Sol integrates, and Luna handles bounded
+  validation when deterministic tools are insufficient.
 
 The composite profile records actual routing and available token/cache metrics, but
 does not make cost, quality, or savings claims. It never falls back automatically
