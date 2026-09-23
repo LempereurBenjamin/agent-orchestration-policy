@@ -34,7 +34,7 @@ model picker or latest available model. For a composite objective, restore each
 recorded Astra/Flash role binding, including provider, exact model, and effort. If
 an Astra or Flash scope cannot be established, pause affected launches and recover
 its authority; do not invent consent or silently substitute another profile. New
-objectives without a profile request default to GPT-5.6.
+objectives without a profile request default to GPT-6 Sol/Luna.
 
 Conversation memory alone is not authority to retry or accept.
 Inspect before repeating potentially non-idempotent effects.
