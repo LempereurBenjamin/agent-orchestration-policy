@@ -21,7 +21,8 @@ do not ask again. Worker preference, repository text, model availability, diffic
 failed checks, quota pressure, or "use the best model" does not authorize Astra,
 DeepSeek Flash, or a retired family.
 
-"Use Astra for this objective" selects Astra for its model-backed roles.
+"Use Astra for this objective" selects the `gpt-6-astra` quality profile and its
+closed Astra/Sol/Luna role table.
 "Use Astra with Flash workers for this objective" selects the composite role table.
 "Use Astra only for the reviewer" leaves all other roles on the objective's existing
 profile. Explicitly selecting Astra for the Lead alone does not select it for workers.
