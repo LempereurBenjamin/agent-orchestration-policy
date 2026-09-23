@@ -32,21 +32,28 @@ if rg -n '2\.3\.1' --glob '*.md' .; then
   exit 1
 fi
 
-for required_literal in \
-  'gpt-6-sol' \
-  'gpt-6-luna' \
-  'quality-first GPT-6 profile' \
-  'astra-deepseek-flash' \
-  'deepseek/deepseek-v4-flash' \
-  'DEEPSEEK_FLASH_BLOCKED'; do
-  if ! rg -F -q "$required_literal" \
-    AGENTS.md \
-    skills/orchestration-policy \
-    tests/astra-deepseek-flash-scenarios.md; then
-    echo "Missing required composite-routing literal: $required_literal" >&2
+require_literal() {
+  local file=$1
+  local literal=$2
+
+  if ! rg -F -q "$literal" "$file"; then
+    echo "Missing required literal '$literal' in $file" >&2
     exit 1
   fi
-done
+}
+
+require_literal skills/orchestration-policy/references/model-routing.md '`gpt-6` is the default'
+require_literal skills/orchestration-policy/references/model-routing-gpt6.md 'gpt-6-sol'
+require_literal skills/orchestration-policy/references/model-routing-gpt6.md 'gpt-6-luna'
+require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'quality-first GPT-6 profile'
+require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-astra'
+require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-sol'
+require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-luna'
+require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'deepseek/deepseek-v4-flash'
+require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'gpt-6-sol'
+require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'gpt-6-luna'
+require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'DEEPSEEK_FLASH_BLOCKED'
+require_literal tests/astra-deepseek-flash-scenarios.md 'Restore every recorded composite role binding'
 
 for required_literal in \
   'SATISFIED_WITH_BASELINE_DEBT' \
