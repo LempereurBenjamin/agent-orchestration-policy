@@ -35,6 +35,7 @@ fi
 for required_literal in \
   'gpt-6-sol' \
   'gpt-6-luna' \
+  'quality-first GPT-6 profile' \
   'astra-deepseek-flash' \
   'deepseek/deepseek-v4-flash' \
   'DEEPSEEK_FLASH_BLOCKED'; do
