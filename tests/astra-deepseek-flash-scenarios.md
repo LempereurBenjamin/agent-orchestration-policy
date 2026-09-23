@@ -12,5 +12,5 @@ named profile, route, and block marker remain present.
 | Validator | Use a deterministic tool when sufficient; otherwise bind `gpt-6-luna` low/medium, escalating semantic diagnosis to Sol. |
 | Architect or final Reviewer | Bind `gpt-6-astra` at high effort. |
 | Flash unavailable, mismatched, or unverifiable after transient retries | Return `DEEPSEEK_FLASH_BLOCKED`; block and escalate without automatic Astra/Sol/Luna substitution. |
-| Resume a composite objective | Restore the recorded Astra/Flash role binding, provider, exact model, and effort before work. |
+| Resume a composite objective | Restore every recorded composite role binding (Astra, Flash, Sol, and Luna as applicable), including provider, exact model, and effort, before work. |
 | Flash worker requests a new model or effort | Reject worker-led rerouting; require Lead-scoped authority and runtime verification. |
