@@ -8,7 +8,7 @@ required_files=(
   AGENTS.md
   skills/orchestration-policy/SKILL.md
   skills/orchestration-policy/references/acceptance-manifest.md
-  skills/orchestration-policy/references/model-routing-gpt56.md
+  skills/orchestration-policy/references/model-routing-gpt6.md
   skills/orchestration-policy/references/model-routing-gpt6-astra.md
   skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md
   skills/orchestration-policy/references/model-routing.md
@@ -33,6 +33,8 @@ if rg -n '2\.3\.1' --glob '*.md' .; then
 fi
 
 for required_literal in \
+  'gpt-6-sol' \
+  'gpt-6-luna' \
   'astra-deepseek-flash' \
   'deepseek/deepseek-v4-flash' \
   'DEEPSEEK_FLASH_BLOCKED'; do
@@ -58,6 +60,11 @@ for required_literal in \
     exit 1
   fi
 done
+
+if [[ -e skills/orchestration-policy/references/model-routing-gpt56.md ]]; then
+  echo 'Retired GPT-5.6 routing profile is still present.' >&2
+  exit 1
+fi
 
 for prohibited in \
   auth.json \
