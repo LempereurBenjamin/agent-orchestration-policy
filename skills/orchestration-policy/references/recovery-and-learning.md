@@ -30,11 +30,12 @@ After restart, compaction, timeout, interrupted mutation, or uncertain side effe
 6. resume only reconciled work.
 
 Restore the recorded routing profile and its user authorization, not the current
-model picker or latest available model. For a composite objective, restore each
-recorded Astra/Flash role binding, including provider, exact model, and effort. If
-an Astra or Flash scope cannot be established, pause affected launches and recover
-its authority; do not invent consent or silently substitute another profile. New
-objectives without a profile request default to GPT-6 Sol/Luna.
+model picker or latest available model. For a composite objective, restore every
+recorded role binding, including Astra, Flash, Sol, and Luna routes as applicable,
+with provider, exact model, and effort. If an explicitly authorized Astra or Flash
+scope cannot be established, pause affected launches and recover its authority; do
+not invent consent or silently substitute another profile. New objectives without a
+profile request default to GPT-6 Sol/Luna.
 
 Conversation memory alone is not authority to retry or accept.
 Inspect before repeating potentially non-idempotent effects.
