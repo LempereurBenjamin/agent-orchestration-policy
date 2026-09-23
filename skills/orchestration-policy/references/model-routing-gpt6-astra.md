@@ -1,55 +1,94 @@
-# GPT-6 Astra routing — explicit opt-in only
+# GPT-6 Astra quality routing — explicit opt-in only
 
-Load for an explicitly authorized Astra objective or role after selection by
-`model-routing.md`. All common authority, acceptance, graph, loop, and budget rules
-remain in force.
+Load for an explicitly authorized `gpt-6-astra` objective or role after selection
+by `model-routing.md`. All common authority, acceptance, graph, loop, budget, and
+runtime-verification rules remain in force.
 
-## Model and role table
+This is a quality-first GPT-6 profile, not an "Astra on every node" profile.
+Concentrate Astra on judgment boundaries and use GPT-6 Sol/Luna where they are the
+better execution route.
 
-Verified model ID: `gpt-6-astra`. Do not invent Astra Sol/Terra/Luna variants or
-interpret "GPT-6 family" as permission to use an unverified future model.
+## Role table
+
+Exact model IDs used by this profile:
+- Astra = `gpt-6-astra`
+- Sol = `gpt-6-sol`
+- Luna = `gpt-6-luna`
 
 | Responsibility | Default | Escalation |
 | --- | --- | --- |
-| Lead / synthesis | Astra / low | medium for unresolved synthesis or high-risk adjudication |
-| Explorer | Astra / low | medium for subtle semantic investigation |
-| Implementer | Astra / low | medium for difficult correctness |
-| Writer | Astra / low | medium for difficult source-backed synthesis |
-| Architect | Astra / low | medium for unresolved adjudication |
-| Meaningful independent review | Astra / low | medium for subtle invariants or conflicting evidence |
-| Small low-risk review | Astra / low | medium for demonstrated uncertainty |
-| Validator / deterministic collection | Tool node when sufficient; otherwise Astra / low | medium for semantic diagnosis |
-| Integrator | Astra / low | medium for difficult interaction |
+| Lead / root coordination and synthesis | Astra / medium | high for unresolved high-impact synthesis; xhigh only when justified |
+| Explorer | Sol / high | xhigh for subtle causal/semantic investigation |
+| Implementer | Sol / medium | high for difficult correctness; xhigh for rare high-risk implementation reasoning |
+| Writer | Luna / medium | Sol / medium for difficult source-backed synthesis |
+| Architect | Astra / medium | high for unresolved architectural adjudication; xhigh for rare frontier cases |
+| Meaningful independent review | Astra / medium | high for subtle/high-risk invariants; xhigh when evidence remains materially ambiguous |
+| Small low-risk review | Sol / high | Astra / medium when the review becomes architecture/high-impact judgment |
+| Validator / deterministic collection | Tool node when sufficient; otherwise Luna / low | Luna / medium for interpretation; Sol / medium for semantic diagnosis |
+| Integrator | Sol / high | xhigh for difficult cross-component interaction |
 
-These are local routing defaults, not measured performance or cost guarantees.
-Use low as the local starting point for this profile. It is not a universal
-performance benchmark or a claim about comparable quota consumption. Do not copy
-the default GPT-6 Sol/Luna effort table onto Astra: use low when selecting a new
-Astra route unless the user explicitly requests another effort or task-specific
-evidence justifies escalation.
+These are routing defaults, not benchmark, quota, or cost guarantees. Explicit user
+model/effort selections take precedence within their authorized scope.
 
-Escalate low -> medium -> high for a concrete unresolved reasoning problem, not
-for missing inputs, infrastructure failures, or routine review formalities.
-Known exceptional complexity may justify a higher initial effort with a recorded
-reason; an artificial failed attempt is not required. Reserve xhigh/max for rare
-focused adjudication where high remains insufficient. After the hard subproblem,
-return new routine nodes to low. Existing pinned objectives use the migration
-procedure rather than silently changing effort. Do not use none/minimal.
-Bind only effort values supported by the actual Pi provider; API support alone
-does not prove harness support.
+## Routing intent
 
-Astra is the only model in this profile. Using default GPT-6 Sol/Luna helpers is a
-mixed-profile override that must be included in the user's scope; it is not an
-automatic cost fallback. Prefer deterministic tools for deterministic nodes.
+Use Astra where errors in judgment have the highest downstream cost:
+- objective decomposition and high-impact synthesis;
+- architectural adjudication;
+- final independent review of meaningful changes.
+
+Use Sol where substantial semantic engineering still benefits from strong reasoning
+but does not require frontier judgment:
+- exploration/root cause;
+- implementation;
+- integration;
+- small semantic review.
+
+Use Luna for bounded, well-specified work:
+- routine writing;
+- deterministic or lightly interpretive validation.
+
+Do not route a task to Astra merely because the objective is important. Route Astra
+to the judgment boundary that controls the important decision.
+
+## Reasoning effort
+
+Astra starts at `medium` in this profile rather than `low`. The profile is
+explicitly selected for additional quality at judgment boundaries.
+
+Escalate for a concrete unresolved reasoning problem:
+- Astra: medium -> high -> xhigh -> max;
+- Sol: medium/high -> xhigh as the role table indicates;
+- Luna: low -> medium before moving semantic diagnosis to Sol.
+
+Do not walk every rung mechanically. Known high-risk work may start at the justified
+effort directly. Infrastructure failures, missing inputs, and environment problems do
+not justify stronger reasoning.
+
+Reserve Astra `max` for rare focused quality-first adjudication after lower supported
+effort remains insufficient.
+
+## Profile boundary
+
+Selecting `gpt-6-astra` authorizes this closed quality profile for the named scope.
+It does not mean every model-backed node must use Astra.
+
+Do not substitute DeepSeek Flash or another external model inside this profile without
+a separate scoped authorization. Do not fall back to GPT-5.6.
+
+Deterministic nodes should remain tools rather than model calls where possible.
 
 ## Work instructions
 
-State the observable outcome, ownership, invariants, required evidence, and stopping
-condition in the worker contract. Allow the worker to choose local implementation
-steps. Continue through required validation and correction until the contract is
-satisfied or an actual policy boundary is reached. Preserve loop budgets and
-independent review; do not stop merely because a first implementation exists.
+State observable outcome, ownership, invariants, required evidence, and stopping
+condition. Allow workers to choose local implementation mechanisms that are not
+already ratified.
 
-Source checked 2026-09-13: [OpenAI GPT-6 Astra model documentation](https://developers.openai.com/api/docs/models/gpt-6-astra)
-lists low, medium, high, xhigh, and max reasoning effort. Runtime binding still
-requires the common verification procedure.
+Continue through required validation and bounded correction until the contract is
+satisfied or an actual policy boundary is reached. Preserve independent review and
+all common attempt/correction budgets.
+
+Source checked 2026-09-23:
+- https://developers.openai.com/api/docs/models/gpt-6-astra
+- https://developers.openai.com/api/docs/models/gpt-6-sol
+- https://developers.openai.com/api/docs/models/gpt-6-luna
