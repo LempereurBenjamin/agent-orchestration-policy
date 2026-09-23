@@ -36,8 +36,7 @@ worker prompts, artifacts, logs, or routing evidence.
 
 Use the common transient retry allowance. After it is exhausted, or whenever the
 Flash route is unavailable, mismatched, or unverifiable, report
-`DEEPSEEK_FLASH_BLOCKED` and escalate the affected node. Do not substitute an Astra
-or GPT-5.6 worker automatically.
+`DEEPSEEK_FLASH_BLOCKED` and escalate the affected node. Do not substitute an Astra or default GPT-6 Sol/Luna worker automatically.
 
 On recovery, restore the recorded Flash provider, exact model, and effort. A changed
 provider, model, effort, billing route, or role requires scoped migration and runtime
