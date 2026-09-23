@@ -15,7 +15,7 @@ OBJECTIVE
 <one observable outcome>
 
 ROUTING
-Pi / <profile: gpt-5.6 | gpt-6-astra | astra-deepseek-flash> / <exact model ID> / <effort>
+Pi / <profile: gpt-6 | gpt-6-astra | astra-deepseek-flash> / <exact model ID> / <effort>
 Selection authority: <default or user request reference + authorized scope>
 Runtime verification: <evidence/status; exact-model failover controls>
 
