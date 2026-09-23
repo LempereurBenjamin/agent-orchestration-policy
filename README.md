@@ -18,7 +18,9 @@ inside policy documents.
 
 - `gpt-6` is the default Sol/Luna profile.
 - `gpt-6-astra` is an explicit quality-first GPT-6 profile: Astra owns high-impact
-  coordination, architecture, and review; Sol/Luna handle bounded execution roles.
+  coordination, architecture, and review; Sol handles semantic engineering
+  (exploration, implementation, integration, and small review), while Luna handles
+  bounded writing and validation.
 - `astra-deepseek-flash` is an explicit specialist composite profile: Astra owns
   coordination/architecture/review, DeepSeek Flash handles focused research,
   coding/debugging and routine writing, Sol integrates, and Luna handles bounded
