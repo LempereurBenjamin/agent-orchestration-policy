@@ -10,11 +10,11 @@ required_files=(
   skills/orchestration-policy/references/acceptance-manifest.md
   skills/orchestration-policy/references/model-routing-gpt6.md
   skills/orchestration-policy/references/model-routing-gpt6-astra.md
-  skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md
+  skills/orchestration-policy/references/model-routing-deepseek-flash.md
   skills/orchestration-policy/references/model-routing.md
   skills/orchestration-policy/references/recovery-and-learning.md
   skills/orchestration-policy/references/worker-contracts.md
-  tests/astra-deepseek-flash-scenarios.md
+  tests/deepseek-flash-scenarios.md
   tests/acceptance-gate-scenarios.md
 )
 
@@ -49,11 +49,22 @@ require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.
 require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-astra'
 require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-sol'
 require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-luna'
-require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'deepseek/deepseek-v4-flash'
-require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'gpt-6-sol'
-require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'gpt-6-luna'
-require_literal skills/orchestration-policy/references/model-routing-astra-deepseek-flash.md 'DEEPSEEK_FLASH_BLOCKED'
-require_literal tests/astra-deepseek-flash-scenarios.md 'Restore every recorded composite role binding'
+require_literal skills/orchestration-policy/references/model-routing.md '`deepseek-flash` is available only after the user explicitly requests DeepSeek'
+require_literal skills/orchestration-policy/references/model-routing-deepseek-flash.md 'deepseek/deepseek-flash'
+require_literal skills/orchestration-policy/references/model-routing-deepseek-flash.md 'DEEPSEEK_FLASH_BLOCKED'
+require_literal tests/deepseek-flash-scenarios.md 'Restore every recorded DeepSeek role binding'
+
+flash_table=skills/orchestration-policy/references/model-routing-deepseek-flash.md
+for role in Lead Explorer Implementer Writer Integrator Validator Architect Reviewer; do
+  if ! rg -q "^\\| $role .*deepseek/deepseek-flash" "$flash_table"; then
+    echo "DeepSeek-only profile does not bind $role to Flash." >&2
+    exit 1
+  fi
+done
+if rg -n 'gpt-[0-9]|astra-deepseek-flash|deepseek-v4-flash' "$flash_table"; then
+  echo 'DeepSeek-only profile contains a legacy or OpenAI model route.' >&2
+  exit 1
+fi
 
 for required_literal in \
   'SATISFIED_WITH_BASELINE_DEBT' \

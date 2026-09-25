@@ -18,8 +18,9 @@ The policy is compatible only when the deployment provides all of the following:
    lifecycle messaging, and recovery inspection required by the policy.
 5. The deployment can verify the effective Pi provider, exact model, reasoning
    effort, and model-switch controls required by the selected routing profile.
-6. For `astra-deepseek-flash`, Pi exposes the exact direct-API route
-   `deepseek/deepseek-v4-flash` with supported low and high reasoning efforts.
+6. For `deepseek-flash`, Pi exposes the exact direct-API route
+   `deepseek/deepseek-flash` (DeepSeek V4.1 Flash) with supported low and high
+   reasoning efforts for every model-backed role, including Lead and Reviewer.
 
 If a required capability is absent, the affected work is blocked. The policy does
 not authorize substituting a harness, provider, model family, or lifecycle mechanism.

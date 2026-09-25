@@ -38,7 +38,7 @@ silently expand scope, weaken acceptance, or perform unauthorized side effects.
 User instructions may override these for the current objective:
 
 - Pi is the harness; Orca is the orchestrator.
-- Routing profile: GPT-6 Sol/Luna; GPT-6 Astra and Astra–DeepSeek Flash require an
+- Routing profile: GPT-6 Sol/Luna; GPT-6 Astra and DeepSeek V4.1 Flash require an
   explicit user request for their scope.
 - Concurrent workers <= 3.
 - Concurrent Astra-or-unknown workers <= 1, Lead excluded. Sol has no additional

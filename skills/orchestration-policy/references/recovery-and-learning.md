@@ -30,8 +30,8 @@ After restart, compaction, timeout, interrupted mutation, or uncertain side effe
 6. resume only reconciled work.
 
 Restore the recorded routing profile and its user authorization, not the current
-model picker or latest available model. For a composite objective, restore every
-recorded role binding, including Astra, Flash, Sol, and Luna routes as applicable,
+model picker or latest available model. For a DeepSeek Flash objective, restore every
+recorded role binding, including Lead, worker, integration, and reviewer routes,
 with provider, exact model, and effort. If an explicitly authorized Astra or Flash
 scope cannot be established, pause affected launches and recover its authority; do
 not invent consent or silently substitute another profile. New objectives without a

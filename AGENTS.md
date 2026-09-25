@@ -25,7 +25,7 @@ If required guidance is unavailable, report the gap and pause dependent launches
 or modifications. Safe discovery may continue; do not bypass policy by going solo.
 Simple informational questions do not require orchestration.
 
-GPT-6 Sol/Luna is the default routing family. GPT-6 Astra and Astra–DeepSeek Flash
+GPT-6 Sol/Luna is the default routing family. GPT-6 Astra and DeepSeek V4.1 Flash
 remain opt-in only for the objective or role the user explicitly names. GPT-5.6 is
 not a maintained default profile and must never appear as an automatic fallback.
 A request to review or edit routing rules does not activate an opt-in profile. The

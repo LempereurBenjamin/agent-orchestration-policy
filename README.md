@@ -21,14 +21,16 @@ inside policy documents.
   coordination, architecture, and review; Sol handles semantic engineering
   (exploration, implementation, integration, and small review), while Luna handles
   bounded writing and validation.
-- `astra-deepseek-flash` is an explicit specialist composite profile: Astra owns
-  coordination/architecture/review, DeepSeek Flash handles focused research,
-  coding/debugging and routine writing, Sol integrates, and Luna handles bounded
-  validation when deterministic tools are insufficient.
+- `deepseek-flash` is an explicit DeepSeek V4.1 Flash-only profile for objectives
+  that cannot depend on OpenAI availability. Flash handles every model-backed
+  role, including coordination, integration, architecture, and independent review;
+  deterministic validation is preferred when sufficient.
 
-The composite profile records actual routing and available token/cache metrics, but
+The DeepSeek profile records actual routing and available token/cache metrics, but
 does not make cost, quality, or savings claims. It never falls back automatically
 when Flash is unavailable; see the policy's `DEEPSEEK_FLASH_BLOCKED` rule.
+Launch the Pi Lead on Flash when selecting this profile; changing workers alone
+does not remove an OpenAI dependency from an existing Lead session.
 
 ## Setup on macOS
 
