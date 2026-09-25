@@ -6,6 +6,7 @@ cd "$repo_root"
 
 required_files=(
   AGENTS.md
+  package.json
   skills/orchestration-policy/SKILL.md
   skills/orchestration-policy/references/acceptance-manifest.md
   skills/orchestration-policy/references/model-routing-gpt6.md
@@ -21,6 +22,18 @@ required_files=(
 for file in "${required_files[@]}"; do
   [[ -f "$file" ]] || { echo "Missing required file: $file" >&2; exit 1; }
 done
+
+node -e '
+const fs = require("node:fs");
+const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+if (pkg.name !== "agent-orchestration-policy" || pkg.private !== true ||
+    !pkg.pi || Object.keys(pkg.pi).length !== 1 ||
+    !Array.isArray(pkg.pi.skills) || pkg.pi.skills.length !== 1 ||
+    pkg.pi.skills[0] !== "./skills/orchestration-policy" ||
+    pkg.scripts || pkg.dependencies || pkg.devDependencies) {
+  throw new Error("Pi package must expose only the orchestration-policy skill without install scripts or dependencies");
+}
+'
 
 rg -q '^name: orchestration-policy$' skills/orchestration-policy/SKILL.md || {
   echo 'Skill frontmatter does not name orchestration-policy.' >&2

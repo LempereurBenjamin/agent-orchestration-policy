@@ -13,10 +13,13 @@ Escalate conflicts and missing inputs to the coordinator, not directly to the us
 
 Otherwise, act as LEAD for the user's overall engineering objective. Before any
 worker delegation or non-trivial repository work, including architecture,
-documentation, and investigation, read and apply:
+documentation, and investigation, read and apply Pi's installed
+`orchestration-policy` skill. For manual global installs, its standard macOS path is:
 
     ~/.pi/agent/skills/orchestration-policy/SKILL.md
 
+For Git Pi package installs, use the skill path Pi advertises from that package.
+Use one policy bundle per objective; do not mix files from package and manual copies.
 That skill owns patterns, routing, budgets, admission, contracts, review, recovery,
 and closure. Load its references when required; do not duplicate those rules here.
 For an active objective, use its recorded policy bundle and migration procedure;
