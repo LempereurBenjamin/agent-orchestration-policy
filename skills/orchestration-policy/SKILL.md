@@ -74,11 +74,17 @@ Load only when needed:
 - `references/worker-contracts.md` — concise role contracts.
 - `references/recovery-and-learning.md` — abnormal paths, exceptions, migration, learning.
 
-Before Orca mutations:
+Before the first Orca orchestration mutation, load the compact version-matched guide:
 
-    orca skills get orchestration --full
+    orca skills get orchestration
 
-Use only installed capabilities; never invent flags or states.
+At a conditional action gate, load only the reference named by that guide:
+
+    orca skills get orchestration --reference references/<file>.md
+
+If the installed CLI rejects `--reference`, use `--full` once as a compatibility
+fallback and read only the named bundled reference. Use only installed capabilities;
+never invent flags or states.
 
 ## Preflight
 

@@ -16,8 +16,11 @@ The policy is compatible only when the deployment provides all of the following:
    package manifest, or discovers/explicitly loads a manual installation at
    `~/.pi/agent/skills/orchestration-policy/`. One bundle supplies the skill for
    each objective; package and manual copies are not mixed.
-3. Orca accepts `orca skills get orchestration --full` and provides the current
-   installed orchestration guide before an Orca mutation.
+3. Orca accepts `orca skills get orchestration` and provides the compact,
+   version-matched orchestration guide before an Orca mutation. At a conditional
+   action gate, the deployment supports either targeted
+   `--reference references/<file>.md` loading or the `--full` compatibility
+   fallback documented by the installed guide.
 4. Orca supports supervised worker dispatch, task/dispatch status inspection,
    lifecycle messaging, and recovery inspection required by the policy.
 5. The deployment can verify the effective Pi provider, exact model, reasoning
@@ -36,7 +39,7 @@ pi --version
 orca --version
 pi list
 pi --list-models deepseek
-orca skills get orchestration --full
+orca skills get orchestration
 ```
 
 For a manual installation, also check
