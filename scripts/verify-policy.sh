@@ -6,6 +6,7 @@ cd "$repo_root"
 
 required_files=(
   AGENTS.md
+  COMPATIBILITY.md
   package.json
   skills/orchestration-policy/SKILL.md
   skills/orchestration-policy/references/acceptance-manifest.md
@@ -49,12 +50,18 @@ require_literal() {
   local file=$1
   local literal=$2
 
-  if ! rg -F -q "$literal" "$file"; then
+  if ! rg -F -q -- "$literal" "$file"; then
     echo "Missing required literal '$literal' in $file" >&2
     exit 1
   fi
 }
 
+require_literal skills/orchestration-policy/SKILL.md 'orca skills get orchestration'
+require_literal skills/orchestration-policy/SKILL.md '--reference references/<file>.md'
+require_literal skills/orchestration-policy/SKILL.md 'use `--full` once as a compatibility'
+require_literal COMPATIBILITY.md 'orca skills get orchestration'
+require_literal COMPATIBILITY.md '--reference references/<file>.md'
+require_literal COMPATIBILITY.md '`--full` compatibility fallback'
 require_literal skills/orchestration-policy/references/model-routing.md '`gpt-6` is the default'
 require_literal skills/orchestration-policy/references/model-routing-gpt6.md 'gpt-6-sol'
 require_literal skills/orchestration-policy/references/model-routing-gpt6.md 'gpt-6-luna'
