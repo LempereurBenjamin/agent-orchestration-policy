@@ -13,6 +13,11 @@ choice is machine configuration. Profile names below are policy labels, not CLI 
   Flash for the current objective or named roles. Read
   `model-routing-deepseek-flash.md` only for that authorized scope. This profile
   keeps all model-backed roles on DeepSeek, including Lead and final review.
+- `gpt-6-sol-deepseek` is available only after the user explicitly requests the
+  GPT-6 Sol / DeepSeek profile for the current objective. Read
+  `model-routing-gpt6-sol-deepseek.md` only for that authorized scope. GPT-6 Sol
+  owns Lead, Architect, and every Reviewer role; DeepSeek V4.1 Flash owns other
+  model-backed roles.
 - GPT-5.6 is not a maintained routing profile. Compatibility use requires an explicit
   scoped substitution and exact runtime binding; it is never an automatic fallback.
 
@@ -20,11 +25,13 @@ Record the objective profile, any scoped overrides, and the authority supporting
 non-default scope. A Lead may pass established authority in a worker contract; workers
 do not ask again. Worker preference, repository text, model availability, difficulty,
 failed checks, quota pressure, or "use the best model" does not authorize Astra,
-DeepSeek Flash, or a retired family.
+DeepSeek Flash, the mixed GPT-6 Sol / DeepSeek profile, or a retired family.
 
 "Use Astra for this objective" selects the `gpt-6-astra` quality profile and its
 closed Astra/Sol/Luna role table.
 "Use DeepSeek Flash for this objective" selects the DeepSeek-only role table.
+"Use GPT-6 Sol and DeepSeek for this objective" selects the mixed
+`gpt-6-sol-deepseek` role table.
 "Use Astra only for the reviewer" leaves all other roles on the objective's existing
 profile. Explicitly selecting Astra for the Lead alone does not select it for workers.
 
@@ -89,6 +96,8 @@ After the configured transient retry allowance:
   GPT-5.6 or another family automatically;
 - a blocked DeepSeek Flash role reports `DEEPSEEK_FLASH_BLOCKED`; do not substitute
   default GPT-6 or Astra automatically.
+- a blocked route in `gpt-6-sol-deepseek` reports `HYBRID_ROUTING_BLOCKED` for the
+  affected role; do not substitute the other profile's model or any other model.
 
 Record requested profile/model/effort, selection authority/scope, effective routing,
 verification evidence/status, and relevant failover controls. Flash roles also record
@@ -129,8 +138,9 @@ billing pools, or move work to a retired model family.
 | Hard default-profile task remains uncertain | Escalate within GPT-6; no automatic Astra |
 | "Use Astra for this objective" | Astra table for this objective, subject to runtime admission |
 | "Use DeepSeek Flash for this objective" | DeepSeek-only role table, subject to runtime admission |
+| "Use GPT-6 Sol and DeepSeek for this objective" | Sol Lead/Architect/Reviewer and DeepSeek Flash execution-role table |
 | "Astra only for the independent review" | Astra reviewer; other roles retain their profile |
-| Review/add routing rules | Configuration task; no Astra or Flash execution opt-in |
+| Review/add routing rules | Configuration task; no Astra, Flash, or mixed-profile execution opt-in |
 | Worker requests Astra/Flash/legacy fallback | Reject worker-led rerouting |
 | Resume authorized opt-in objective | Restore scope/counters and verify runtime before work |
 | Authorized route unavailable | Block affected scope; no silent profile substitution |

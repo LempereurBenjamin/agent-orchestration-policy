@@ -37,6 +37,11 @@ scope cannot be established, pause affected launches and recover its authority; 
 not invent consent or silently substitute another profile. New objectives without a
 profile request default to GPT-6 Sol/Luna.
 
+For `gpt-6-sol-deepseek`, restore the exact mixed role bindings: GPT-6 Sol for Lead,
+Architect, and Reviewer, and DeepSeek V4.1 Flash for the other model-backed roles.
+Verify each binding before substantive work; do not replace a blocked role's model
+with the other profile's route.
+
 Conversation memory alone is not authority to retry or accept.
 Inspect before repeating potentially non-idempotent effects.
 
@@ -70,14 +75,16 @@ New user stop/safety restrictions apply immediately.
 For approved migration, record old/new identities, preserve counters, reconcile active
 contracts/Manifest compatibility, and rerun only evidence invalidated by the change.
 
-Changing the routing family of active work is a scoped migration. An explicit Astra
-or Flash request covers only its named objective or roles; propagate it to affected
-future dispatches after reconciliation. Preserve prior worker routing and evidence
-history. Revocation stops new affected launches immediately and pauses further
-substantive work by affected active workers through the supported lifecycle protocol
-before rerouting. After the configured transient retry allowance, an unavailable,
-mismatched, or unverifiable Flash role reports `DEEPSEEK_FLASH_BLOCKED`; it does not
-fall back automatically. Neither migration nor revocation resets attempt, retry,
+Changing the routing family of active work is a scoped migration. An explicit Astra,
+DeepSeek-only, or mixed GPT-6 Sol / DeepSeek request covers only its named objective
+or roles; propagate it to affected future dispatches after reconciliation. Preserve
+prior worker routing and evidence history. Revocation stops new affected launches
+immediately and pauses further substantive work by affected active workers through
+the supported lifecycle protocol before rerouting. After the configured retry
+allowance, an unavailable,
+mismatched, or unverifiable DeepSeek-only role reports `DEEPSEEK_FLASH_BLOCKED`; the
+mixed profile reports `HYBRID_ROUTING_BLOCKED` for the affected role. Neither route
+falls back automatically. Neither migration nor revocation resets attempt, retry,
 correction, or capacity counts.
 
 ## Learning

@@ -15,7 +15,8 @@ OBJECTIVE
 <one observable outcome>
 
 ROUTING
-Pi / <profile: gpt-6 | gpt-6-astra | deepseek-flash> / <exact model ID> / <effort>
+Pi / <profile: gpt-6 | gpt-6-astra | deepseek-flash |
+     gpt-6-sol-deepseek> / <exact model ID> / <effort>
 Selection authority: <default or user request reference + authorized scope>
 Runtime verification: <evidence/status; exact-model failover controls>
 
@@ -51,9 +52,10 @@ Do not paste whole manifests, ADRs, issues, transcripts, private reasoning, or
 persuasive worker summaries when the worker can read authoritative artifacts directly.
 
 For `deepseek-flash`, bind every contract to the exact route in its DeepSeek-only
-role table. Flash contracts record available token/cache metrics and terminal failure
-status without including credentials or request payloads. A worker cannot select,
-escalate, or replace its own route.
+role table. For `gpt-6-sol-deepseek`, bind each contract to the exact route assigned
+to that role in the mixed role table. DeepSeek contracts record available token/cache
+metrics and terminal failure status without including credentials or request payloads.
+A worker cannot select, escalate, or replace its own route.
 
 ## Explorer
 
