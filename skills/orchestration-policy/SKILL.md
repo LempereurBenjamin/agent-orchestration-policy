@@ -70,7 +70,7 @@ Load only when needed:
 
 - `references/acceptance-manifest.md` — baseline, ownership, manifest, approach, freeze, findings.
 - `references/model-routing.md` — profile selection, admission, and runtime verification;
-  then read only the selected family's routing table.
+  then read only the selected profile's routing table.
 - `references/worker-contracts.md` — concise role contracts.
 - `references/recovery-and-learning.md` — abnormal paths, exceptions, migration, learning.
 
