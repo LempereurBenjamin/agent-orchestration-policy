@@ -18,7 +18,11 @@ inside policy documents.
 
 ## Routing profiles
 
-- `gpt-6` is the default Sol/Luna profile.
+- `gpt-6-sol-deepseek` is the default engineering profile: GPT-6 Sol owns Lead,
+  Architect, and Reviewer judgment; DeepSeek Flash handles bounded exploration and
+  execution, with Lead-authorized scoped Sol execution only when semantic work cannot
+  be reduced to a bounded contract.
+- `gpt-6` is the scoped all-OpenAI Sol/Luna profile.
 - `gpt-6-astra` is an explicit quality-first GPT-6 profile: Astra owns high-impact
   coordination, architecture, and review; Sol handles semantic engineering
   (exploration, implementation, integration, and small review), while Luna handles
