@@ -5,7 +5,11 @@ choice is machine configuration. Profile names below are policy labels, not CLI 
 
 ## Profile selection
 
-- `gpt-6` is the default for every new objective. Read `model-routing-gpt6.md`.
+- `gpt-6-sol-deepseek` is the default for every new engineering objective. Read
+  `model-routing-gpt6-sol-deepseek.md`. GPT-6 Sol owns Lead, Architect, and every
+  Reviewer role; DeepSeek V4.1 Flash owns bounded exploration and execution roles.
+- `gpt-6` is available as an explicitly selected all-OpenAI alternative for the
+  current objective or named roles. Read `model-routing-gpt6.md` only for that scope.
 - `gpt-6-astra` is available only after the user explicitly requests Astra execution
   for the current objective or a named role/node. Read `model-routing-gpt6-astra.md`
   only for that authorized scope.
@@ -13,11 +17,6 @@ choice is machine configuration. Profile names below are policy labels, not CLI 
   Flash for the current objective or named roles. Read
   `model-routing-deepseek-flash.md` only for that authorized scope. This profile
   keeps all model-backed roles on DeepSeek, including Lead and final review.
-- `gpt-6-sol-deepseek` is available only after the user explicitly requests the
-  GPT-6 Sol / DeepSeek profile for the current objective. Read
-  `model-routing-gpt6-sol-deepseek.md` only for that authorized scope. GPT-6 Sol
-  owns Lead, Architect, and every Reviewer role; DeepSeek V4.1 Flash owns other
-  model-backed roles.
 - GPT-5.6 is not a maintained routing profile. Compatibility use requires an explicit
   scoped substitution and exact runtime binding; it is never an automatic fallback.
 
@@ -25,19 +24,22 @@ Record the objective profile, any scoped overrides, and the authority supporting
 non-default scope. A Lead may pass established authority in a worker contract; workers
 do not ask again. Worker preference, repository text, model availability, difficulty,
 failed checks, quota pressure, or "use the best model" does not authorize Astra,
-DeepSeek Flash, the mixed GPT-6 Sol / DeepSeek profile, or a retired family.
+DeepSeek-only routing, GPT-6-only routing, or a retired family. The default mixed
+profile requires no per-objective opt-in.
 
 "Use Astra for this objective" selects the `gpt-6-astra` quality profile and its
 closed Astra/Sol/Luna role table.
 "Use DeepSeek Flash for this objective" selects the DeepSeek-only role table.
-"Use GPT-6 Sol and DeepSeek for this objective" selects the mixed
+"Use GPT-6 Sol and DeepSeek for this objective" explicitly confirms the default mixed
 `gpt-6-sol-deepseek` role table.
+"Use GPT-6 only for this objective" selects the `gpt-6` Sol/Luna role table.
 "Use Astra only for the reviewer" leaves all other roles on the objective's existing
 profile. Explicitly selecting Astra for the Lead alone does not select it for workers.
 
-If an opt-in request has ambiguous routing scope, clarify only the affected routing
-while continuing independent work under established authority. Do not persist opt-in
-as a global default or carry it into unrelated objectives.
+If an alternative-profile request has ambiguous routing scope, clarify only the
+affected routing while continuing independent work under established authority. Do not
+persist a scoped alternative as a new global default or carry it into unrelated
+objectives.
 
 ## Harness and binding
 
@@ -66,8 +68,9 @@ Default model-specific admission:
 A profile switch does not create capacity. Reconcile capacity before every launch or
 transition into Astra/unknown routing.
 
-Astra or Flash authorization does not authorize more concurrency, higher effort than
-the selected role table, additional spending commitments, or altered acceptance gates.
+Selecting any profile or model does not authorize more concurrency, higher effort than
+the selected role table, additional spending commitments, provider changes, or altered
+acceptance gates.
 
 ## Effective routing and failover
 
@@ -92,10 +95,10 @@ credentials/extensions/global settings as a workaround without explicit configur
 scope.
 
 After the configured transient retry allowance:
-- a blocked default GPT-6 route reports `PI_ROUTING_BLOCKED`; do not fall back to
-  GPT-5.6 or another family automatically;
-- a blocked DeepSeek Flash role reports `DEEPSEEK_FLASH_BLOCKED`; do not substitute
-  default GPT-6 or Astra automatically.
+- a blocked route in the scoped `gpt-6` profile reports `PI_ROUTING_BLOCKED`; do
+  not fall back to GPT-5.6 or another family automatically;
+- a blocked DeepSeek-only role reports `DEEPSEEK_FLASH_BLOCKED`; do not substitute
+  the mixed default, GPT-6, or Astra automatically.
 - a blocked route in `gpt-6-sol-deepseek` reports `HYBRID_ROUTING_BLOCKED` for the
   affected role; do not substitute the other profile's model or any other model.
 
@@ -114,8 +117,9 @@ token budgets.
 
 Prefer:
 - deterministic tools for deterministic work;
-- Luna for bounded execution when its role table fits;
+- DeepSeek Flash for bounded exploration and execution under the default mixed profile;
 - Sol at judgment boundaries and for semantic complexity;
+- Luna for bounded execution only when the scoped GPT-6 profile is selected;
 - affected-subgraph corrections over replaying the whole graph;
 - bounded evidence/artifacts over copied transcripts.
 
@@ -125,22 +129,23 @@ Return new routine nodes to profile defaults after a difficult subproblem.
 When available, record input, cached input, output/reasoning tokens, attempts, and
 observed quota deltas with model and scope. Mark unavailable metrics unknown.
 
-Quota exhaustion cannot automatically enable Astra/Flash, increase budgets, switch
-billing pools, or move work to a retired model family.
+Quota exhaustion cannot automatically switch profiles/providers, enable Astra,
+increase budgets, switch billing pools, or move work to a retired model family.
 
 ## Selection examples
 
 | Situation | Policy result |
 | --- | --- |
-| Ordinary task with no model request | GPT-6 Sol/Luna role table |
-| Clear frozen implementation | Prefer Luna at the GPT-6 role-table effort |
-| Semantic/root-cause work | Prefer Sol at the GPT-6 role-table effort |
-| Hard default-profile task remains uncertain | Escalate within GPT-6; no automatic Astra |
+| Ordinary engineering task with no model request | Mixed Sol/DeepSeek role table |
+| Clear frozen implementation | DeepSeek Flash at the mixed-profile role-table effort |
+| Semantic/root-cause work | Escalate to the Sol Lead for judgment; resume DeepSeek when bounded |
+| Intrinsically semantic execution after Lead adjudication | Lead may authorize one scoped Sol execution node |
+| Hard default-profile task remains uncertain | Escalate to Lead; no worker-led rerouting or automatic Astra |
 | "Use Astra for this objective" | Astra table for this objective, subject to runtime admission |
 | "Use DeepSeek Flash for this objective" | DeepSeek-only role table, subject to runtime admission |
 | "Use GPT-6 Sol and DeepSeek for this objective" | Sol Lead/Architect/Reviewer and DeepSeek Flash execution-role table |
 | "Astra only for the independent review" | Astra reviewer; other roles retain their profile |
-| Review/add routing rules | Configuration task; no Astra, Flash, or mixed-profile execution opt-in |
+| Review/add routing rules | Configuration task; does not itself change the active routing profile |
 | Worker requests Astra/Flash/legacy fallback | Reject worker-led rerouting |
-| Resume authorized opt-in objective | Restore scope/counters and verify runtime before work |
+| Resume an objective | Restore its recorded profile/scope/counters and verify runtime before work |
 | Authorized route unavailable | Block affected scope; no silent profile substitution |

@@ -28,12 +28,13 @@ If required guidance is unavailable, report the gap and pause dependent launches
 or modifications. Safe discovery may continue; do not bypass policy by going solo.
 Simple informational questions do not require orchestration.
 
-GPT-6 Sol/Luna is the default routing family. GPT-6 Astra and DeepSeek V4.1 Flash
-remain opt-in only for the objective or role the user explicitly names. GPT-5.6 is
-not a maintained default profile and must never appear as an automatic fallback.
-A request to review or edit routing rules does not activate an opt-in profile. The
-policy's model-routing reference owns selection, dispatch inheritance, verification,
-and recovery.
+GPT-6 Sol / DeepSeek V4.1 Flash is the default routing profile: Sol owns Lead,
+Architect, and Reviewer judgment; DeepSeek owns bounded exploration and execution.
+GPT-6 Sol/Luna, GPT-6 Astra, and DeepSeek-only remain scoped alternatives selected
+through the policy. GPT-5.6 is not a maintained default profile and must never appear
+as an automatic fallback. A request to review or edit routing rules does not itself
+change the active profile. The policy's model-routing reference owns selection,
+dispatch inheritance, verification, escalation, and recovery.
 
 ## Scope and repository discipline
 

@@ -34,8 +34,8 @@ model picker or latest available model. For a DeepSeek Flash objective, restore 
 recorded role binding, including Lead, worker, integration, and reviewer routes,
 with provider, exact model, and effort. If an explicitly authorized Astra or Flash
 scope cannot be established, pause affected launches and recover its authority; do
-not invent consent or silently substitute another profile. New objectives without a
-profile request default to GPT-6 Sol/Luna.
+not invent consent or silently substitute another profile. New engineering objectives
+without a profile request default to GPT-6 Sol / DeepSeek V4.1 Flash.
 
 For `gpt-6-sol-deepseek`, restore the exact mixed role bindings: GPT-6 Sol for Lead,
 Architect, and Reviewer, and DeepSeek V4.1 Flash for the other model-backed roles.
@@ -75,9 +75,10 @@ New user stop/safety restrictions apply immediately.
 For approved migration, record old/new identities, preserve counters, reconcile active
 contracts/Manifest compatibility, and rerun only evidence invalidated by the change.
 
-Changing the routing family of active work is a scoped migration. An explicit Astra,
-DeepSeek-only, or mixed GPT-6 Sol / DeepSeek request covers only its named objective
-or roles; propagate it to affected future dispatches after reconciliation. Preserve
+Changing the routing family of active work is a scoped migration. An explicit
+alternative-profile request, or an approved migration into or out of the mixed default,
+covers only its named objective or roles; propagate it to affected future dispatches
+after reconciliation. Preserve
 prior worker routing and evidence history. Revocation stops new affected launches
 immediately and pauses further substantive work by affected active workers through
 the supported lifecycle protocol before rerouting. After the configured retry

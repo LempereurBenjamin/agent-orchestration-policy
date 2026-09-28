@@ -1,7 +1,8 @@
-# GPT-6 Sol/Luna routing — default
+# GPT-6 Sol/Luna routing — scoped all-OpenAI alternative
 
-Selected by `model-routing.md` for every new objective unless the user explicitly
-authorizes another profile for the relevant scope.
+Selected by `model-routing.md` only when the user explicitly authorizes the
+`gpt-6` profile for the relevant objective or role scope. The default engineering
+profile is `gpt-6-sol-deepseek`.
 
 Exact model IDs:
 - Sol = `gpt-6-sol`
@@ -10,7 +11,7 @@ Exact model IDs:
 GPT-6 Sol is the judgment/coding model for semantic complexity.
 GPT-6 Luna is the execution model for bounded, well-specified, high-volume work.
 
-## Default role table
+## Role table
 
 | Responsibility | Default | Escalation |
 | --- | --- | --- |
@@ -68,7 +69,7 @@ higher reasoning effort.
 
 ## Escalation boundaries
 
-Within the default profile:
+Within the scoped `gpt-6` profile:
 - Luna may escalate to Sol when the task crosses from bounded execution into semantic
   judgment;
 - Sol may increase effort as needed;
