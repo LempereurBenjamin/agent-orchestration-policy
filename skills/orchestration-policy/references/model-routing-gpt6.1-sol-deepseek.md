@@ -1,27 +1,27 @@
-# GPT-6 Sol / DeepSeek routing — default
+# GPT-6.1 Sol / DeepSeek routing — default
 
 Selected by `model-routing.md` for every new engineering objective unless the user
 explicitly authorizes another profile for the relevant scope. All common authority,
 acceptance, graph, loop, budget, recovery, and runtime-verification rules remain in
 force.
 
-The Lead and all architecture and review judgments stay on GPT-6 Sol. DeepSeek V4.1
+The Lead and all architecture and review judgments stay on GPT-6.1 Sol. DeepSeek V4.1
 Flash handles bounded exploration and execution roles. Prefer deterministic tools for
 validation when they provide sufficient evidence.
 
 ## Exact routes
 
-- GPT-6 Sol = `gpt-6-sol`
+- GPT-6.1 Sol = `gpt-6.1-sol`
 - DeepSeek V4.1 Flash = `deepseek/deepseek-flash`
 
 | Responsibility | Route | Escalation |
 | --- | --- | --- |
-| Lead / root coordination and synthesis | GPT-6 Sol / medium | high, then xhigh for difficult/high-risk adjudication |
+| Lead / root coordination and synthesis | GPT-6.1 Sol / medium | high, then xhigh for difficult/high-risk adjudication |
 | Explorer / bounded evidence and research | DeepSeek Flash / low | high only with Lead authorization; semantic boundary returns to Lead |
 | Implementer / coding and debugging | DeepSeek Flash / high | semantic boundary returns to Lead; Lead may authorize one scoped Sol execution node |
 | Writer / writing and summaries | DeepSeek Flash / low | semantic boundary returns to Lead; Lead may authorize one scoped Sol execution node |
-| Architect / architecture | GPT-6 Sol / high | xhigh for difficult/high-risk adjudication |
-| Reviewer / every independent review | GPT-6 Sol / xhigh for meaningful review; high for small low-risk review | increase effort only for a concrete unresolved judgment |
+| Architect / architecture | GPT-6.1 Sol / high | xhigh for difficult/high-risk adjudication |
+| Reviewer / every independent review | GPT-6.1 Sol / xhigh for meaningful review; high for small low-risk review | increase effort only for a concrete unresolved judgment |
 | Validator / deterministic collection | deterministic tool node when sufficient; otherwise DeepSeek Flash / low | high only after Lead-authorized semantic diagnosis |
 | Integrator / integration | DeepSeek Flash / high | semantic incompatibility returns to Lead; Lead may authorize one scoped Sol execution node |
 

@@ -5,14 +5,14 @@ by `model-routing.md`. All common authority, acceptance, graph, loop, budget, an
 runtime-verification rules remain in force.
 
 This is a quality-first GPT-6 profile, not an "Astra on every node" profile.
-Concentrate Astra on judgment boundaries and use GPT-6 Sol/Luna where they are the
+Concentrate Astra on judgment boundaries and use GPT-6.1 Sol/Luna where they are the
 better execution route.
 
 ## Role table
 
 Exact model IDs used by this profile:
 - Astra = `gpt-6-astra`
-- Sol = `gpt-6-sol`
+- Sol = `gpt-6.1-sol`
 - Luna = `gpt-6-luna`
 
 | Responsibility | Default | Escalation |
@@ -88,7 +88,7 @@ Continue through required validation and bounded correction until the contract i
 satisfied or an actual policy boundary is reached. Preserve independent review and
 all common attempt/correction budgets.
 
-Source checked 2026-09-23:
+Source checked 2026-09-29:
 - https://developers.openai.com/api/docs/models/gpt-6-astra
-- https://developers.openai.com/api/docs/models/gpt-6-sol
+- https://developers.openai.com/api/docs/models/gpt-6.1-sol
 - https://developers.openai.com/api/docs/models/gpt-6-luna

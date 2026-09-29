@@ -38,8 +38,8 @@ silently expand scope, weaken acceptance, or perform unauthorized side effects.
 User instructions may override these for the current objective:
 
 - Pi is the harness; Orca is the orchestrator.
-- Routing profile: GPT-6 Sol / DeepSeek V4.1 Flash. Sol owns Lead, Architect, and
-  Reviewer judgment; DeepSeek owns bounded exploration and execution. GPT-6 Sol/Luna,
+- Routing profile: GPT-6.1 Sol / DeepSeek V4.1 Flash. Sol owns Lead, Architect, and
+  Reviewer judgment; DeepSeek owns bounded exploration and execution. GPT-6.1 Sol/Luna,
   GPT-6 Astra, and DeepSeek-only are scoped alternatives selected through
   `model-routing.md`.
 - Concurrent workers <= 3.

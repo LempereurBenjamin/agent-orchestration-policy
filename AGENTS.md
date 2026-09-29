@@ -28,9 +28,9 @@ If required guidance is unavailable, report the gap and pause dependent launches
 or modifications. Safe discovery may continue; do not bypass policy by going solo.
 Simple informational questions do not require orchestration.
 
-GPT-6 Sol / DeepSeek V4.1 Flash is the default routing profile: Sol owns Lead,
+GPT-6.1 Sol / DeepSeek V4.1 Flash is the default routing profile: Sol owns Lead,
 Architect, and Reviewer judgment; DeepSeek owns bounded exploration and execution.
-GPT-6 Sol/Luna, GPT-6 Astra, and DeepSeek-only remain scoped alternatives selected
+GPT-6.1 Sol/Luna, GPT-6 Astra, and DeepSeek-only remain scoped alternatives selected
 through the policy. GPT-5.6 is not a maintained default profile and must never appear
 as an automatic fallback. A request to review or edit routing rules does not itself
 change the active profile. The policy's model-routing reference owns selection,

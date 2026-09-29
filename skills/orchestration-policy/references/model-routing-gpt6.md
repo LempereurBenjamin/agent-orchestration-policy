@@ -1,14 +1,14 @@
-# GPT-6 Sol/Luna routing — scoped all-OpenAI alternative
+# GPT-6.1 Sol/Luna routing — scoped all-OpenAI alternative
 
 Selected by `model-routing.md` only when the user explicitly authorizes the
 `gpt-6` profile for the relevant objective or role scope. The default engineering
-profile is `gpt-6-sol-deepseek`.
+profile is `gpt-6.1-sol-deepseek`.
 
 Exact model IDs:
-- Sol = `gpt-6-sol`
+- Sol = `gpt-6.1-sol`
 - Luna = `gpt-6-luna`
 
-GPT-6 Sol is the judgment/coding model for semantic complexity.
+GPT-6.1 Sol is the judgment/coding model for semantic complexity.
 GPT-6 Luna is the execution model for bounded, well-specified, high-volume work.
 
 ## Role table
@@ -87,7 +87,6 @@ Independent review requires a fresh context and exact candidate regardless of wh
 the implementation and review use different models. Model diversity is optional;
 context and evidence independence are mandatory.
 
-Source checked 2026-09-23:
-- https://developers.openai.com/api/docs/models/gpt-6-sol
+Source checked 2026-09-29:
+- https://developers.openai.com/api/docs/models/gpt-6.1-sol
 - https://developers.openai.com/api/docs/models/gpt-6-luna
-- https://openai.com/index/introducing-gpt-6-sol-and-luna/

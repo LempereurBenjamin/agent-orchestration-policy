@@ -35,9 +35,9 @@ recorded role binding, including Lead, worker, integration, and reviewer routes,
 with provider, exact model, and effort. If an explicitly authorized Astra or Flash
 scope cannot be established, pause affected launches and recover its authority; do
 not invent consent or silently substitute another profile. New engineering objectives
-without a profile request default to GPT-6 Sol / DeepSeek V4.1 Flash.
+without a profile request default to GPT-6.1 Sol / DeepSeek V4.1 Flash.
 
-For `gpt-6-sol-deepseek`, restore the exact mixed role bindings: GPT-6 Sol for Lead,
+For `gpt-6.1-sol-deepseek`, restore the exact mixed role bindings: GPT-6.1 Sol for Lead,
 Architect, and Reviewer, and DeepSeek V4.1 Flash for the other model-backed roles.
 Verify each binding before substantive work; do not replace a blocked role's model
 with the other profile's route.
