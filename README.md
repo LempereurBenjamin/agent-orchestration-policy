@@ -18,7 +18,7 @@ inside policy documents.
 
 ## Routing profiles
 
-- `gpt-6-sol-deepseek` is the default engineering profile: GPT-6 Sol owns Lead,
+- `gpt-6.1-sol-deepseek` is the default engineering profile: GPT-6.1 Sol owns Lead,
   Architect, and Reviewer judgment; DeepSeek Flash handles bounded exploration and
   execution, with Lead-authorized scoped Sol execution only when semantic work cannot
   be reduced to a bounded contract.
