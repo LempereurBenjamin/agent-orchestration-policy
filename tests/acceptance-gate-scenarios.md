@@ -138,3 +138,49 @@ Expected:
 - cannot fail frozen ticket acceptance
 - may create a follow-up
 - may affect release only if another explicit authority makes it release-blocking
+
+## 9. Low-risk localized fix
+
+Change: one well-understood, isolated behavior correction, with no material
+security, persistence, external-interface or cross-component risk and no
+independent review requirement.
+
+Expected:
+- prefer Pattern A; no Orca Run or Acceptance Manifest
+- run the relevant focused check and self-review the result
+- DONE uses task scope and validation evidence, not a frozen Manifest
+- do not add unrelated docs, tests or broad suites
+
+## 10. Straightforward Pattern B without separate Manifest
+
+Change: one bounded writer modifies a shared helper and its known callers.
+The acceptance criteria and targeted regression checks fit in a short contract;
+there is no material ownership/traceability complexity.
+
+Expected:
+- freeze scope, criteria and evidence in the Lead/dispatch contract before implementation
+- no separate Manifest just to formalize an unambiguous task
+- execute required checks and independent review if mandated
+- treat broad unrelated test suites as non-gates, not automatic blockers
+
+## 11. High-risk work retains its proof
+
+Change: persistence/migration and authorization behavior spans multiple boundaries
+with material data-loss or security risk.
+
+Expected:
+- preserve required design review, independent review and an appropriate frozen
+  Manifest (mandatory for C/D)
+- include integration/full checks when demanded by actual impact or authority
+- minimalism never waives safety controls or required evidence
+
+## 12. Stop after ticket acceptance
+
+Candidate satisfies all frozen in-scope criteria and TICKET gates; mandated
+review passed. A reviewer suggests broader coverage and unrelated documentation
+without a concrete requirement or demonstrated risk.
+
+Expected:
+- ticket may be DONE; no further worker, doc, refactor or test run solely for polish
+- record material optional follow-ups without converting them into blocking gates
+- any independent RELEASE gate remains separately evaluated

@@ -48,7 +48,9 @@ User instructions may override these for the current objective:
 - Worker execution attempts <= 12 per objective.
 - Unsuccessful substantive corrections <= 2 per acceptance problem.
 - Automatic retries after an initial transient failure <= 2.
-- Pattern B normally uses an Acceptance Manifest.
+- Pattern B defaults to a bounded Lead/dispatch contract when scope and proof are
+  straightforward; use a separate Manifest for material gate/ownership complexity
+  or required traceability.
 - Patterns C and D require one.
 
 Changing IDs, Runs, workers, or patterns does not reset cumulative limits.
@@ -105,15 +107,18 @@ Read `acceptance-manifest.md`.
 Always capture repository identity, exact base SHA, working-tree state, and relevant
 pre-existing changes. Run only baseline checks that materially improve comparison
 or causality. Prefer comparable before/after checks; broad suites are not ritual.
+Choose candidate checks for changed behavior and credible failure modes; run broader
+suites only for cross-cutting impact, a required gate, or explicit authority.
 When a relevant baseline check is already dirty, define its gate scope and evaluation
 mode explicitly before candidate evaluation. Pre-existing debt is evidence to classify,
 not an automatic ticket blocker.
 
 Patterns C/D require a frozen Manifest before production implementation, except
-for an explicitly bounded experiment. Pattern B normally requires one; a bounded
-omission must record scope, acceptance criteria, and required evidence, as defined
-in `acceptance-manifest.md`. Investigation/documentation used to clarify the
-contract may precede freeze.
+for an explicitly bounded experiment. Pattern B freezes a short Lead/dispatch
+contract by default when scope and proof are straightforward; use a separate
+Manifest when complexity or required traceability warrants it, as defined in
+`acceptance-manifest.md`. Neither path waives required evidence or review.
+Investigation/documentation used to clarify the contract may precede freeze.
 
 ## Patterns
 
@@ -124,15 +129,16 @@ Local, low-risk, low-uncertainty.
 
     inspect -> execute -> validate -> self-review -> report
 
-No Orca Run. Self-review is not independent review.
+No Orca Run. Self-review is not independent review. Prefer A whenever the work
+fits its low-risk boundary and no independent review is mandated.
 
 ### B — STANDARD
 Meaningful, understood work with one bounded writer.
 
     preflight -> freeze -> implement -> evidence -> independent review if required -> accept
 
-For an allowed Manifest omission, record the bounded contract at preflight instead
-of freeze. Omission does not waive evidence or required review.
+Freeze the bounded contract at preflight, or a separate Manifest where needed.
+Either way, preserve required evidence and independent review when mandated.
 
 ### C — INVESTIGATE
 Material uncertainty in root cause, behavior, or contract interpretation.
@@ -245,9 +251,14 @@ Use outcome states precisely:
 
 Known inherited debt with sufficient no-regression evidence is not, by itself, BLOCKED.
 Ticket acceptance, merge readiness, and release readiness remain separate decisions.
+Stop when in-scope criteria, required TICKET gates, and mandated review are satisfied.
+Do not add unrequested tests, documentation, unrelated refactoring, repeated suites,
+or more agents solely to improve an already accepted ticket. Report material optional
+follow-ups without turning them into ticket blockers.
 
 Normal DONE requires:
-- applicable frozen Manifest, or the recorded bounded contract for an allowed Pattern B omission;
+- the applicable scope/acceptance basis: task request for A; frozen bounded contract
+  or Manifest for B; frozen Manifest for C/D;
 - exact final candidate;
 - criteria mapped to required evidence;
 - all required TICKET gates evaluated as `SATISFIED` or `SATISFIED_WITH_BASELINE_DEBT`,

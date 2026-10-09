@@ -9,16 +9,19 @@ requirements and backlog ownership; it does not replace them.
 ## Use
 
 - A: normally none.
-- B: default; omission requires a recorded bounded-task reason.
+- B: short Lead/dispatch contract when scope, criteria and proof fit clearly;
+  use a Manifest for material ownership, gate/invariant complexity or required
+  traceability.
 - C: required; may begin DRAFT.
 - D: required.
 
 States: `DRAFT`, `FROZEN`, `SUPERSEDED`.
 
-A Pattern B omission records scope, acceptance criteria, and required evidence in
-the Lead/dispatch contract. It waives the separate Manifest artifact, not the proof
-obligation or any required independent review. Routing profiles belong in execution
-state and worker contracts, not in product acceptance criteria.
+A Pattern B bounded contract records scope, acceptance criteria, and required
+evidence in the Lead/dispatch contract before implementation. It replaces only
+the separate Manifest artifact, not proof obligations or required independent review.
+Routing profiles belong in execution state and worker contracts, not in product
+acceptance criteria.
 
 ## Baseline
 
@@ -118,6 +121,13 @@ It is context for design review, not part of the frozen acceptance bar. It canno
 add criteria, override authority, or prescribe unnecessary detail.
 
 ## Gate evaluation
+
+At freeze, choose the smallest set of TICKET gates that credibly proves the
+requirements and relevant risks. Prefer existing focused checks and targeted
+regression coverage. Require broad integration/full suites when cross-component
+impact, safety/regulatory obligations or explicit acceptance/release authority
+warrants them; do not add gates for coverage targets or reviewer preferences.
+Never weaken a frozen gate after a failure just to obtain DONE.
 
 A raw tool result and a ticket acceptance verdict are different facts. Preserve both.
 
@@ -235,8 +245,8 @@ And one disposition:
 - `INFORMATIONAL`
 
 Blocking findings cite the exact frozen criterion/invariant or canonical authority.
-For an allowed Pattern B Manifest omission, cite its recorded bounded-contract
-criterion instead; review authority and the finding taxonomy are unchanged.
+For a Pattern B bounded contract, cite its recorded criterion instead; review
+authority and the finding taxonomy are unchanged.
 
 Format:
 
