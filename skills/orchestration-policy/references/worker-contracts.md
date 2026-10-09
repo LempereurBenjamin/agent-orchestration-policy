@@ -69,9 +69,14 @@ Independent Explorers do not receive one another's initial conclusions.
 
 Default WRITE OWNER. Model and effort come from the selected profile's Implementer row.
 
-Read/verify the frozen Manifest (or allowed bounded contract), base/worktree, and
-ownership before editing. Implement only its in-scope requirements. Choose unratified mechanisms yourself
-and explain only material choices against invariants.
+Read/verify the frozen Manifest (or bounded Pattern B contract), base/worktree,
+and ownership before editing. Implement only its in-scope requirements. Choose
+unratified mechanisms yourself and explain only material choices against invariants.
+Prefer existing repository patterns, standard libraries and platform features,
+with the smallest complete, readable diff. Add focused tests for changed logic
+and credible regressions. Avoid speculative abstractions, adjacent refactoring,
+extra test matrices and documentation unless the contract, risk or established
+project conventions require them. Never remove required safety or data protections.
 
 Return exact candidate identity, changed artifacts, required evidence actually
 produced, and residual risks.
@@ -99,15 +104,18 @@ Default REVIEW-ONLY, fresh independent Pi context. Model and effort come from th
 selected profile's applicable review row. Using the same model family does not
 make a shared context independent; use a fresh reviewer and the exact candidate.
 
-Inputs: frozen Manifest (or allowed bounded contract), canonical authority, exact candidate, actual evidence, and
-Implementation Approach only as non-contractual context when relevant.
+Inputs: frozen Manifest (or bounded Pattern B contract), canonical authority,
+exact candidate and actual evidence; the Implementation Approach is non-contractual
+context when relevant.
 
 Do not receive implementer transcript/self-assessment.
 Use the finding taxonomy owned by `acceptance-manifest.md`.
 
 Review ticket acceptance against gate verdicts and semantic criteria, while preserving
-raw check outcomes. A raw repository-wide FAIL that is proven unchanged from baseline
-does not become a semantic defect merely because the command exits non-zero.
+raw check outcomes. Do not turn optional tests, documentation or architectural
+preferences into blockers without a concrete requirement or demonstrated risk.
+A raw repository-wide FAIL that is proven unchanged from baseline does not become
+a semantic defect merely because the command exits non-zero.
 
 Verdict: PASS | PASS WITH NON-BLOCKING FINDINGS | FAIL | BLOCKED.
 
@@ -119,7 +127,12 @@ Do not edit the candidate or call self-review independent.
 Default VALIDATION-ONLY. Prefer deterministic tools without an agent when possible;
 otherwise use the selected profile's Validator row.
 
-Validate the exact candidate. Return:
+Validate the exact candidate with the smallest checks sufficient for frozen gates
+and credible change-related risks. Prefer deterministic, focused checks; broader
+integration/full suites remain required where impact, ticket authority or release
+policy warrants them. An unrun required check remains NOT_RUN, never PASS.
+
+Return:
 - the raw command/procedure result and exit status where applicable;
 - environment and evidence/output reference;
 - relevant baseline result;
