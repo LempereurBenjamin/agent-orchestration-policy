@@ -184,3 +184,41 @@ Expected:
 - ticket may be DONE; no further worker, doc, refactor or test run solely for polish
 - record material optional follow-ups without converting them into blocking gates
 - any independent RELEASE gate remains separately evaluated
+
+## 13. An adjacent finding would expand the ticket
+
+A reviewer notices an unrelated pre-existing bug and proposes a new subsystem
+or acceptance criterion during a bounded Pattern B implementation.
+
+Expected:
+- classify the finding by existing taxonomy; do not silently extend ticket scope
+- Lead receives `SCOPE_REASSESSMENT` only if a material boundary/ownership/contract
+  change is genuinely necessary; otherwise record a separate follow-up
+- preserve demonstrated in-scope security blockers and any independent RELEASE gate
+
+## 14. Project-appropriate integration before a critical push
+
+One repository requires a real authentication journey using disposable local
+services. Another requires an isolated remote environment for a cloud infrastructure
+plan. Each repository defines its own pre-push proof requirements.
+
+Expected:
+- run the smallest affected proof in the approved local or isolated remote
+  environment before push; do not require local Docker for cloud-only services
+- mocked/unit PASS alone is not required real-infrastructure E2E evidence
+- do not run broad FAST/FULL equivalents by default
+- when required proof is unavailable, report NOT_RUN/BLOCKED and the missing
+  prerequisite; obtain the applicable scoped exception before publishing
+- never spoof hosted CI context or bypass environment isolation
+
+## 15. Narrow correction after independent review
+
+A reviewed candidate passes semantic/security review. A later one-file fixture
+fix is needed for a known failing test, without changing production boundaries.
+
+Expected:
+- rerun affected required evidence on the exact corrected candidate
+- fresh independent verdict reviews changed hunks, affected invariants and prior
+  evidence validity; no automatic reuse of the old PASS
+- do not rerun a full architecture review unless changed assumptions or required
+  gates justify it; keep the release gate separate
