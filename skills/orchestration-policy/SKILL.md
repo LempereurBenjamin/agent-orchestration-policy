@@ -54,6 +54,9 @@ User instructions may override these for the current objective:
 - Patterns C and D require one.
 
 Changing IDs, Runs, workers, or patterns does not reset cumulative limits.
+These budgets are ceilings, not dispatch or review quotas. Default to one bounded
+writer and deterministic checks; add agents only for distinct uncertainty,
+independent write ownership, or review required by impact or authority.
 
 ## Authority
 
@@ -109,6 +112,13 @@ pre-existing changes. Run only baseline checks that materially improve compariso
 or causality. Prefer comparable before/after checks; broad suites are not ritual.
 Choose candidate checks for changed behavior and credible failure modes; run broader
 suites only for cross-cutting impact, a required gate, or explicit authority.
+Before a candidate is pushed, run the smallest relevant local proof required by the
+repository's delivery policy. If it requires an affected real-infrastructure journey
+for reproducible runtime, authentication/session or migration changes, execute that
+journey locally; unit/static PASS is not E2E evidence. If required local proof is
+unavailable, report the specific prerequisite and NOT_RUN/BLOCKED status and obtain
+the applicable scoped exception before push. Never fake hosted CI context or run
+a local copy of FULL by default.
 When a relevant baseline check is already dirty, define its gate scope and evaluation
 mode explicitly before candidate evaluation. Pre-existing debt is evidence to classify,
 not an automatic ticket blocker.
@@ -180,6 +190,18 @@ Review authority, scope, ownership, ratified architecture, evidence strategy, an
 lightweight non-contractual Implementation Approach. Do not turn the Approach into
 acceptance criteria. Low/medium-risk Pattern B may use Lead preflight only.
 
+## Scope containment
+
+Findings do not silently expand the frozen ticket. Classify them using the
+`acceptance-manifest.md` taxonomy and preserve any separate RELEASE gate. When a
+proposed fix requires distinct backlog ownership, a new architectural boundary, or
+a material change to frozen acceptance, report `SCOPE_REASSESSMENT` to the Lead:
+name the triggering evidence, the smallest in-scope path, and the follow-up.
+This is an escalation signal, not a new Orca state or automatic gate. Pause only
+unapproved affected work; keep independent authorized work moving. Expand scope
+only with applicable authority, not to satisfy a preference or unrelated baseline
+failure. Never defer a demonstrated in-scope security/data-loss blocker this way.
+
 ## Dispatch
 
 Before each worker launch:
@@ -201,13 +223,21 @@ a retired model family themselves.
 
 ## Corrections
 
-Correct the smallest responsible subgraph and keep correction history acyclic.
-After candidate changes, rerun affected required evidence, justify retained evidence,
-and review the final candidate as required. An old PASS never automatically approves
-a changed candidate.
+Before fixing a failed local or remote check, identify the failing behavior and
+compare relevant baseline evidence. Do not use repeated remote FAST/FULL runs as
+the primary debugger or turn unrelated inherited debt into ticket scope.
+Preserve raw failures and independently required RELEASE gates.
 
-At the correction limit, stop automatic fixes and obtain bounded continuation or
-report PARTIAL/BLOCKED.
+Correct the smallest responsible subgraph and keep correction history acyclic.
+After candidate changes, rerun affected required evidence and justify retained
+evidence. For a narrow fix, independent review may focus on the delta, affected
+interfaces/invariants, and validity of earlier evidence rather than repeating the
+full design review. It must still issue a verdict for the exact new candidate;
+an old PASS never automatically approves a changed candidate. Widen the review
+when architecture, security assumptions, or required gates are affected.
+
+At the correction limit, stop automatic fixes, reassess the hypothesis and scope,
+and obtain bounded continuation or report PARTIAL/BLOCKED.
 
 ## Candidate, permissions, and supervision
 

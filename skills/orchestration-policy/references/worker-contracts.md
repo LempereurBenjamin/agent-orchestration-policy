@@ -77,6 +77,9 @@ with the smallest complete, readable diff. Add focused tests for changed logic
 and credible regressions. Avoid speculative abstractions, adjacent refactoring,
 extra test matrices and documentation unless the contract, risk or established
 project conventions require them. Never remove required safety or data protections.
+Before requesting a push, run the relevant local proof required by repository
+policy, including a reproducible affected real-infrastructure journey when mandated.
+Report unavailable prerequisites as missing evidence, never as E2E PASS.
 
 Return exact candidate identity, changed artifacts, required evidence actually
 produced, and residual risks.
@@ -116,6 +119,10 @@ raw check outcomes. Do not turn optional tests, documentation or architectural
 preferences into blockers without a concrete requirement or demonstrated risk.
 A raw repository-wide FAIL that is proven unchanged from baseline does not become
 a semantic defect merely because the command exits non-zero.
+For a narrow correction to a reviewed candidate, independently assess its changed
+delta, impacted invariants and retained evidence, then issue a fresh exact-candidate
+verdict. Expand review only if the correction invalidates broader assumptions or
+mandatory gates; never inherit an earlier PASS automatically.
 
 Verdict: PASS | PASS WITH NON-BLOCKING FINDINGS | FAIL | BLOCKED.
 
@@ -147,6 +154,8 @@ Equal finding counts alone do not prove no regression when individual findings c
 change. Prefer finding-set comparison or deterministic changed-scope evidence.
 
 Do not silently fix, weaken tests, or hide earlier failures.
+For failed checks, isolate the observable failure against the relevant baseline
+and smallest reproducible path before proposing another costly remote run.
 Escalate semantic diagnosis through the coordinator using the selected profile.
 
 ## Integrator
