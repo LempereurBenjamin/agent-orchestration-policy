@@ -77,9 +77,10 @@ with the smallest complete, readable diff. Add focused tests for changed logic
 and credible regressions. Avoid speculative abstractions, adjacent refactoring,
 extra test matrices and documentation unless the contract, risk or established
 project conventions require them. Never remove required safety or data protections.
-Before requesting a push, run the relevant local proof required by repository
-policy, including a reproducible affected real-infrastructure journey when mandated.
-Report unavailable prerequisites as missing evidence, never as E2E PASS.
+Before requesting a push, run task-relevant proof required by repository
+policy in an approved local or isolated remote environment. Where mandated and
+reproducible, validate the affected real-infrastructure journey. Report unavailable
+prerequisites as missing evidence, never as E2E PASS.
 
 Return exact candidate identity, changed artifacts, required evidence actually
 produced, and residual risks.

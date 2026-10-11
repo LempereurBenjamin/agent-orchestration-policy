@@ -112,13 +112,14 @@ pre-existing changes. Run only baseline checks that materially improve compariso
 or causality. Prefer comparable before/after checks; broad suites are not ritual.
 Choose candidate checks for changed behavior and credible failure modes; run broader
 suites only for cross-cutting impact, a required gate, or explicit authority.
-Before a candidate is pushed, run the smallest relevant local proof required by the
-repository's delivery policy. If it requires an affected real-infrastructure journey
-for reproducible runtime, authentication/session or migration changes, execute that
-journey locally; unit/static PASS is not E2E evidence. If required local proof is
-unavailable, report the specific prerequisite and NOT_RUN/BLOCKED status and obtain
-the applicable scoped exception before push. Never fake hosted CI context or run
-a local copy of FULL by default.
+Before push, run the smallest task-relevant proof required by the repository's
+delivery policy, in an approved local or isolated remote environment. When that
+policy requires an affected real-infrastructure journey and it is reproducible
+(e.g., runtime, authentication/session or migration), execute it before push;
+unit/static PASS is not E2E evidence. If required proof is unavailable, report
+the missing prerequisite and NOT_RUN/BLOCKED status and obtain the applicable
+scoped exception. Never spoof hosted CI context, relax security boundaries, or
+run a broad FAST/FULL equivalent by default.
 When a relevant baseline check is already dirty, define its gate scope and evaluation
 mode explicitly before candidate evaluation. Pre-existing debt is evidence to classify,
 not an automatic ticket blocker.

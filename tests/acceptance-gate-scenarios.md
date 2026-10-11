@@ -196,17 +196,20 @@ Expected:
   change is genuinely necessary; otherwise record a separate follow-up
 - preserve demonstrated in-scope security blockers and any independent RELEASE gate
 
-## 14. Local integration before a critical push
+## 14. Project-appropriate integration before a critical push
 
-A repository requires local real-service acceptance for an authentication change.
-A disposable supported environment and the affected journey already exist.
+One repository requires a real authentication journey using disposable local
+services. Another requires an isolated remote environment for a cloud infrastructure
+plan. Each repository defines its own pre-push proof requirements.
 
 Expected:
-- run that journey locally before push, not the entire remote FAST/FULL suite
-- mocked/unit PASS alone is not real-infrastructure E2E evidence
-- when the required environment is unavailable, report NOT_RUN/BLOCKED and the
-  missing prerequisite; obtain a scoped exception before publishing
-- never spoof GitHub Actions runner variables to bypass test isolation
+- run the smallest affected proof in the approved local or isolated remote
+  environment before push; do not require local Docker for cloud-only services
+- mocked/unit PASS alone is not required real-infrastructure E2E evidence
+- do not run broad FAST/FULL equivalents by default
+- when required proof is unavailable, report NOT_RUN/BLOCKED and the missing
+  prerequisite; obtain the applicable scoped exception before publishing
+- never spoof hosted CI context or bypass environment isolation
 
 ## 15. Narrow correction after independent review
 
