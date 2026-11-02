@@ -15,11 +15,13 @@ OBJECTIVE
 <one observable outcome>
 
 ROUTING
-Pi / openai-first / <logical model ID> / <effort>
+Governing policy bundle and objective state: <resolvable references>
+Pi / <recorded family> / <logical model ID> / <effort>
 Selection rationale and authority: <reason, scope, and any explicit override>
 Eligible provider/accounts: <scope and evidence>
 Effective binding: <provider/account, model, effort, verification evidence/status>
 Routing controls: <rotation/fallback and continuation controls>
+Worker routing events: <events and evidence>
 
 AUTHORITY
 Manifest: <path + frozen external identity, when applicable>

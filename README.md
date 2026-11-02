@@ -20,7 +20,8 @@ inside policy documents.
 
 ## Routing
 
-New objectives use `openai-first`: the Lead selects supported OpenAI models and
+New objectives select OpenAI or Anthropic routing from the effective initial Pi Lead
+model. The recorded family remains stable; the Lead selects supported models and
 efforts by role and task, with account rotation and a quota-only DeepSeek fallback
 subject to runtime verification. The authoritative table and fallback conditions
 are in `skills/orchestration-policy/references/model-routing.md`. Automatic fallback

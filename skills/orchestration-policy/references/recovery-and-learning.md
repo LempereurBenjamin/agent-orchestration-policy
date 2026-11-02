@@ -9,7 +9,8 @@ Retain only state needed to resume safely:
 - frozen Manifest and candidate identities;
 - policy bundle identity;
 - active/uncertain dispatches;
-- policy, selected logical model and effort, rationale, authority, and eligible accounts;
+- selected family, initial Lead model and binding;
+- selected logical model and effort, rationale, authority, and eligible accounts;
 - effective provider/account, model and effort, verification, routing events and controls;
 - capacity/attempt/correction counters;
 - pending decisions;
@@ -29,7 +30,7 @@ After restart, compaction, timeout, interrupted mutation, or uncertain side effe
 5. verify candidate/evidence identities;
 6. resume only reconciled work.
 
-Restore the recorded bundle, route selections, effective bindings and authority;
+Restore the recorded bundle and family, route selections, effective bindings and authority;
 verify each before substantive work. Apply account rotation and quota fallback,
 including Lead recovery, under `model-routing.md`. Preserve the checkpoint, candidate
 identities, contracts, evidence and cumulative counters. Do not use the current
@@ -67,6 +68,11 @@ New user stop/safety restrictions apply immediately.
 
 For approved migration, record old/new identities, preserve counters, reconcile active
 contracts/Manifest compatibility, and rerun only evidence invalidated by the change.
+
+A user-requested family change requires an explicit scoped routing decision; reconcile
+affected active work, bindings, evidence and prior side effects before it takes effect.
+Preserve counters and history. An account rotation or temporary fallback does not
+change the recorded family.
 
 A policy-authorized routing event within the recorded bundle is not a bundle
 migration. Reconcile affected active work and prior side effects, preserve routing and

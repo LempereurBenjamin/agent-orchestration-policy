@@ -44,6 +44,17 @@ by the verified dispatch contract; Lead-controlled handoff remains unverified;
 block affected work if enforcement and safe recovery cannot be established. No live
 quota exhaustion or Orca integration test has been performed by this policy change.
 
+Pi 1.5.0's locally installed catalogue lists `github-copilot/claude-opus-5.5`
+and `github-copilot/claude-sonnet-5.5`. Its catalogue maps Opus medium/high
+explicitly and the Anthropic adapter maps Sonnet medium/high to matching effort values;
+both entries set `forceAdaptiveThinking`. This is local catalogue and adapter evidence,
+not a live provider acceptance, account entitlement, effective effort, or Orca worker
+binding verification. Other provider IDs or aliases require their own evidence.
+`pi-multi-account` documents Anthropic aliases and same-model-first rotation, but its
+broader switching and continuation behavior does not establish this policy's gates.
+Pi documents active model and thinking level in session state, while virtual selections
+can differ from the physical model answering. Resolve that distinction at admission.
+
 ## Verification on a target machine
 
 ```sh
