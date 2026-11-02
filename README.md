@@ -16,27 +16,13 @@ evidence, independent review, recovery, and closure.
 Git commits and release tags identify policy bundles. Do not add a bundle version
 inside policy documents.
 
-## Routing profiles
+## Routing
 
-- `gpt-6.1-sol-deepseek` is the default engineering profile: GPT-6.1 Sol owns Lead,
-  Architect, and Reviewer judgment; DeepSeek Flash handles bounded exploration and
-  execution, with Lead-authorized scoped Sol execution only when semantic work cannot
-  be reduced to a bounded contract.
-- `gpt-6` is the scoped all-OpenAI Sol/Luna profile.
-- `gpt-6-astra` is an explicit quality-first GPT-6 profile: Astra owns high-impact
-  coordination, architecture, and review; Sol handles semantic engineering
-  (exploration, implementation, integration, and small review), while Luna handles
-  bounded writing and validation.
-- `deepseek-flash` is an explicit DeepSeek V4.1 Flash-only profile for objectives
-  that cannot depend on OpenAI availability. Flash handles every model-backed
-  role, including coordination, integration, architecture, and independent review;
-  deterministic validation is preferred when sufficient.
-
-The DeepSeek profile records actual routing and available token/cache metrics, but
-does not make cost, quality, or savings claims. It never falls back automatically
-when Flash is unavailable; see the policy's `DEEPSEEK_FLASH_BLOCKED` rule.
-Launch the Pi Lead on Flash when selecting this profile; changing workers alone
-does not remove an OpenAI dependency from an existing Lead session.
+New objectives use `openai-first`: the Lead selects supported OpenAI models and
+efforts by role and task, with account rotation and a quota-only DeepSeek fallback
+subject to runtime verification. The authoritative table and fallback conditions
+are in `skills/orchestration-policy/references/model-routing.md`. Automatic fallback
+is not established merely by installing the policy; see `COMPATIBILITY.md`.
 
 ## Install as a Pi Git package
 

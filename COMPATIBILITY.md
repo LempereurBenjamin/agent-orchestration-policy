@@ -23,14 +23,26 @@ The policy is compatible only when the deployment provides all of the following:
    fallback documented by the installed guide.
 4. Orca supports supervised worker dispatch, task/dispatch status inspection,
    lifecycle messaging, and recovery inspection required by the policy.
-5. The deployment can verify the effective Pi provider, exact model, reasoning
-   effort, and model-switch controls required by the selected routing profile.
-6. For `deepseek-flash`, Pi exposes the exact direct-API route
-   `deepseek/deepseek-flash` (DeepSeek V4.1 Flash) with supported low and high
-   reasoning efforts for every model-backed role, including Lead and Reviewer.
+5. The deployment can verify the effective provider/account, exact logical model,
+   effort, and routing controls required by `model-routing.md`.
+6. Each selected model/effort is supported by its effective account. Fallback requires
+   a verified DeepSeek V4.1-Flash-1017 mapping, role effort and safe continuation.
 
-If a required capability is absent, the affected work is blocked. The policy does
-not authorize substituting a harness, provider, model family, or lifecycle mechanism.
+The local Pi 1.4.0 catalogue lists the OpenAI model IDs and `deepseek/deepseek-flash`;
+the CLI accepts `max`. Neither proves per-model effective effort or the deployed
+DeepSeek version. The installed `pi-multi-account` documentation describes account
+discovery and same-model-first rotation, but also broader failure/model failover,
+optional automatic continuation and passive child modes. It does not establish the
+quota-only, all-eligible-accounts gate and role-specific DeepSeek transition required
+by this policy. Orca 1.4.242's worker-start contract has singular model/effort fields,
+no ordered fallback list, and does not document Pi launch overrides. Its launch
+validator requires an agent launch catalog; generic flags do not prove Pi binding.
+The `pi-subagents` fallback list is not an Orca capability. Orca documents reading
+worker output and retrying a failed task, but no reliably attributable quota verdict
+for every eligible account is established. Automatic Pi worker fallback is unsupported
+by the verified dispatch contract; Lead-controlled handoff remains unverified;
+block affected work if enforcement and safe recovery cannot be established. No live
+quota exhaustion or Orca integration test has been performed by this policy change.
 
 ## Verification on a target machine
 
@@ -38,7 +50,7 @@ not authorize substituting a harness, provider, model family, or lifecycle mecha
 pi --version
 orca --version
 pi list
-pi --list-models deepseek
+pi --list-models
 orca skills get orchestration
 ```
 

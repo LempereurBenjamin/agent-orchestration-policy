@@ -15,10 +15,11 @@ OBJECTIVE
 <one observable outcome>
 
 ROUTING
-Pi / <profile: gpt-6 | gpt-6-astra | deepseek-flash |
-     gpt-6.1-sol-deepseek> / <exact model ID> / <effort>
-Selection authority: <default or user request reference + authorized scope>
-Runtime verification: <evidence/status; exact-model failover controls>
+Pi / openai-first / <logical model ID> / <effort>
+Selection rationale and authority: <reason, scope, and any explicit override>
+Eligible provider/accounts: <scope and evidence>
+Effective binding: <provider/account, model, effort, verification evidence/status>
+Routing controls: <rotation/fallback and continuation controls>
 
 AUTHORITY
 Manifest: <path + frozen external identity, when applicable>
@@ -51,15 +52,13 @@ Follow injected Orca task/dispatch/heartbeat/question/completion instructions.
 Do not paste whole manifests, ADRs, issues, transcripts, private reasoning, or
 persuasive worker summaries when the worker can read authoritative artifacts directly.
 
-For `deepseek-flash`, bind every contract to the exact route in its DeepSeek-only
-role table. For `gpt-6.1-sol-deepseek`, bind each contract to the exact route assigned
-to that role in the mixed role table. DeepSeek contracts record available token/cache
-metrics and terminal failure status without including credentials or request payloads.
-A worker cannot select, escalate, or replace its own route.
+The Lead selects and verifies each route under `model-routing.md`. A worker cannot
+select, escalate, or replace its own route. Record routing changes and actual evidence
+without credentials or request payloads.
 
 ## Explorer
 
-Default READ-ONLY. Model and effort come from the selected profile's Explorer row.
+Default READ-ONLY. Model and effort come from the Lead-selected Explorer row.
 
 Return concrete evidence, facts separated from inference, useful falsifiers, and the
 smallest next experiment. Do not implement speculative fixes or absorb adjacent scope.
@@ -67,7 +66,7 @@ Independent Explorers do not receive one another's initial conclusions.
 
 ## Implementer
 
-Default WRITE OWNER. Model and effort come from the selected profile's Implementer row.
+Default WRITE OWNER. Model and effort come from the Lead-selected Implementer row.
 
 Read/verify the frozen Manifest (or bounded Pattern B contract), base/worktree,
 and ownership before editing. Implement only its in-scope requirements. Choose
@@ -90,14 +89,14 @@ A canonical contradiction stops affected work; do not change acceptance to fit c
 ## Writer
 
 Default WRITE OWNER for scoped authored artifacts; otherwise READ-ONLY when producing
-a summary or draft. Model and effort come from the selected profile's Writer row.
+a summary or draft. Model and effort come from the Lead-selected Writer row.
 
 Return the exact artifact, its required evidence, and residual risks. Do not turn a
 summary or draft into a change of authority, acceptance, or implementation scope.
 
 ## Architect
 
-Default READ-ONLY. Model and effort come from the selected profile's Architect row.
+Default READ-ONLY. Model and effort come from the Lead-selected Architect row.
 
 Analyze canonical authority, boundaries, invariants, and evidence strategy. Return a
 bounded decision or approach; do not implement speculative changes or alter acceptance.
@@ -105,7 +104,7 @@ bounded decision or approach; do not implement speculative changes or alter acce
 ## Reviewer
 
 Default REVIEW-ONLY, fresh independent Pi context. Model and effort come from the
-selected profile's applicable review row. Using the same model family does not
+Lead-selected Reviewer route. Using the same model family does not
 make a shared context independent; use a fresh reviewer and the exact candidate.
 
 Inputs: frozen Manifest (or bounded Pattern B contract), canonical authority,
@@ -133,7 +132,7 @@ Do not edit the candidate or call self-review independent.
 ## Validator
 
 Default VALIDATION-ONLY. Prefer deterministic tools without an agent when possible;
-otherwise use the selected profile's Validator row.
+otherwise use the Lead-selected Validator row.
 
 Validate the exact candidate with the smallest checks sufficient for frozen gates
 and credible change-related risks. Prefer deterministic, focused checks; broader
@@ -157,12 +156,12 @@ change. Prefer finding-set comparison or deterministic changed-scope evidence.
 Do not silently fix, weaken tests, or hide earlier failures.
 For failed checks, isolate the observable failure against the relevant baseline
 and smallest reproducible path before proposing another costly remote run.
-Escalate semantic diagnosis through the coordinator using the selected profile.
+Escalate semantic diagnosis through the coordinator under the recorded route.
 
 ## Integrator
 
 Default WRITE OWNER of a dedicated integration candidate. Model and effort come
-from the selected profile's Integrator row.
+from the Lead-selected Integrator row.
 
 Combine approved in-scope inputs, resolve mechanical conflicts, escalate semantic
 incompatibilities, run integrated evidence, and return one exact candidate.
