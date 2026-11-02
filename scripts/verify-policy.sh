@@ -13,7 +13,7 @@ required_files=(
   skills/orchestration-policy/references/model-routing.md
   skills/orchestration-policy/references/recovery-and-learning.md
   skills/orchestration-policy/references/worker-contracts.md
-  tests/deepseek-flash-scenarios.md
+  tests/model-routing-scenarios.md
   tests/acceptance-gate-scenarios.md
 )
 
@@ -100,9 +100,9 @@ done
 require_literal skills/orchestration-policy/references/recovery-and-learning.md 'Restore the recorded bundle and family'
 require_literal skills/orchestration-policy/references/worker-contracts.md 'Pi / <recorded family> / <logical model ID> / <effort>'
 require_literal skills/orchestration-policy/references/worker-contracts.md 'Governing policy bundle and objective state: <resolvable references>'
-require_literal tests/deepseek-flash-scenarios.md '`github-copilot/claude-opus-5.5` or `github-copilot/claude-sonnet-5.5`'
+require_literal tests/model-routing-scenarios.md '`github-copilot/claude-opus-5.5` or `github-copilot/claude-sonnet-5.5`'
 require_literal COMPATIBILITY.md 'not a live provider acceptance'
-require_literal tests/deepseek-flash-scenarios.md 'Worker requests a different family or model'
+require_literal tests/model-routing-scenarios.md 'Worker requests a different family or model'
 # Guard the presence of the cross-role policy and its concrete boundary scenarios.
 require_literal AGENTS.md 'Do not silently expand scope for theoretical robustness'
 require_literal AGENTS.md 'A tautological test'
@@ -112,10 +112,10 @@ require_literal skills/orchestration-policy/references/worker-contracts.md 'All 
 require_literal tests/acceptance-gate-scenarios.md '## 17. Speculative robustness and test selection'
 require_literal tests/acceptance-gate-scenarios.md '## 18. Proportionality budget exceeded'
 
-require_literal tests/deepseek-flash-scenarios.md 'not runtime integration tests'
+require_literal tests/model-routing-scenarios.md 'not runtime integration tests'
 require_literal COMPATIBILITY.md 'no ordered fallback list'
 require_literal COMPATIBILITY.md 'The `pi-subagents` fallback list is not an Orca capability.'
-require_literal tests/deepseek-flash-scenarios.md 'worker output and redispatch alone do not establish fallback.'
+require_literal tests/model-routing-scenarios.md 'worker output and redispatch alone do not establish fallback.'
 
 if rg -n 'model-routing-(gpt6|deepseek)' --glob '*.md' --glob '*.sh' .; then
   echo 'Obsolete routing profile reference remains.' >&2
