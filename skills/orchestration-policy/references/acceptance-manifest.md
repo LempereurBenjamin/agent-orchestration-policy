@@ -17,8 +17,10 @@ requirements and backlog ownership; it does not replace them.
 
 States: `DRAFT`, `FROZEN`, `SUPERSEDED`.
 
-A Pattern B bounded contract records scope, acceptance criteria, and required
-evidence in the Lead/dispatch contract before implementation. It replaces only
+A Pattern B bounded contract records scope and exclusions, established constraints,
+expected behavior, acceptance criteria, sufficient evidence, and material unresolved
+decisions in the Lead/dispatch contract before implementation, referencing existing
+authority rather than duplicating it. It replaces only
 the separate Manifest artifact, not proof obligations or required independent review.
 Routing profiles belong in execution state and worker contracts, not in product
 acceptance criteria.

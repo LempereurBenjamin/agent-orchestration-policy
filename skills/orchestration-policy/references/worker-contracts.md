@@ -51,6 +51,9 @@ Follow injected Orca task/dispatch/heartbeat/question/completion instructions.
 
 Do not paste whole manifests, ADRs, issues, transcripts, private reasoning, or
 persuasive worker summaries when the worker can read authoritative artifacts directly.
+All roles apply the shared AGENTS.md rule on credible versus speculative risk and
+tautological tests; escalate proposed scope expansion to the Lead rather than silently
+adding it. Routine choices within the contract remain autonomous.
 
 The Lead selects and verifies each route under `model-routing.md`. A worker cannot
 select, escalate, or replace its own route. Record routing changes and actual evidence
@@ -61,7 +64,8 @@ without credentials or request payloads.
 Default READ-ONLY. Model and effort come from the Lead-selected Explorer row.
 
 Return concrete evidence, facts separated from inference, useful falsifiers, and the
-smallest next experiment. Do not implement speculative fixes or absorb adjacent scope.
+smallest next experiment when needed. Investigate the assigned question and stop when
+sufficient evidence exists; do not implement speculative fixes or absorb adjacent scope.
 Independent Explorers do not receive one another's initial conclusions.
 
 ## Implementer
@@ -84,7 +88,9 @@ prerequisites as missing evidence, never as E2E PASS.
 Return exact candidate identity, changed artifacts, required evidence actually
 produced, and residual risks.
 
-A canonical contradiction stops affected work; do not change acceptance to fit code.
+Do not reopen settled architecture without contradictory evidence. Escalate material
+contradictions and genuine blockers; stop affected work for a canonical contradiction.
+Do not change acceptance to fit code.
 
 ## Writer
 
@@ -93,13 +99,15 @@ a summary or draft. Model and effort come from the Lead-selected Writer row.
 
 Return the exact artifact, its required evidence, and residual risks. Do not turn a
 summary or draft into a change of authority, acceptance, or implementation scope.
+Recommend additions only for a concrete requirement or credible risk.
 
 ## Architect
 
 Default READ-ONLY. Model and effort come from the Lead-selected Architect row.
 
 Analyze canonical authority, boundaries, invariants, and evidence strategy. Return a
-bounded decision or approach; do not implement speculative changes or alter acceptance.
+bounded decision or approach grounded in evidence; respect settled decisions and do not
+introduce speculative complexity or alter acceptance.
 
 ## Reviewer
 
@@ -114,9 +122,11 @@ context when relevant.
 Do not receive implementer transcript/self-assessment.
 Use the finding taxonomy owned by `acceptance-manifest.md`.
 
-Review ticket acceptance against gate verdicts and semantic criteria, while preserving
-raw check outcomes. Do not turn optional tests, documentation or architectural
-preferences into blockers without a concrete requirement or demonstrated risk.
+Review the exact candidate against its contract and applicable invariants. Distinguish
+contractual defects, credible risks and optional improvements; blocking findings must
+explain an actionable, credible failure mode. Do not invent criteria or turn preferences
+into requirements. Request tests only for a plausible regression or required gate.
+Review gate verdicts and semantic criteria while preserving raw check outcomes.
 A raw repository-wide FAIL that is proven unchanged from baseline does not become
 a semantic defect merely because the command exits non-zero.
 For a narrow correction to a reviewed candidate, independently assess its changed
@@ -137,7 +147,9 @@ otherwise use the Lead-selected Validator row.
 Validate the exact candidate with the smallest checks sufficient for frozen gates
 and credible change-related risks. Prefer deterministic, focused checks; broader
 integration/full suites remain required where impact, ticket authority or release
-policy warrants them. An unrun required check remains NOT_RUN, never PASS.
+policy warrants them. Avoid tautological or duplicate tests, speculative matrices and
+repeated broad suites without new evidence or a mandatory gate. An unrun required check
+remains NOT_RUN, never PASS.
 
 Return:
 - the raw command/procedure result and exit status where applicable;
@@ -164,7 +176,8 @@ Default WRITE OWNER of a dedicated integration candidate. Model and effort come
 from the Lead-selected Integrator row.
 
 Combine approved in-scope inputs, resolve mechanical conflicts, escalate semantic
-incompatibilities, run integrated evidence, and return one exact candidate.
+incompatibilities, run integrated evidence, and return one exact candidate. Keep fixes
+within the contract and escalate material contradictions or speculative expansion.
 
 No implied authority to merge default/main, push, or publish.
 

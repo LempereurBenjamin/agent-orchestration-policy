@@ -136,7 +136,7 @@ Reviewer discovers an unrelated pre-existing defect outside ticket ownership.
 Expected:
 - classify as OUT_OF_SCOPE_FINDING
 - cannot fail frozen ticket acceptance
-- may create a follow-up
+- record a follow-up separately; create a backlog item only if authorized
 - may affect release only if another explicit authority makes it release-blocking
 
 ## 9. Low-risk localized fix
@@ -222,3 +222,40 @@ Expected:
   evidence validity; no automatic reuse of the old PASS
 - do not rerun a full architecture review unless changed assumptions or required
   gates justify it; keep the release gate separate
+
+## 16. Investigation and parallelism have concrete limits
+
+A task touches several technologies, but its requirements and ownership are clear.
+Another task has two competing explanations for an in-scope failure.
+
+Expected:
+- multiple technologies alone do not justify D or extra workers; choose and justify
+  the smallest sufficient pattern
+- use C for the material uncertainty, investigate the competing explanations, and
+  stop exploring once the evidence supports a sound contract
+- C/D retain their frozen Manifest and required review; nodes need not be agents
+
+## 17. Speculative robustness and test selection
+
+A reviewer proposes concurrency machinery for a hypothetical race without a credible
+operating scenario, plus a test asserting that a mock returns its configured value.
+A separate finding identifies a credible in-scope data-loss path.
+
+Expected:
+- do not silently implement the speculative machinery: explain failure mode,
+  likelihood and maintenance cost, recommend a disposition, and obtain user buy-in
+- omit the tautological test; prefer evidence that catches a plausible regression
+- address the credible data-loss defect and preserve required gates
+- a reviewer preference does not create a new acceptance criterion
+
+## 18. Proportionality budget exceeded
+
+A bounded contract anticipated one writer and focused checks. Investigation now
+indicates a materially greater cost, but existing evidence remains valid.
+
+Expected:
+- identify why, reuse evidence and stop avoidable dispatches or expanded validation
+- obtain a new decision for material scope or cost growth; ordinary troubleshooting
+  and minor deviations do not require approval
+- retain valid work and all cumulative attempt, retry and correction limits
+- do not interrupt writes with arbitrary deadlines or waive required acceptance gates
