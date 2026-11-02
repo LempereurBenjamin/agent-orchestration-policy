@@ -1,18 +1,52 @@
 # Model routing
 
-`openai-first` is the default policy for new objectives. This reference owns
-selection, binding, rotation, fallback, and verification. An active objective
-remains pinned to its recorded policy bundle until explicitly migrated under
+This shared policy owns family selection, binding, rotation, fallback, and verification
+for new objectives. An active objective remains pinned to its recorded policy bundle until explicitly migrated under
 `recovery-and-learning.md`. Editing routing policy does not reroute the current run.
+
+## Objective admission and family
+
+At admission read the effective model/provider from the actual Pi Lead session, not
+the prompt, author, previous objective, or configured default. Pi documents the active
+selection and effective thinking level through session state; RPC `get_state` and
+extension `ctx.model` / `ctx.thinkingLevel` are available where applicable. Session
+`model_change` entries identify selections; virtual selections may differ from the
+physical model recorded on assistant messages. Resolve the effective initial model's
+identity using authoritative session and model evidence before classification.
+The resolved effective logical model ID takes precedence over a virtual or model-alias
+selection. If it cannot be resolved and verified, report `PI_ROUTING_BLOCKED`.
+
+The normalized IDs `claude-opus-5.5` and `claude-sonnet-5.5` select Anthropic.
+For example, `github-copilot/claude-opus-5.5` selects Anthropic, and
+`github-copilot/claude-sonnet-5.5` selects Anthropic. The same applies to equivalent
+verified provider aliases resolving to those exact IDs; the provider/account alias
+does not determine the family. These mappings do not establish route availability.
+
+An initial OpenAI model selects OpenAI routing; an initial Anthropic model selects
+Anthropic routing. Classify model identity, not a provider alias: account aliases may
+represent the same family. If identity or family cannot be established, report
+`PI_ROUTING_BLOCKED`; do not default an unknown model to either family. Record the
+selected family, initial model, effective provider/account and model/effort binding,
+verification evidence, family-selection authority and policy bundle in existing Lead
+execution state. Preserve family-selection and recovery history there.
+
+The selected family stays fixed for the objective through account rotation and
+DeepSeek fallback and later model switches. Resume restores the recorded family, not
+the current model picker.
+A user-requested family change requires an explicit scoped routing decision and
+reconciliation under `recovery-and-learning.md`; do not automatically migrate active
+objectives. The initial model chooses a family, not every subsequent role model.
+The common patterns A/B/C/D, proportionality budgets and all other execution,
+review, acceptance and recovery rules apply equally to both families.
 
 ## Selection
 
 The Lead selects the logical model and reasoning effort at admission, considering
 complexity, uncertainty, contract clarity, architectural discretion, failure impact,
 and evidence of unresolved reasoning difficulty. These are defaults, not fixed
-assignments. Straightforward implementation may use Terra medium; difficult work may
-start at max without passing through intermediate levels. Astra is available only
-as an explicitly requested, scoped override. Respect explicit user model/effort
+assignments. Within OpenAI routing, straightforward implementation may use Terra
+medium; difficult work may start at max without passing through intermediate levels.
+Astra is available only as an explicitly requested, scoped override. Respect explicit user model/effort
 instructions and existing authority and budget limits.
 
 | Role | Standard OpenAI | Complex / critical | DeepSeek fallback |
@@ -25,6 +59,26 @@ instructions and existing authority and budget limits.
 | Reviewer | `gpt-5.6-sol` / high | `gpt-6.1-sol` / high | high |
 | Writer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |
 | Validator | deterministic tools preferred | model only when necessary | deterministic tools, otherwise low or high |
+
+### Anthropic logical preferences
+
+These are preferences, not proof of an executable provider binding. Verify the exact
+model and effective effort before dispatch. The Lead may choose Opus directly for
+difficult work or select another supported effort within the chosen family; no failed
+Sonnet attempt is required.
+
+| Role | Standard Anthropic | Complex / critical |
+| --- | --- | --- |
+| Lead / Plan | Claude Sonnet 5.5 / high | Claude Opus 5.5 / high |
+| Explorer | Claude Sonnet 5.5 / medium | Claude Opus 5.5 / high |
+| Implementer | Claude Sonnet 5.5 / high | Claude Opus 5.5 / high |
+| Integrator | Claude Sonnet 5.5 / high | Claude Opus 5.5 / high |
+| Architect | Claude Opus 5.5 / high | Claude Opus 5.5 / high |
+| Reviewer | Claude Sonnet 5.5 / high | Claude Opus 5.5 / high |
+| Writer | Claude Sonnet 5.5 / medium | Claude Sonnet 5.5 / high |
+| Validator | deterministic tools preferred | Claude Sonnet 5.5 only if necessary |
+
+The DeepSeek fallback effort column in the OpenAI table applies to both families.
 
 The fallback model is DeepSeek V4.1-Flash-1017, intended through the configured
 `deepseek/deepseek-flash` route. The route identifier alone does not prove the
@@ -43,10 +97,15 @@ resets attempt, correction, retry, or capacity counters, nor acceptance criteria
 
 ## Binding and account rotation
 
-Record in existing Lead execution state and each dispatch: policy bundle and
-`openai-first`, logical model ID, effort, selection rationale and authority, eligible
+Lead execution state owns the governing policy bundle, effective initial Lead model,
+selected family, family-selection authority and recovery history. Each worker dispatch
+references that governing bundle and objective state and records the selected family,
+assigned logical model and effort, selection rationale and authority, eligible
 provider/account scope, effective provider/account, model and effort, verification
-evidence, and any routing event. A deterministic tool node needs no model binding.
+evidence, and worker-specific routing events. Recovery must resolve the bundle and
+original family decision from persisted Lead/objective state. If a dispatch cannot
+reliably reference that state, report `PI_ROUTING_BLOCKED`. A deterministic tool node
+needs no model binding.
 Use Pi-supported selection and authoritative runtime/session evidence before
 substantive work and after each routing event; prompt text is not a binding.
 
@@ -61,8 +120,9 @@ do not hardcode its alias list or implement another rotation service. An approve
 rotation such as `openai-codex` to `openai-codex-account-2` is valid when the new
 account actually provides the same authorized model and effective effort. Verify
 compatibility and eligibility; OpenAI provider names alone do not prove equivalence.
-Preserve the selected route and counters. The runtime must prevent or stop unapproved
-model/provider changes before substantive work, including automatic continuation.
+Anthropic account aliases follow the same rule; a different route requires an explicit
+Lead selection under this policy. Preserve the selected family, route and counters.
+The runtime must prevent or stop unapproved model/provider changes before substantive work, including automatic continuation.
 
 Retain existing admission limits: at most three concurrent workers; Astra or unknown
 worker routing reserves the single Astra/unknown slot, excluding Lead. Reconcile
@@ -71,9 +131,8 @@ capacity before each launch or transition. Selection does not expand budgets.
 ## Quota fallback and recovery
 
 The policy pre-authorizes DeepSeek fallback without another user approval only when
-confirmed quota exhaustion prevents the selected route on **all eligible OpenAI
-accounts**, after eligible account rotation. Unknown eligibility or quota is not
-confirmation. Temporary rate limits, network failures, authentication/configuration
+confirmed quota exhaustion prevents the selected route on **all eligible accounts of the selected family**,
+after eligible account rotation. Unknown eligibility or quota is not confirmation. Temporary rate limits, network failures, authentication/configuration
 errors, unsupported or unavailable models, and ordinary implementation or test
 failures are not quota exhaustion and do not trigger fallback. Respect the existing
 transient retry limits. Preserve the contract, frozen acceptance, candidate identities,
@@ -101,5 +160,5 @@ effects are verified. Otherwise recover a Lead on the fallback route from the
 existing checkpoint, frozen contract, candidate and dispatch identities, and counters,
 using supported Pi/Orca capabilities. If these cannot be recovered, block affected
 work. Never blindly replay potentially non-idempotent actions: inspect actual effects
-and reconcile uncertain work first. Prefer OpenAI for new dispatches after quota
-recovers; do not interrupt running DeepSeek tasks or oscillate within a worker.
+and reconcile uncertain work first. Prefer the selected family for new dispatches
+after quota recovers; do not interrupt running DeepSeek tasks or oscillate within a worker.

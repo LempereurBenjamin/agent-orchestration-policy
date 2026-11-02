@@ -38,7 +38,8 @@ silently expand scope, weaken acceptance, or perform unauthorized side effects.
 User instructions may override these for the current objective:
 
 - Pi is the harness; Orca is the orchestrator.
-- Routing policy: `openai-first`; select and verify routes under `model-routing.md`.
+- Routing family: select at admission from the effective initial Lead model and
+  verify routes under `model-routing.md`.
 - Concurrent workers <= 3.
 - Concurrent Astra-or-unknown workers <= 1, Lead excluded. Sol has no additional
   concurrency cap beyond the global worker limit.

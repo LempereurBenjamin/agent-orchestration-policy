@@ -61,7 +61,6 @@ require_literal COMPATIBILITY.md '--reference references/<file>.md'
 require_literal COMPATIBILITY.md '`--full` compatibility'
 routing=skills/orchestration-policy/references/model-routing.md
 for literal in \
-  '`openai-first` is the default' \
   '| Lead / Plan | `gpt-5.6-sol` / medium | `gpt-6.1-sol` / high | high |' \
   '| Explorer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |' \
   '| Implementer | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |' \
@@ -76,7 +75,7 @@ for literal in \
   'after eligible account rotation.' \
   'and reconcile uncertain work first.' \
   'existing checkpoint, frozen contract, candidate and dispatch identities, and counters,' \
-  'confirmed quota exhaustion prevents the selected route on **all eligible OpenAI' \
+  'on **all eligible accounts of the selected family**' \
   'failures are not quota exhaustion and do not trigger fallback.' \
   'The route identifier alone does not prove the' \
   'report `PI_ROUTING_BLOCKED`' \
@@ -85,10 +84,25 @@ for literal in \
   'This applies to the Lead as well as workers.'; do
   require_literal "$routing" "$literal"
 done
-for file in AGENTS.md README.md skills/orchestration-policy/SKILL.md \
-  skills/orchestration-policy/references/worker-contracts.md; do
-  require_literal "$file" 'openai-first'
+for literal in \
+  'An initial OpenAI model selects OpenAI routing; an initial Anthropic model selects' \
+  'DeepSeek fallback and later model switches. Resume restores the recorded family' \
+  'The normalized IDs `claude-opus-5.5` and `claude-sonnet-5.5` select Anthropic.' \
+  '`github-copilot/claude-opus-5.5` selects Anthropic' \
+  '`github-copilot/claude-sonnet-5.5` selects Anthropic' \
+  'A user-requested family change requires an explicit scoped routing decision' \
+  'If identity or family cannot be established, report' \
+  'The common patterns A/B/C/D, proportionality budgets' \
+  '| Implementer | Claude Sonnet 5.5 / high | Claude Opus 5.5 / high |' \
+  'These are preferences, not proof of an executable provider binding.'; do
+  require_literal "$routing" "$literal"
 done
+require_literal skills/orchestration-policy/references/recovery-and-learning.md 'Restore the recorded bundle and family'
+require_literal skills/orchestration-policy/references/worker-contracts.md 'Pi / <recorded family> / <logical model ID> / <effort>'
+require_literal skills/orchestration-policy/references/worker-contracts.md 'Governing policy bundle and objective state: <resolvable references>'
+require_literal tests/deepseek-flash-scenarios.md '`github-copilot/claude-opus-5.5` or `github-copilot/claude-sonnet-5.5`'
+require_literal COMPATIBILITY.md 'not a live provider acceptance'
+require_literal tests/deepseek-flash-scenarios.md 'Worker requests a different family or model'
 # Guard the presence of the cross-role policy and its concrete boundary scenarios.
 require_literal AGENTS.md 'Do not silently expand scope for theoretical robustness'
 require_literal AGENTS.md 'A tautological test'

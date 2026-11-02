@@ -28,9 +28,9 @@ If required guidance is unavailable, report the gap and pause dependent launches
 or modifications. Safe discovery may continue; do not bypass policy by going solo.
 Simple informational questions do not require orchestration.
 
-The default routing policy for new objectives is `openai-first`; the policy's
-`model-routing.md` owns model selection, account rotation, fallback, and runtime
-verification. Editing routing rules does not itself migrate an active objective.
+For new objectives the initial effective Pi Lead model selects the routing family;
+the policy's `model-routing.md` owns selection, account rotation, fallback, and
+runtime verification. Editing routing rules does not itself migrate an active objective.
 
 ## Scope and repository discipline
 
