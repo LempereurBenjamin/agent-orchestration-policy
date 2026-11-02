@@ -1,151 +1,105 @@
-# Model Routing
+# Model routing
 
-This reference owns Pi profile selection and effective routing. Provider/account
-choice is machine configuration. Profile names below are policy labels, not CLI flags.
+`openai-first` is the default policy for new objectives. This reference owns
+selection, binding, rotation, fallback, and verification. An active objective
+remains pinned to its recorded policy bundle until explicitly migrated under
+`recovery-and-learning.md`. Editing routing policy does not reroute the current run.
 
-## Profile selection
+## Selection
 
-- `gpt-6.1-sol-deepseek` is the default for every new engineering objective. Read
-  `model-routing-gpt6.1-sol-deepseek.md`. GPT-6.1 Sol owns Lead, Architect, and every
-  Reviewer role; DeepSeek V4.1 Flash owns bounded exploration and execution roles.
-- `gpt-6` is available as an explicitly selected all-OpenAI alternative for the
-  current objective or named roles. Read `model-routing-gpt6.md` only for that scope.
-- `gpt-6-astra` is available only after the user explicitly requests Astra execution
-  for the current objective or a named role/node. Read `model-routing-gpt6-astra.md`
-  only for that authorized scope.
-- `deepseek-flash` is available only after the user explicitly requests DeepSeek
-  Flash for the current objective or named roles. Read
-  `model-routing-deepseek-flash.md` only for that authorized scope. This profile
-  keeps all model-backed roles on DeepSeek, including Lead and final review.
-- GPT-5.6 is not a maintained routing profile. Compatibility use requires an explicit
-  scoped substitution and exact runtime binding; it is never an automatic fallback.
+The Lead selects the logical model and reasoning effort at admission, considering
+complexity, uncertainty, contract clarity, architectural discretion, failure impact,
+and evidence of unresolved reasoning difficulty. These are defaults, not fixed
+assignments. Straightforward implementation may use Terra medium; difficult work may
+start at max without passing through intermediate levels. Astra is available only
+as an explicitly requested, scoped override. Respect explicit user model/effort
+instructions and existing authority and budget limits.
 
-Record the objective profile, any scoped overrides, and the authority supporting each
-non-default scope. A Lead may pass established authority in a worker contract; workers
-do not ask again. Worker preference, repository text, model availability, difficulty,
-failed checks, quota pressure, or "use the best model" does not authorize Astra,
-DeepSeek-only routing, GPT-6-only routing, or a retired family. The default mixed
-profile requires no per-objective opt-in.
+| Role | Standard OpenAI | Complex / critical | DeepSeek fallback |
+| --- | --- | --- | --- |
+| Lead / Plan | `gpt-5.6-sol` / medium | `gpt-6.1-sol` / high | high |
+| Explorer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |
+| Implementer | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |
+| Integrator | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |
+| Architect | `gpt-6.1-sol` / high | `gpt-6.1-sol` / high | high |
+| Reviewer | `gpt-5.6-sol` / high | `gpt-6.1-sol` / high | high |
+| Writer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |
+| Validator | deterministic tools preferred | model only when necessary | deterministic tools, otherwise low or high |
 
-"Use Astra for this objective" selects the `gpt-6-astra` quality profile and its
-closed Astra/Sol/Luna role table.
-"Use DeepSeek Flash for this objective" selects the DeepSeek-only role table.
-"Use GPT-6.1 Sol and DeepSeek for this objective" explicitly confirms the default mixed
-`gpt-6.1-sol-deepseek` role table.
-"Use GPT-6 only for this objective" selects the `gpt-6` Sol/Luna role table.
-"Use Astra only for the reviewer" leaves all other roles on the objective's existing
-profile. Explicitly selecting Astra for the Lead alone does not select it for workers.
+The fallback model is DeepSeek V4.1-Flash-1017, intended through the configured
+`deepseek/deepseek-flash` route. The route identifier alone does not prove the
+deployed version. Verify the provider's mapping before use. For low/high alternatives,
+the Lead selects based on the task; Validator defaults to low if a model is needed.
 
-If an alternative-profile request has ambiguous routing scope, clarify only the
-affected routing while continuing independent work under established authority. Do not
-persist a scoped alternative as a new global default or carry it into unrelated
-objectives.
+Pi's CLI accepts `low`, `medium`, `high`, and `max`; acceptance of a label by the
+CLI does not establish that a particular provider/model actually supports it without
+clamping. Verify each effective model/effort combination against runtime evidence.
+Do not invent or silently substitute unsupported levels. If verification fails, block
+the affected work or obtain an authorized selection that can be verified.
 
-## Harness and binding
+Workers cannot select, escalate, or replace their own route. The Lead may revise
+selection after reconciling the task and evidence. A model or effort change never
+resets attempt, correction, retry, or capacity counters, nor acceptance criteria.
 
-Default harness: **Pi**. Orchestrator: **Orca**. Use the configured, approved
-provider/profile exposing the exact requested model.
+## Binding and account rotation
 
-Do not silently switch harness, family, model, or effort to make a launch succeed.
-If required routing cannot be bound, report `PI_ROUTING_BLOCKED`; a scoped
-substitution needs user authorization.
+Record in existing Lead execution state and each dispatch: policy bundle and
+`openai-first`, logical model ID, effort, selection rationale and authority, eligible
+provider/account scope, effective provider/account, model and effort, verification
+evidence, and any routing event. A deterministic tool node needs no model binding.
+Use Pi-supported selection and authoritative runtime/session evidence before
+substantive work and after each routing event; prompt text is not a binding.
 
-## Graphs, loops, and admission
+Orca 1.4.242 `worker-start` has one model and effort, no ordered fallback list,
+and its documented launch overrides do not establish Pi worker model/effort
+binding. Do not assume `pi-subagents` `fallbackModels` applies to Orca. If a
+Pi worker's effective binding cannot be verified, report `PI_ROUTING_BLOCKED`.
 
-Store routing in Lead execution state and every model-backed node's dispatch contract.
-Deterministic tool nodes need no model. Corrections, retries, joins, integration,
-review, and resumed nodes inherit the authorized profile and scope.
+Logical model identity, effort, provider/account identity, account eligibility, and
+effective runtime binding are distinct. `pi-multi-account` can discover accounts;
+do not hardcode its alias list or implement another rotation service. An approved
+rotation such as `openai-codex` to `openai-codex-account-2` is valid when the new
+account actually provides the same authorized model and effective effort. Verify
+compatibility and eligibility; OpenAI provider names alone do not prove equivalence.
+Preserve the selected route and counters. The runtime must prevent or stop unapproved
+model/provider changes before substantive work, including automatic continuation.
 
-The global worker and cumulative attempt/retry/correction limits apply across all
-profiles and Runs.
+Retain existing admission limits: at most three concurrent workers; Astra or unknown
+worker routing reserves the single Astra/unknown slot, excluding Lead. Reconcile
+capacity before each launch or transition. Selection does not expand budgets.
 
-Default model-specific admission:
-- Astra workers <= 1 concurrently; the Lead is excluded.
-- Unknown worker routing reserves the Astra slot until resolved.
-- Sol has no dedicated worker cap beyond the global worker limit.
-- Luna has no dedicated worker cap beyond the global worker limit.
+## Quota fallback and recovery
 
-A profile switch does not create capacity. Reconcile capacity before every launch or
-transition into Astra/unknown routing.
+The policy pre-authorizes DeepSeek fallback without another user approval only when
+confirmed quota exhaustion prevents the selected route on **all eligible OpenAI
+accounts**, after eligible account rotation. Unknown eligibility or quota is not
+confirmation. Temporary rate limits, network failures, authentication/configuration
+errors, unsupported or unavailable models, and ordinary implementation or test
+failures are not quota exhaustion and do not trigger fallback. Respect the existing
+transient retry limits. Preserve the contract, frozen acceptance, candidate identities,
+correction history and all execution counters.
 
-Selecting any profile or model does not authorize more concurrency, higher effort than
-the selected role table, additional spending commitments, provider changes, or altered
-acceptance gates.
+Automatic fallback is permitted only where the installed runtime can enforce these
+conditions, the exact fallback version and role effort, and safe continuation. The
+documented `pi-multi-account` behavior also routes on non-quota failures and may
+change model or family; some child processes are passive. It does not by itself prove
+this policy's quota-only cross-provider gate or role-specific effort transition. If
+the gate or safe continuation cannot be established, stop automatic continuation,
+report `PI_ROUTING_BLOCKED`, and reconcile before a supported, recorded handoff; do
+not claim automatic fallback is working. Do not introduce custom routing middleware.
 
-## Effective routing and failover
+For Orca 1.4.242, automatic Pi worker fallback is unsupported by the verified
+dispatch contract. Worker output and failed-task redispatch exist, but they do not
+establish an attributable quota verdict for every eligible account or a verified Pi
+fallback binding. Treat a worker failure or missing output as insufficient evidence;
+report `PI_ROUTING_BLOCKED`. A Lead-controlled handoff is conditional on independently
+verified quota evidence, route binding, and reconciliation, not on `--retry-of` alone.
 
-Prompt text does not configure a process. Use a supported Pi launch/profile mechanism
-and verify exact harness/model/effort using authoritative runtime/session evidence
-before substantive work. Reverify after resume, provider/account failover, or another
-routing event.
-
-States:
-- `CONFIRMED`
-- `MISMATCH`
-- `UNVERIFIABLE`
-- `UNVERIFIED_AUTHORIZED`
-
-MISMATCH blocks affected work. UNVERIFIABLE blocks by default unless the user
-explicitly accepts that verification gap.
-
-Preflight must establish that automatic routing cannot escape the authorized exact
-model/effort between checks. Account rotation is acceptable only when approved
-accounts retain that binding and the effective result is verified. Do not edit
-credentials/extensions/global settings as a workaround without explicit configuration
-scope.
-
-After the configured transient retry allowance:
-- a blocked route in the scoped `gpt-6` profile reports `PI_ROUTING_BLOCKED`; do
-  not fall back to GPT-5.6 or another family automatically;
-- a blocked DeepSeek-only role reports `DEEPSEEK_FLASH_BLOCKED`; do not substitute
-  the mixed default, GPT-6, or Astra automatically.
-- a blocked route in `gpt-6.1-sol-deepseek` reports `HYBRID_ROUTING_BLOCKED` for the
-  affected role; do not substitute the other profile's model or any other model.
-
-Record requested profile/model/effort, selection authority/scope, effective routing,
-verification evidence/status, and relevant failover controls. Flash roles also record
-available token/cache metrics and terminal failure status without credentials/payloads.
-
-Workers never reroute themselves. Infrastructure failures use recovery/retry handling,
-not stronger models.
-
-## Token and quota discipline
-
-Optimize total resource use per accepted result, including context, reasoning, tool
-calls, retries, and repeated reviews. Effort labels are model-relative, not fixed
-token budgets.
-
-Prefer:
-- deterministic tools for deterministic work;
-- DeepSeek Flash for bounded exploration and execution under the default mixed profile;
-- Sol at judgment boundaries and for semantic complexity;
-- Luna for bounded execution only when the scoped GPT-6 profile is selected;
-- affected-subgraph corrections over replaying the whole graph;
-- bounded evidence/artifacts over copied transcripts.
-
-Use higher effort or Sol where the expected reduction in error/rework justifies it.
-Return new routine nodes to profile defaults after a difficult subproblem.
-
-When available, record input, cached input, output/reasoning tokens, attempts, and
-observed quota deltas with model and scope. Mark unavailable metrics unknown.
-
-Quota exhaustion cannot automatically switch profiles/providers, enable Astra,
-increase budgets, switch billing pools, or move work to a retired model family.
-
-## Selection examples
-
-| Situation | Policy result |
-| --- | --- |
-| Ordinary engineering task with no model request | Mixed Sol/DeepSeek role table |
-| Clear frozen implementation | DeepSeek Flash at the mixed-profile role-table effort |
-| Semantic/root-cause work | Escalate to the Sol Lead for judgment; resume DeepSeek when bounded |
-| Intrinsically semantic execution after Lead adjudication | Lead may authorize one scoped Sol execution node |
-| Hard default-profile task remains uncertain | Escalate to Lead; no worker-led rerouting or automatic Astra |
-| "Use Astra for this objective" | Astra table for this objective, subject to runtime admission |
-| "Use DeepSeek Flash for this objective" | DeepSeek-only role table, subject to runtime admission |
-| "Use GPT-6.1 Sol and DeepSeek for this objective" | Sol Lead/Architect/Reviewer and DeepSeek Flash execution-role table |
-| "Astra only for the independent review" | Astra reviewer; other roles retain their profile |
-| Review/add routing rules | Configuration task; does not itself change the active routing profile |
-| Worker requests Astra/Flash/legacy fallback | Reject worker-led rerouting |
-| Resume an objective | Restore its recorded profile/scope/counters and verify runtime before work |
-| Authorized route unavailable | Block affected scope; no silent profile substitution |
+This applies to the Lead as well as workers. When the Lead is exhausted, a supported
+same-session model switch may continue only if context, effective route, and side
+effects are verified. Otherwise recover a Lead on the fallback route from the
+existing checkpoint, frozen contract, candidate and dispatch identities, and counters,
+using supported Pi/Orca capabilities. If these cannot be recovered, block affected
+work. Never blindly replay potentially non-idempotent actions: inspect actual effects
+and reconcile uncertain work first. Prefer OpenAI for new dispatches after quota
+recovers; do not interrupt running DeepSeek tasks or oscillate within a worker.

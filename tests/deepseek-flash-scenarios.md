@@ -1,19 +1,18 @@
-# DeepSeek V4.1 Flash static scenarios
+# OpenAI-first routing static scenarios
 
-These scenarios specify required policy outcomes; the verifier checks that their
-named profile, route, and block marker remain present.
+These scenarios describe policy expectations; they are not runtime integration tests.
 
-| Scenario | Expected result |
+| Scenario | Expected outcome |
 | --- | --- |
-| Explicit request: "Use DeepSeek Flash for this objective" | Admit `deepseek-flash`; bind its closed DeepSeek-only role table after runtime verification. |
-| Existing OpenAI-backed Lead dispatches Flash workers | Reject as DeepSeek-only execution; start a Flash Lead or use an authorized, recorded active-objective migration. |
-| Lead / root coordination | Bind `deepseek/deepseek-flash` at high effort; no OpenAI dependency. |
-| Explorer / focused research or Writer / writing and summaries | Bind `deepseek/deepseek-flash` at low effort. |
-| Implementer / coding or debugging | Bind `deepseek/deepseek-flash` at high effort. |
-| Integrator | Bind `deepseek/deepseek-flash` at high effort. |
-| Validator | Use a deterministic tool when sufficient; otherwise bind `deepseek/deepseek-flash` at low effort, with Lead-authorized high effort for semantic diagnosis. |
-| Architect or final Reviewer | Bind `deepseek/deepseek-flash` at high effort; final review uses a fresh independent context and the exact candidate. |
-| Flash unavailable, mismatched, or unverifiable after transient retries | Return `DEEPSEEK_FLASH_BLOCKED`; block and escalate without automatic Astra/Sol/Luna substitution. |
-| Resume a DeepSeek Flash objective | Restore every recorded DeepSeek role binding, including Lead, worker, integration, and reviewer routes, provider, exact model, and effort, before work. |
-| Flash worker requests a new model or effort | Reject worker-led rerouting; require Lead-scoped authority and runtime verification. |
-| Lead Flash route blocked | Pause the objective and ask the user for direction; no OpenAI substitution. |
+| Standard implementation | Lead selects Terra high; straightforward work may use medium. |
+| Difficult implementation | Lead may start Terra max when its effective support is verified. |
+| Worker requests another model or effort | Escalate to Lead; no worker self-rerouting. |
+| Codex account rotates to an eligible alias | Accept only the same authorized logical model and effective effort; record binding. |
+| All eligible OpenAI accounts have confirmed quota exhaustion | Quota fallback is pre-authorized, subject to verified version, effort, gate and safe handoff. |
+| Temporary rate limit, auth error, unsupported model, or network failure | No quota fallback; apply applicable recovery rules. |
+| Implementation or test failure | No provider fallback. |
+| Lead exhausts OpenAI quota | Recover Lead on verified fallback from a reconciled checkpoint where supported; otherwise block. |
+| Fallback or model change | Preserve frozen acceptance, candidate identity, correction history, and all counters. |
+| Fallback gate or DeepSeek version cannot be verified | Block; do not claim automatic fallback works. |
+| Orca 1.4.242 Pi worker fails without attributable quota evidence or verified fallback binding | Report `PI_ROUTING_BLOCKED`; worker output and redispatch alone do not establish fallback. |
+| OpenAI quota recovers | Prefer OpenAI for new dispatches; leave running DeepSeek workers undisturbed. |

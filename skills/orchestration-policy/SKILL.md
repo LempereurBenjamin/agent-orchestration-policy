@@ -38,10 +38,7 @@ silently expand scope, weaken acceptance, or perform unauthorized side effects.
 User instructions may override these for the current objective:
 
 - Pi is the harness; Orca is the orchestrator.
-- Routing profile: GPT-6.1 Sol / DeepSeek V4.1 Flash. Sol owns Lead, Architect, and
-  Reviewer judgment; DeepSeek owns bounded exploration and execution. GPT-6.1 Sol/Luna,
-  GPT-6 Astra, and DeepSeek-only are scoped alternatives selected through
-  `model-routing.md`.
+- Routing policy: `openai-first`; select and verify routes under `model-routing.md`.
 - Concurrent workers <= 3.
 - Concurrent Astra-or-unknown workers <= 1, Lead excluded. Sol has no additional
   concurrency cap beyond the global worker limit.
@@ -76,8 +73,7 @@ Worker opinion is evidence, not authority.
 Load only when needed:
 
 - `references/acceptance-manifest.md` — baseline, ownership, manifest, approach, freeze, findings.
-- `references/model-routing.md` — profile selection, admission, and runtime verification;
-  then read only the selected profile's routing table.
+- `references/model-routing.md` — selection, account rotation, fallback, and runtime verification.
 - `references/worker-contracts.md` — concise role contracts.
 - `references/recovery-and-learning.md` — abnormal paths, exceptions, migration, learning.
 
@@ -209,7 +205,7 @@ Before each worker launch:
 
 1. reconcile live/uncertain work and prior side effects;
 2. verify dependency admission, ownership, candidate/manifest identity, and budget;
-3. read `model-routing.md`, resolve the authorized profile and role, and bind exact Pi routing;
+3. read `model-routing.md`, select the authorized role route, and bind Pi routing;
 4. read `worker-contracts.md` and create a concise contract;
 5. reserve capacity and one execution attempt;
 6. launch through supervised Orca;
@@ -217,10 +213,9 @@ Before each worker launch:
 
 Do not batch launches against stale capacity.
 
-Graph nodes inherit the recorded objective profile unless an explicit user request
-authorizes a narrower override. Retry, correction, and recovery nodes preserve
-that scope and cumulative counters; they cannot opt into Astra, DeepSeek Flash, or
-a retired model family themselves.
+Graph nodes follow the recorded policy bundle and Lead-selected route. Retry,
+correction, and recovery preserve scope and cumulative counters; workers do not
+reroute themselves. Apply account rotation and quota fallback under `model-routing.md`.
 
 ## Corrections
 

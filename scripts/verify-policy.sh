@@ -10,9 +10,6 @@ required_files=(
   package.json
   skills/orchestration-policy/SKILL.md
   skills/orchestration-policy/references/acceptance-manifest.md
-  skills/orchestration-policy/references/model-routing-gpt6.md
-  skills/orchestration-policy/references/model-routing-gpt6-astra.md
-  skills/orchestration-policy/references/model-routing-deepseek-flash.md
   skills/orchestration-policy/references/model-routing.md
   skills/orchestration-policy/references/recovery-and-learning.md
   skills/orchestration-policy/references/worker-contracts.md
@@ -61,28 +58,48 @@ require_literal skills/orchestration-policy/SKILL.md '--reference references/<fi
 require_literal skills/orchestration-policy/SKILL.md 'use `--full` once as a compatibility'
 require_literal COMPATIBILITY.md 'orca skills get orchestration'
 require_literal COMPATIBILITY.md '--reference references/<file>.md'
-require_literal COMPATIBILITY.md '`--full` compatibility fallback'
-require_literal skills/orchestration-policy/references/model-routing.md '`gpt-6` is the default'
-require_literal skills/orchestration-policy/references/model-routing-gpt6.md 'gpt-6.1-sol'
-require_literal skills/orchestration-policy/references/model-routing-gpt6.md 'gpt-6-luna'
-require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'quality-first GPT-6 profile'
-require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-astra'
-require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6.1-sol'
-require_literal skills/orchestration-policy/references/model-routing-gpt6-astra.md 'gpt-6-luna'
-require_literal skills/orchestration-policy/references/model-routing.md '`deepseek-flash` is available only after the user explicitly requests DeepSeek'
-require_literal skills/orchestration-policy/references/model-routing-deepseek-flash.md 'deepseek/deepseek-flash'
-require_literal skills/orchestration-policy/references/model-routing-deepseek-flash.md 'DEEPSEEK_FLASH_BLOCKED'
-require_literal tests/deepseek-flash-scenarios.md 'Restore every recorded DeepSeek role binding'
-
-flash_table=skills/orchestration-policy/references/model-routing-deepseek-flash.md
-for role in Lead Explorer Implementer Writer Integrator Validator Architect Reviewer; do
-  if ! rg -q "^\\| $role .*deepseek/deepseek-flash" "$flash_table"; then
-    echo "DeepSeek-only profile does not bind $role to Flash." >&2
-    exit 1
-  fi
+require_literal COMPATIBILITY.md '`--full` compatibility'
+routing=skills/orchestration-policy/references/model-routing.md
+for literal in \
+  '`openai-first` is the default' \
+  '| Lead / Plan | `gpt-5.6-sol` / medium | `gpt-6.1-sol` / high | high |' \
+  '| Explorer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |' \
+  '| Implementer | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |' \
+  '| Integrator | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |' \
+  '| Architect | `gpt-6.1-sol` / high | `gpt-6.1-sol` / high | high |' \
+  '| Reviewer | `gpt-5.6-sol` / high | `gpt-6.1-sol` / high | high |' \
+  '| Writer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |' \
+  '| Validator | deterministic tools preferred | model only when necessary | deterministic tools, otherwise low or high |' \
+  'Workers cannot select, escalate, or replace their own route.' \
+  'account actually provides the same authorized model and effective effort.' \
+  'resets attempt, correction, retry, or capacity counters, nor acceptance criteria.' \
+  'after eligible account rotation.' \
+  'and reconcile uncertain work first.' \
+  'existing checkpoint, frozen contract, candidate and dispatch identities, and counters,' \
+  'confirmed quota exhaustion prevents the selected route on **all eligible OpenAI' \
+  'failures are not quota exhaustion and do not trigger fallback.' \
+  'The route identifier alone does not prove the' \
+  'report `PI_ROUTING_BLOCKED`' \
+  'automatic Pi worker fallback is unsupported by the verified' \
+  'not on `--retry-of` alone.' \
+  'This applies to the Lead as well as workers.'; do
+  require_literal "$routing" "$literal"
 done
-if rg -n 'gpt-[0-9]|astra-deepseek-flash|deepseek-v4-flash' "$flash_table"; then
-  echo 'DeepSeek-only profile contains a legacy or OpenAI model route.' >&2
+for file in AGENTS.md README.md skills/orchestration-policy/SKILL.md \
+  skills/orchestration-policy/references/worker-contracts.md; do
+  require_literal "$file" 'openai-first'
+done
+require_literal tests/deepseek-flash-scenarios.md 'not runtime integration tests'
+require_literal COMPATIBILITY.md 'no ordered fallback list'
+require_literal COMPATIBILITY.md 'The `pi-subagents` fallback list is not an Orca capability.'
+require_literal tests/deepseek-flash-scenarios.md 'worker output and redispatch alone do not establish fallback.'
+
+if rg -n 'model-routing-(gpt6|deepseek)' --glob '*.md' --glob '*.sh' .; then
+  echo 'Obsolete routing profile reference remains.' >&2
+  exit 1
+fi
+if compgen -G 'skills/orchestration-policy/references/model-routing-*.md' > /dev/null; then
+  echo 'Obsolete routing profile remains.' >&2
   exit 1
 fi
 
@@ -99,11 +116,6 @@ for required_literal in \
     exit 1
   fi
 done
-
-if [[ -e skills/orchestration-policy/references/model-routing-gpt56.md ]]; then
-  echo 'Retired GPT-5.6 routing profile is still present.' >&2
-  exit 1
-fi
 
 for prohibited in \
   auth.json \
