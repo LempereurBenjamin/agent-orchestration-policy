@@ -44,7 +44,16 @@ Distinguish actual behavior, intended behavior, approved decisions, and proposal
 Analysis may require documentation edits, not implementation of proposed components.
 Follow this project's conventions; do not import another project's architecture.
 Stay within assigned ownership and preserve unrelated user or worker changes.
-Prefer the smallest coherent change over speculative refactoring.
+Prefer the smallest coherent change over speculative refactoring. Tests should catch
+plausible regressions or establish meaningful behavior, not restate implementation or
+a configured mock. A tautological test also includes comparing an algorithm with its
+replica, asserting a hardcoded constant, or checking only an implementation detail
+without relevant behavior; these examples do not prohibit mocks, simple tests, getters, or internal assertions. Do not delete
+legitimate tests merely for being simple. Address credible risks within scope. Before
+adding complexity for a speculative or vanishingly unlikely race or security edge case, explain its concrete
+failure mode, realistic likelihood, and maintenance cost, recommend whether to address
+it, and obtain user buy-in. Do not silently expand scope for theoretical robustness;
+this does not waive credible security, data-loss, invariant, or mandatory gate work.
 
 ## Permissions and decisions
 

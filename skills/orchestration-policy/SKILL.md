@@ -51,9 +51,16 @@ User instructions may override these for the current objective:
 - Patterns C and D require one.
 
 Changing IDs, Runs, workers, or patterns does not reset cumulative limits.
-These budgets are ceilings, not dispatch or review quotas. Default to one bounded
-writer and deterministic checks; add agents only for distinct uncertainty,
-independent write ownership, or review required by impact or authority.
+These limits are ceilings, not dispatch or review quotas. At objective admission,
+keep a rough proportionality budget in existing Lead state or the execution contract:
+when material and observable, note expected effort or elapsed time, model-backed
+dispatches, validation scope, independent review, and what would justify expansion.
+For straightforward A work, direct execution, a targeted check and stop may be implicit.
+If effort materially exceeds the plan, identify why, stop avoidable dispatches and
+expanded validation, and reuse evidence. Obtain a new decision for a material increase
+in scope or cost, not for minor deviations or ordinary troubleshooting. Do not discard
+valid work or impose arbitrary timeouts on writes. Existing cumulative limits remain
+authoritative.
 
 ## Authority
 
@@ -129,23 +136,30 @@ Investigation/documentation used to clarify the contract may precede freeze.
 
 ## Patterns
 
-Choose the smallest pattern and state the reason briefly.
+Choose the smallest sufficient pattern and briefly justify why it suffices; normal
+selection needs no separate approval. The accepted plan is the execution contract:
+the user objective and repository requirements for A, the bounded Lead/dispatch
+contract for B, and the Manifest for C/D. Record only scope and exclusions, established
+decisions and constraints, expected behavior, acceptance, sufficient evidence and
+material unresolved decisions; reference existing authority rather than duplicate it.
 
 ### A — SOLO
 Local, low-risk, low-uncertainty.
 
     inspect -> execute -> validate -> self-review -> report
 
-No Orca Run. Self-review is not independent review. Prefer A whenever the work
-fits its low-risk boundary and no independent review is mandated.
+Prefer A for bounded low-risk work. No Orca Run unless orchestration adds concrete
+value. Use focused validation and self-review; do not manufacture independent review.
+Self-review is not independent review.
 
 ### B — STANDARD
 Meaningful, understood work with one bounded writer.
 
     preflight -> freeze -> implement -> evidence -> independent review if required -> accept
 
-Freeze the bounded contract at preflight, or a separate Manifest where needed.
-Either way, preserve required evidence and independent review when mandated.
+Prefer one bounded implementation owner and a short contract. Freeze it at preflight;
+use a separate Manifest only where needed. Preserve required evidence and independent
+review when risk, authority or acceptance requires it.
 
 ### C — INVESTIGATE
 Material uncertainty in root cause, behavior, or contract interpretation.
@@ -153,9 +167,11 @@ Material uncertainty in root cause, behavior, or contract interpretation.
     baseline -> manifest DRAFT -> independent investigation(s) -> synthesis
     -> freeze -> implement if requested -> evidence -> independent review
 
-Use two Explorers only for genuinely independent evidence paths and keep their
-initial conclusions isolated. After freeze, reopen product/domain exploration only
-for a canonical contradiction or disproven material assumption.
+Use C only when material uncertainty prevents a sound implementation contract.
+Investigate concrete questions or competing hypotheses and stop when evidence suffices
+to proceed. Use two Explorers only for genuinely independent evidence paths and keep
+their initial conclusions isolated. After freeze, reopen product/domain exploration
+only for a canonical contradiction or disproven material assumption.
 
 ### D — LARGE CHANGE
 Independently writable bounded areas with explicit dependencies.
@@ -163,12 +179,19 @@ Independently writable bounded areas with explicit dependencies.
     preflight -> design/scope review -> freeze -> bounded work
     -> integration -> evidence -> cross-cutting independent review
 
-One write owner per bounded area. Acceptance targets the integrated candidate.
+Use D only for genuinely independent work areas, dependencies or integration
+boundaries. Multiple files, directories or technologies alone do not justify workers;
+parallelism must outweigh coordination overhead. One write owner per bounded area.
+Acceptance targets the integrated candidate.
 
 ## Graph and design
 
-Build the smallest useful DAG. A node is not necessarily an agent.
-Use deterministic tools for deterministic work.
+Build the smallest sufficient graph: prefer one bounded writer and deterministic
+validation. A node is not necessarily an agent. Add an agent only for independent
+uncertainty, separate write ownership, required independent review, or a concrete
+parallelism benefit. Prefer sequential work when coordination costs outweigh the benefit.
+Do not automatically add Architects, explore established facts, dispatch a Validator
+for deterministic commands, or repeat review of an unchanged candidate without a reason.
 
 Split by independent uncertainty, write ownership, real interfaces, and failure/
 validation domains—not by title, arbitrary directory, or desire for parallelism.
@@ -277,10 +300,12 @@ Use outcome states precisely:
 
 Known inherited debt with sufficient no-regression evidence is not, by itself, BLOCKED.
 Ticket acceptance, merge readiness, and release readiness remain separate decisions.
-Stop when in-scope criteria, required TICKET gates, and mandated review are satisfied.
-Do not add unrequested tests, documentation, unrelated refactoring, repeated suites,
-or more agents solely to improve an already accepted ticket. Report material optional
-follow-ups without turning them into ticket blockers.
+Once approved acceptance criteria, mandatory validation gates, and required independent
+reviews are satisfied, stop the accepted work. Evaluate any separate RELEASE gates
+for release readiness under their authority. Unused budget or optional improvements do
+not justify more work. Record unrelated findings separately; do not create backlog items or change
+external systems without authorization. Preserve exception and blocked-state handling,
+and do not dismiss credible newly discovered in-scope security or data-loss defects.
 
 Normal DONE requires:
 - the applicable scope/acceptance basis: task request for A; frozen bounded contract

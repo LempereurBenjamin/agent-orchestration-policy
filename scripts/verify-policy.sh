@@ -89,6 +89,15 @@ for file in AGENTS.md README.md skills/orchestration-policy/SKILL.md \
   skills/orchestration-policy/references/worker-contracts.md; do
   require_literal "$file" 'openai-first'
 done
+# Guard the presence of the cross-role policy and its concrete boundary scenarios.
+require_literal AGENTS.md 'Do not silently expand scope for theoretical robustness'
+require_literal AGENTS.md 'A tautological test'
+require_literal skills/orchestration-policy/SKILL.md 'Existing cumulative limits remain'
+require_literal skills/orchestration-policy/SKILL.md 'Once approved acceptance criteria, mandatory validation gates, and required independent'
+require_literal skills/orchestration-policy/references/worker-contracts.md 'All roles apply the shared AGENTS.md rule'
+require_literal tests/acceptance-gate-scenarios.md '## 17. Speculative robustness and test selection'
+require_literal tests/acceptance-gate-scenarios.md '## 18. Proportionality budget exceeded'
+
 require_literal tests/deepseek-flash-scenarios.md 'not runtime integration tests'
 require_literal COMPATIBILITY.md 'no ordered fallback list'
 require_literal COMPATIBILITY.md 'The `pi-subagents` fallback list is not an Orca capability.'

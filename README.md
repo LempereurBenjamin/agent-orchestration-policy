@@ -3,7 +3,9 @@
 This repository distributes the global Pi instructions and the `orchestration-policy`
 skill used to coordinate non-trivial engineering work with Pi and Orca. The policy
 defines role boundaries, bounded graphs and correction loops, candidate-specific
-evidence, independent review, recovery, and closure.
+evidence, independent review, recovery, and closure. It selects the smallest sufficient
+execution pattern, uses a rough proportionality budget in existing execution state, and
+stops when acceptance and required gates are satisfied.
 
 ## Contents
 
