@@ -111,7 +111,9 @@ For non-trivial work, establish before production implementation:
 - unresolved material decisions;
 - whether acceptance can be frozen.
 
-Read `acceptance-manifest.md`.
+For non-trivial work, consult `acceptance-manifest.md` when its guidance is needed;
+reuse applicable guidance already loaded from the pinned bundle. Do not reload it
+for each ticket or dispatch while that evidence remains valid.
 
 Always capture repository identity, exact base SHA, working-tree state, and relevant
 pre-existing changes. Run only baseline checks that materially improve comparison
@@ -136,6 +138,16 @@ contract by default when scope and proof are straightforward; use a separate
 Manifest when complexity or required traceability warrants it, as defined in
 `acceptance-manifest.md`. Neither path waives required evidence or review.
 Investigation/documentation used to clarify the contract may precede freeze.
+
+For a straightforward delegated task, reuse established requirements, settled user
+decisions, routing evidence and an existing bounded contract where still applicable.
+Check what changed or is missing instead of repeating analysis or loading documents
+again. Delegation alone does not require a Manifest, separate plan or design review.
+Prefer one outcome-oriented implementation dispatch that includes in-scope investigation,
+focused tests, troubleshooting, corrections and revalidation. Retain required evidence,
+authorization, ownership and candidate checks and independent review for PR delivery.
+Material contradictions, changed scope or credible risk require reassessment; genuinely
+complex or high-risk work keeps the applicable rigorous path.
 
 ## Patterns
 
@@ -193,8 +205,8 @@ Build the smallest sufficient graph: prefer one bounded writer and deterministic
 validation. A node is not necessarily an agent. Add an agent only for independent
 uncertainty, separate write ownership, required independent review, or a concrete
 parallelism benefit. Prefer sequential work when coordination costs outweigh the benefit.
-Do not automatically add Architects, explore established facts, dispatch a Validator
-for deterministic commands, or repeat review of an unchanged candidate without a reason.
+Do not automatically add QA, Product, Security, Architect or Validator agents, explore
+established facts, or repeat review of an unchanged candidate without a reason.
 
 Split by independent uncertainty, write ownership, real interfaces, and failure/
 validation domains—not by title, arbitrary directory, or desire for parallelism.
@@ -231,13 +243,17 @@ Before each worker launch:
 
 1. reconcile live/uncertain work and prior side effects;
 2. verify dependency admission, ownership, candidate/manifest identity, and budget;
-3. read `model-routing.md`, select the authorized role route, and bind Pi routing;
-4. read `worker-contracts.md` and create a concise contract;
+3. apply the pinned `model-routing.md` guidance and bind the authorized role route;
+4. apply `worker-contracts.md` and provide or reference a concise contract;
 5. reserve capacity and one execution attempt;
 6. launch through supervised Orca;
 7. record IDs and verify effective routing and model-switch controls before substantive work.
 
-Do not batch launches against stale capacity.
+Reuse previously loaded references, recorded decisions, contracts and routing evidence
+when still valid; reload or recheck affected material when it changes or is uncertain.
+Each dispatch must still verify its own effective provider, account, logical model,
+effort and model-switch controls before substantive work. Do not batch launches against
+stale capacity.
 
 Graph nodes follow the recorded policy bundle and Lead-selected route. Retry,
 correction, and recovery preserve scope and cumulative counters; workers do not

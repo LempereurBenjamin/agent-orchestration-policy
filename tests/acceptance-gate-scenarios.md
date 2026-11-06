@@ -154,12 +154,14 @@ Expected:
 ## 10. Straightforward Pattern B without separate Manifest
 
 Change: one bounded writer modifies a shared helper and its known callers.
-The acceptance criteria and targeted regression checks fit in a short contract;
+Architecture and user decisions are settled. The acceptance criteria and targeted
+regression checks fit in a short contract;
 there is no material ownership/traceability complexity.
 
 Expected:
 - freeze scope, criteria and evidence in the Lead/dispatch contract before implementation
-- no separate Manifest just to formalize an unambiguous task
+- reuse applicable requirements, decisions and evidence; do not repeat planning or
+  add a separate Manifest or design review merely because work is delegated
 - execute required checks and independent review if mandated
 - treat broad unrelated test suites as non-gates, not automatic blockers
 
@@ -172,6 +174,8 @@ Expected:
 - preserve required design review, independent review and an appropriate frozen
   Manifest (mandatory for C/D)
 - include integration/full checks when demanded by actual impact or authority
+- verify applicable authorization and ownership before dispatch; preserve mandatory
+  per-dispatch binding and candidate checks
 - minimalism never waives safety controls or required evidence
 
 ## 12. Stop after ticket acceptance
@@ -282,3 +286,18 @@ limit pauses. Critical work retains appropriate evidence and deeper review. Sett
 decisions are not reopened for preference; non-blocking findings do not require
 correction. A narrow correction gets a delta review and fresh exact-candidate verdict.
 A simple task needs no unnecessary orchestration.
+
+
+## 21. Simple delegated Sol/DeepSeek ticket
+
+A Sol Lead has an established bounded ticket, settled decisions, valid routing
+guidance and authorized ownership. DeepSeek can implement the change in one dispatch.
+
+Expected:
+- reuse applicable contract and already-loaded references; check for changes, but do
+  not repeat planning or load them again solely for this dispatch
+- verify this dispatch's effective provider, account, model, effort and routing controls
+- the worker implements, runs focused tests and fixes in-scope failures autonomously
+- no separate QA, Product, Security, Architect or Validator agent is needed
+- a fresh independent Sol reviewer checks the exact PR candidate with depth suited to
+  its risk; worker completion and self-review do not establish acceptance
