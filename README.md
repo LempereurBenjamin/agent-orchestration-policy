@@ -20,17 +20,22 @@ inside policy documents.
 
 ## Routing
 
-New objectives select OpenAI or Anthropic routing from the effective initial Pi Lead
-model. The recorded family remains stable; the Lead selects supported models and
-efforts by role and task, with account rotation and a quota-only DeepSeek fallback
-subject to runtime verification. The authoritative table and fallback conditions
-are in `skills/orchestration-policy/references/model-routing.md`. Automatic fallback
-is not established merely by installing the policy; see `COMPATIBILITY.md`.
+New objectives classify the initial Lead family, then select `sol-terra` or
+`sol-deepseek` for OpenAI routing. The configurable default is `sol-terra` until
+DeepSeek's live binding is verified. The recorded profile stays fixed through recovery;
+Anthropic remains available. See the authoritative `model-routing.md` and
+`COMPATIBILITY.md` for binding, fallback, and unverified runtime capabilities.
+
+A single ticket can use `/goal Routing: sol-deepseek. Implement ticket S-XX,
+validate, review and open a PR for human approval. Do not merge.` A bounded backlog
+can use `/goal Routing: sol-terra. Implement every ticket in release X, open a
+separate reviewed PR for each, continue through the backlog, and do not merge.`
+One parent Goal remains active until every requested deliverable is ready.
 
 ## Install as a Pi Git package
 
 After obtaining access to this private repository, install a reviewed commit or
-release tag. Pi discovers the skill from the package manifest:
+release tag. The v1 baseline is `v1.0.0`; v2 is unreleased until its tag exists. Pi discovers the skill from the package manifest:
 
 ```sh
 pi install git:github.com/LempereurBenjamin/agent-orchestration-policy@<reviewed-tag-or-commit>
@@ -97,6 +102,24 @@ git fetch --tags origin
 git checkout <reviewed-tag-or-commit>
 scripts/verify-policy.sh
 ```
+
+## Versioning and rollback
+
+Release identities are immutable annotated Git tags `vMAJOR.MINOR.PATCH` and
+commit SHAs; `package.json` must match its release tag. Major changes break routing,
+execution, lifecycle or policy contracts; minor changes add compatible capabilities;
+patch changes preserve behavior. Never move a release tag. For a new installation or
+upgrade, pin the desired released tag (for example `@v2.0.0` only after release).
+Rollback by removing the installed package through Pi package management and
+reinstalling the earlier pinned release:
+
+```sh
+pi install git:github.com/LempereurBenjamin/agent-orchestration-policy@v1.0.0
+```
+
+ Preserve active objectives on
+their recorded bundle and follow the explicit migration procedure if needed. Do not
+create the v2 tag until review, merge and applicable compatibility checks pass.
 
 ## Source boundary
 

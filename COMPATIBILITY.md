@@ -81,3 +81,15 @@ credentials, request payloads, or session output to this repository.
 Any change to this contract, required capability, or installation layout is a
 reviewed policy change. Test it against the affected Pi and Orca versions, update
 this document, and preserve the prior bundle identity for active objectives.
+
+## Goal and profile compatibility
+
+`@narumitw/pi-goal` 0.54.15 is the reference target, not a verified installation
+or compatibility claim. Single Goal lifecycle, `goal_wait` wake-up from an Orca
+worker, and continuation between tickets are **UNVERIFIED** until supervised on the
+target installation. Do not wait without an established external wake source.
+The `sol-terra` and `sol-deepseek` tables specify intended routing; neither a model
+catalogue nor requested effort proves effective provider/account/model/effort. Verify
+these for each deployed Pi/Orca combination. Runtime smoke tests and independent Sol
+review binding are not established by static policy scenarios. Normal Pi/Orca use
+without pi-goal remains supported under the existing capability requirements above.

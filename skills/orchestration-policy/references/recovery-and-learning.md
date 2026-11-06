@@ -9,7 +9,8 @@ Retain only state needed to resume safely:
 - frozen Manifest and candidate identities;
 - policy bundle identity;
 - active/uncertain dispatches;
-- selected family, initial Lead model and binding;
+- selected family and profile, initial Lead model and binding;
+- bounded backlog snapshot and per-ticket candidate, PR, evidence and dependencies;
 - selected logical model and effort, rationale, authority, and eligible accounts;
 - effective provider/account, model and effort, verification, routing events and controls;
 - capacity/attempt/correction counters;
@@ -30,7 +31,7 @@ After restart, compaction, timeout, interrupted mutation, or uncertain side effe
 5. verify candidate/evidence identities;
 6. resume only reconciled work.
 
-Restore the recorded bundle and family, route selections, effective bindings and authority;
+Restore the recorded bundle and family, profile and route selections, effective bindings and authority;
 verify each before substantive work. Apply account rotation and quota fallback,
 including Lead recovery, under `model-routing.md`. Preserve the checkpoint, candidate
 identities, contracts, evidence and cumulative counters. Do not use the current
@@ -41,7 +42,9 @@ Inspect before repeating potentially non-idempotent effects.
 
 ## Non-convergence
 
-Track corrections by the underlying acceptance problem, not task ID.
+Track unsuccessful substantive corrections by the underlying acceptance problem, not task ID.
+Distinguish productive corrections, independent defects, repeated failed hypotheses,
+transient execution failures and material contract contradictions.
 At the configured limit, stop automatic correction and either obtain bounded
 continuation or report PARTIAL/BLOCKED.
 

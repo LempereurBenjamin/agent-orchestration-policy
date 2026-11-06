@@ -39,11 +39,13 @@ User instructions may override these for the current objective:
 
 - Pi is the harness; Orca is the orchestrator.
 - Routing family: select at admission from the effective initial Lead model and
-  verify routes under `model-routing.md`.
+  select the OpenAI profile separately and verify routes under `model-routing.md`.
 - Concurrent workers <= 3.
 - Concurrent Astra-or-unknown workers <= 1, Lead excluded. Sol has no additional
   concurrency cap beyond the global worker limit.
-- Worker execution attempts <= 12 per objective.
+- Worker execution attempts <= 12 per objective by default; an explicitly bounded
+  multi-ticket objective may establish a proportional finite objective-level budget
+  at admission. Never reset cumulative counters per ticket, PR or Run.
 - Unsuccessful substantive corrections <= 2 per acceptance problem.
 - Automatic retries after an initial transient failure <= 2.
 - Pattern B defaults to a bounded Lead/dispatch contract when scope and proof are
@@ -109,7 +111,9 @@ For non-trivial work, establish before production implementation:
 - unresolved material decisions;
 - whether acceptance can be frozen.
 
-Read `acceptance-manifest.md`.
+For non-trivial work, consult `acceptance-manifest.md` when its guidance is needed;
+reuse applicable guidance already loaded from the pinned bundle. Do not reload it
+for each ticket or dispatch while that evidence remains valid.
 
 Always capture repository identity, exact base SHA, working-tree state, and relevant
 pre-existing changes. Run only baseline checks that materially improve comparison
@@ -135,6 +139,16 @@ Manifest when complexity or required traceability warrants it, as defined in
 `acceptance-manifest.md`. Neither path waives required evidence or review.
 Investigation/documentation used to clarify the contract may precede freeze.
 
+For a straightforward delegated task, reuse established requirements, settled user
+decisions, routing evidence and an existing bounded contract where still applicable.
+Check what changed or is missing instead of repeating analysis or loading documents
+again. Delegation alone does not require a Manifest, separate plan or design review.
+Prefer one outcome-oriented implementation dispatch that includes in-scope investigation,
+focused tests, troubleshooting, corrections and revalidation. Retain required evidence,
+authorization, ownership and candidate checks and independent review for PR delivery.
+Material contradictions, changed scope or credible risk require reassessment; genuinely
+complex or high-risk work keeps the applicable rigorous path.
+
 ## Patterns
 
 Choose the smallest sufficient pattern and briefly justify why it suffices; normal
@@ -150,8 +164,8 @@ Local, low-risk, low-uncertainty.
     inspect -> execute -> validate -> self-review -> report
 
 Prefer A for bounded low-risk work. No Orca Run unless orchestration adds concrete
-value. Use focused validation and self-review; do not manufacture independent review.
-Self-review is not independent review.
+value. Use focused validation and self-review. A PR still requires the independent
+review described below; self-review is not independent review.
 
 ### B — STANDARD
 Meaningful, understood work with one bounded writer.
@@ -191,8 +205,8 @@ Build the smallest sufficient graph: prefer one bounded writer and deterministic
 validation. A node is not necessarily an agent. Add an agent only for independent
 uncertainty, separate write ownership, required independent review, or a concrete
 parallelism benefit. Prefer sequential work when coordination costs outweigh the benefit.
-Do not automatically add Architects, explore established facts, dispatch a Validator
-for deterministic commands, or repeat review of an unchanged candidate without a reason.
+Do not automatically add QA, Product, Security, Architect or Validator agents, explore
+established facts, or repeat review of an unchanged candidate without a reason.
 
 Split by independent uncertainty, write ownership, real interfaces, and failure/
 validation domains—not by title, arbitrary directory, or desire for parallelism.
@@ -229,13 +243,17 @@ Before each worker launch:
 
 1. reconcile live/uncertain work and prior side effects;
 2. verify dependency admission, ownership, candidate/manifest identity, and budget;
-3. read `model-routing.md`, select the authorized role route, and bind Pi routing;
-4. read `worker-contracts.md` and create a concise contract;
+3. apply the pinned `model-routing.md` guidance and bind the authorized role route;
+4. apply `worker-contracts.md` and provide or reference a concise contract;
 5. reserve capacity and one execution attempt;
 6. launch through supervised Orca;
 7. record IDs and verify effective routing and model-switch controls before substantive work.
 
-Do not batch launches against stale capacity.
+Reuse previously loaded references, recorded decisions, contracts and routing evidence
+when still valid; reload or recheck affected material when it changes or is uncertain.
+Each dispatch must still verify its own effective provider, account, logical model,
+effort and model-switch controls before substantive work. Do not batch launches against
+stale capacity.
 
 Graph nodes follow the recorded policy bundle and Lead-selected route. Retry,
 correction, and recovery preserve scope and cumulative counters; workers do not
@@ -256,8 +274,67 @@ full design review. It must still issue a verdict for the exact new candidate;
 an old PASS never automatically approves a changed candidate. Widen the review
 when architecture, security assumptions, or required gates are affected.
 
-At the correction limit, stop automatic fixes, reassess the hypothesis and scope,
+Count unsuccessful substantive corrections against the underlying acceptance problem;
+productive iterations, independent defects and transient execution failures are not
+repeated failed hypotheses. At the correction limit, stop automatic fixes, reassess the hypothesis and scope,
 and obtain bounded continuation or report PARTIAL/BLOCKED.
+
+## Goal and backlog execution
+
+An optional `@narumitw/pi-goal` parent Goal supplies continuation and lifecycle; this
+policy supplies execution and Orca supplies supervised coordination. A normal Pi/Orca
+objective need not use Goal. Exactly one parent Goal covers the objective; workers
+never start nested Goals. For a single ticket, resolve authority, select routing,
+implement, validate, independently review, and open an authorized PR. Complete only
+after verifying the requested deliverable; a PR awaiting human approval satisfies a
+PR-ready objective that excludes merge.
+
+For a bounded backlog, admit a snapshot of included tickets and acceptance, settled
+decisions, dependencies, authorization, routing and a finite proportional budget.
+Later tickets require an explicit scope decision. Keep a compact durable checkpoint in
+existing Lead/Orca state: ticket, dependencies, status, owner/worktree or branch,
+candidate SHA, PR URL/base, validation and review verdicts, blockers and missing proof.
+Restore it on recovery and reconcile actual repository, GitHub and Orca state before
+retrying uncertain writes; conversation memory does not prove PR or review state.
+
+Select the smallest strategy per eligible ticket; implement, validate, independently
+review, correct blocking findings, create/update its authorized PR, record its verified
+outcome, then continue. One ticket completion never completes the parent Goal. Continue
+independent tickets while PR approval or a blocked dependency is pending. Prefer
+sequential work; parallel writers require isolated worktrees and existing limits. Use
+stacked PRs for genuine dependencies when authorized and safe; record their bases and
+report that they may not be independently mergeable. Otherwise mark the dependent
+work waiting. An explicit request for PRs for every included ticket authorizes scoped
+branches, pushes and PR creation, not merge, deployment, issue closure, unrelated
+writes or history rewrite. Human approval is mandatory before merge; never auto-merge.
+
+Complete the parent only after every included deliverable has a verified PR and
+candidate identity, required validation and independent review, resolved blocking
+findings, documented dependencies, and no ambiguously active owned work. Unresolved
+required tickets mean PARTIAL or BLOCKED, not DONE. A safety/resource limit pauses
+work without fabricating completion; preserve progress and resume using supported Goal
+mechanisms. Budget increases require a scoped decision only when material.
+
+Use Goal's native limits, optionally choosing a bounded response/token budget; its
+response limit is not a monetary or worker budget. Never silently disable limits.
+Use `goal_wait` only when a real external wake source is established; do not poll via
+artificial continuation turns. Reconcile the worker result before continuing. If
+wake integration is unsupported, report the exact gap and preserve a paused checkpoint;
+continue through supported ordinary Pi/Orca mechanisms or resume explicitly when
+completion is known. Do not claim a waiting Goal will wake. Use `goal_blocked` for a
+genuine terminal impasse and `goal_complete` only after verifying completion.
+Do not add a competing continuation loop or custom polling middleware.
+
+Every PR requires one fresh independent automatic review of its exact final candidate,
+using GPT-6.1 Sol for both OpenAI profiles. Scale review to actual risk: correctness,
+scope, regressions and simplicity for low risk; interfaces, errors, behavioral tests
+and maintainability for medium risk; relevant security, persistence, concurrency,
+data integrity, contracts and integration evidence for high risk. Only blocking
+in-scope findings require corrections. For narrow corrections review the delta,
+affected invariants and retained evidence and issue a verdict for the new candidate;
+do not repeat a full review without a substantive reason. Settled user decisions are
+not reopened for preference, only material new evidence, canonical contradiction,
+credible in-scope risk, changed requirements or a genuinely unresolved decision.
 
 ## Candidate, permissions, and supervision
 
