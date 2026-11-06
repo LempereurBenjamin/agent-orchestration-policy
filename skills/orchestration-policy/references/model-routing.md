@@ -39,26 +39,36 @@ objectives. The initial model chooses a family, not every subsequent role model.
 The common patterns A/B/C/D, proportionality budgets and all other execution,
 review, acceptance and recovery rules apply equally to both families.
 
-## Selection
+## OpenAI profile selection
 
-The Lead selects the logical model and reasoning effort at admission, considering
-complexity, uncertainty, contract clarity, architectural discretion, failure impact,
-and evidence of unresolved reasoning difficulty. These are defaults, not fixed
-assignments. Within OpenAI routing, straightforward implementation may use Terra
-medium; difficult work may start at max without passing through intermediate levels.
-Astra is available only as an explicitly requested, scoped override. Respect explicit user model/effort
-instructions and existing authority and budget limits.
+For an OpenAI-family objective, at admission select exactly one profile: `Routing: sol-terra` or
+`Routing: sol-deepseek`. The documented configurable default when unspecified is
+`sol-terra`; change that deployment default only after verifying the selected route.
+Prefer `sol-deepseek` after its live runtime binding has been verified. Record the
+profile, default or explicit selection authority, and bundle in Lead execution state
+and every worker contract. Profile selection is distinct from initial Lead family
+classification. Anthropic remains a separate available family and does not select
+an OpenAI profile. Do not silently change
+profiles during corrections, retries, recovery, Goal continuation, or quota events.
+A user-authorized routing change uses the recovery procedure and preserves counters.
 
-| Role | Standard OpenAI | Complex / critical | DeepSeek fallback |
-| --- | --- | --- | --- |
-| Lead / Plan | `gpt-5.6-sol` / medium | `gpt-6.1-sol` / high | high |
-| Explorer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |
-| Implementer | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |
-| Integrator | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |
-| Architect | `gpt-6.1-sol` / high | `gpt-6.1-sol` / high | high |
-| Reviewer | `gpt-5.6-sol` / high | `gpt-6.1-sol` / high | high |
-| Writer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |
-| Validator | deterministic tools preferred | model only when necessary | deterministic tools, otherwise low or high |
+| Role | sol-terra | sol-deepseek |
+| --- | --- | --- |
+| Lead | GPT-6.1 Sol | GPT-6.1 Sol |
+| Architect, if needed | GPT-6.1 Sol | GPT-6.1 Sol |
+| Explorer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
+| Implementer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
+| Integrator | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
+| Writer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
+| Reviewer | GPT-6.1 Sol | GPT-6.1 Sol |
+| Validator | deterministic tools preferred | deterministic tools preferred |
+
+Sol defaults to medium, high for difficult or critical work. Terra uses medium or
+high according to complexity, max only when justified and supported. DeepSeek uses
+low for simple/mechanical work, high for substantial implementation or difficult
+diagnosis. Verify actual effective effort; a requested CLI level is not proof.
+DeepSeek is the primary execution route in `sol-deepseek`, not a quota fallback.
+The quota fallback below remains distinct and subject to its existing admission rules.
 
 ### Anthropic logical preferences
 
@@ -78,7 +88,13 @@ Sonnet attempt is required.
 | Writer | Claude Sonnet 5.5 / medium | Claude Sonnet 5.5 / high |
 | Validator | deterministic tools preferred | Claude Sonnet 5.5 only if necessary |
 
-The DeepSeek fallback effort column in the OpenAI table applies to both families.
+For quota fallback in either family, use DeepSeek low or high according to task complexity.
+When DeepSeek is already the primary route, its failure is not a reason to treat the
+same route as a fallback or silently change profile. A permitted temporary fallback
+does not change the recorded profile. A temporary Lead fallback is subject to the
+existing verified quota and recovery conditions; it does not change that profile.
+PR reviewers under either OpenAI profile must remain Sol: if Sol is unavailable,
+block the affected PR review rather than substitute DeepSeek.
 
 The fallback model is DeepSeek V4.1-Flash-1017, intended through the configured
 `deepseek/deepseek-flash` route. The route identifier alone does not prove the
@@ -91,15 +107,16 @@ clamping. Verify each effective model/effort combination against runtime evidenc
 Do not invent or silently substitute unsupported levels. If verification fails, block
 the affected work or obtain an authorized selection that can be verified.
 
-Workers cannot select, escalate, or replace their own route. The Lead may revise
-selection after reconciling the task and evidence. A model or effort change never
+Workers cannot select, escalate, or replace their own route. The Lead may revise a
+role selection within the recorded profile after reconciling task and evidence; a
+profile change requires explicit authorization. A model or effort change never
 resets attempt, correction, retry, or capacity counters, nor acceptance criteria.
 
 ## Binding and account rotation
 
 Lead execution state owns the governing policy bundle, effective initial Lead model,
-selected family, family-selection authority and recovery history. Each worker dispatch
-references that governing bundle and objective state and records the selected family,
+selected family and, for OpenAI, profile, selection authority and recovery history. Each worker dispatch
+references that governing bundle and objective state and records the selected family and profile,
 assigned logical model and effort, selection rationale and authority, eligible
 provider/account scope, effective provider/account, model and effort, verification
 evidence, and worker-specific routing events. Recovery must resolve the bundle and

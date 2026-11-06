@@ -4,8 +4,8 @@ These scenarios describe policy expectations; they are not runtime integration t
 
 | Scenario | Expected outcome |
 | --- | --- |
-| Standard implementation | Lead selects Terra high; straightforward work may use medium. |
-| Difficult implementation | Lead may start Terra max when its effective support is verified. |
+| Standard implementation | Under sol-terra, Sol leads/reviews and Terra implements at medium or high. |
+| Difficult implementation | Under sol-terra, Terra max is allowed only when justified and effective support is verified. |
 | Worker requests another model or effort | Escalate to Lead; no worker self-rerouting. |
 | Codex account rotates to an eligible alias | Accept only the same authorized logical model and effective effort; record binding. |
 | All eligible OpenAI accounts have confirmed quota exhaustion | Quota fallback is pre-authorized, subject to verified version, effort, gate and safe handoff. |
@@ -34,3 +34,15 @@ These scenarios describe policy expectations; they are not runtime integration t
 | User requests a family change | Record explicit scope and decision; reconcile affected work and history before switching. |
 | Anthropic route or effort is not verified | Block affected work; catalogue entries alone are not runtime proof. |
 | Either family uses patterns A/B/C/D | Apply the same proportionality and execution rules. |
+
+## Profile admission
+
+| Scenario | Expected outcome |
+| --- | --- |
+| `Routing: sol-terra` | Sol Lead and Reviewer, Terra execution; verify effective bindings. |
+| `Routing: sol-deepseek` | Sol Lead and Reviewer, DeepSeek execution; verify effective bindings. |
+| No profile supplied | Use the documented configurable sol-terra default until a verified change. |
+| sol-deepseek primary is not fallback | Use DeepSeek as primary; quota fallback has a separate gate. |
+| Resume, retry or correction | Restore the recorded profile and bundle, verify binding and preserve counters. |
+| Unavailable or mismatched binding | Block only affected dispatch; retain evidence, propose supported remediation. |
+| Anthropic initial Lead | Anthropic family remains available under its table. |

@@ -259,3 +259,26 @@ Expected:
   and minor deviations do not require approval
 - retain valid work and all cumulative attempt, retry and correction limits
 - do not interrupt writes with arbitrary deadlines or waive required acceptance gates
+
+
+## 19. Parent Goal backlog continuation
+
+One Goal admits three tickets: A and B independent, C depends on A. A has a
+reviewed PR awaiting approval; B is blocked; C can safely stack on A.
+
+Expected: keep the parent active, prepare C against A without merging, record its
+base, and retain B as incomplete. Do not wait for A approval to proceed. After
+recovery reconcile GitHub before retrying an uncertain PR creation; never create
+a duplicate. A newly added ticket needs an updated scope decision. Exhausting the
+finite global budget pauses with progress preserved. Complete only after all three
+requested PRs, exact candidate reviews and required evidence are verified.
+
+## 20. Single-ticket Goal and review proportionality
+
+A clear ticket selects a profile, uses one autonomous worker, runs focused checks,
+receives an independent Sol review and opens an authorized PR. Goal completes with
+human approval pending. A genuine terminal blocker uses goal_blocked; a safety
+limit pauses. Critical work retains appropriate evidence and deeper review. Settled
+decisions are not reopened for preference; non-blocking findings do not require
+correction. A narrow correction gets a delta review and fresh exact-candidate verdict.
+A simple task needs no unnecessary orchestration.
