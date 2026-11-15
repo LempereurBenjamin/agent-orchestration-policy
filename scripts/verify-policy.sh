@@ -66,10 +66,10 @@ for literal in \
   '`sol-deepseek`' \
   '| Lead | GPT-6.1 Sol | GPT-6.1 Sol |' \
   '| Architect, if needed | GPT-6.1 Sol | GPT-6.1 Sol |' \
-  '| Explorer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |' \
-  '| Implementer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |' \
-  '| Integrator | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |' \
-  '| Writer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |' \
+  '| Explorer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
+  '| Implementer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
+  '| Integrator | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
+  '| Writer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
   '| Validator | deterministic tools preferred | deterministic tools preferred |' \
   'Sol defaults to medium, high for difficult or critical work.' \
   'high according to complexity, max only when justified and supported.' \
@@ -113,7 +113,7 @@ for literal in \
   '**DeepSeek Platform API PAYG** through `deepseek/deepseek-flash` is the secondary' \
   'provider only after confirmed OpenCode Go quota exhaustion or provider unavailability,' \
   'and only with applicable authorized billing and budget.' \
-  'Provider failover keeps the exact logical model/version and effective effort' \
+  'Provider failover keeps the authorized logical model and effective effort' \
   'separate all-eligible-accounts quota gate below' \
   'Go eligibility does not' \
   'objective/Goal state, budgets and cumulative counters, contracts, frozen acceptance,' \
@@ -121,10 +121,15 @@ for literal in \
   require_literal "$routing" "$literal"
 done
 require_literal tests/model-routing-scenarios.md '## Subscription-first providers and transition boundaries'
-require_literal tests/model-routing-scenarios.md 'Go and Platform names match but exact version equivalence is unknown'
+require_literal tests/model-routing-scenarios.md 'Go advertises V4.1 Flash and runtime binding/effort are verified, but its snapshot is unpublished'
+require_literal tests/model-routing-scenarios.md 'Eligible Go-to-Platform failover keeps V4.1 Flash and effective effort but exact snapshot equivalence is unknown'
+require_literal tests/model-routing-scenarios.md 'Provider resolves to V4 Flash, V4 Pro or an unknown logical model'
+require_literal tests/model-routing-scenarios.md 'Task contract explicitly requires snapshot 1017'
+require_literal "$routing" 'DeepSeek-V4.1-Flash-1017 is a reference snapshot, not a mandatory pin for standard'
+require_literal "$routing" 'the advertised V4.1 Flash model does not by itself block execution or provider failover.'
 require_literal tests/model-routing-scenarios.md 'PAYG credentials/credit exist but billing is not authorized'
 require_literal tests/model-routing-scenarios.md 'Sol PR reviewer unavailable while Go/Platform is available'
-require_literal COMPATIBILITY.md 'Cross-provider version equivalence is **UNVERIFIED**'
+require_literal COMPATIBILITY.md 'Exact snapshot equivalence remains **UNVERIFIED** and is not required'
 require_literal COMPATIBILITY.md 'subscription-backed execution is **UNVERIFIED**'
 
 require_literal skills/orchestration-policy/references/recovery-and-learning.md 'Restore the recorded bundle and family'

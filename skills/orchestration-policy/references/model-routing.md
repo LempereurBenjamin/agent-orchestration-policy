@@ -56,10 +56,10 @@ A user-authorized routing change uses the recovery procedure and preserves count
 | --- | --- | --- |
 | Lead | GPT-6.1 Sol | GPT-6.1 Sol |
 | Architect, if needed | GPT-6.1 Sol | GPT-6.1 Sol |
-| Explorer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
-| Implementer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
-| Integrator | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
-| Writer | GPT-6.1 Terra | DeepSeek V4.1-Flash-1017 |
+| Explorer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
+| Implementer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
+| Integrator | GPT-6.1 Terra | DeepSeek V4.1 Flash |
+| Writer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
 | Reviewer | GPT-6.1 Sol | GPT-6.1 Sol |
 | Validator | deterministic tools preferred | deterministic tools preferred |
 
@@ -112,17 +112,25 @@ work; document the unsupported/unverified capability rather than inventing a wra
 For every DeepSeek role (primary execution or admitted model/family fallback), prefer
 Pi's compatible **OpenCode Go** provider with
 `opencode-go/deepseek-v4.1-flash`. Retain the logical target
-DeepSeek V4.1-Flash-1017 and role effort. The route identifier alone does not prove the
-served snapshot: establish exact version equivalence before use, including across
-providers. Do not treat V4 Flash, V4 Pro, or an unverified V4.1 alias as equivalent.
+DeepSeek V4.1 Flash and role effort. Verify the provider-advertised V4.1 Flash
+identity against its documentation/catalogue and the effective provider/model/effort
+against runtime evidence. The route identifier alone does not prove the effective binding.
+DeepSeek-V4.1-Flash-1017 is a reference snapshot, not a mandatory pin for standard
+development orchestration. An unpublished snapshot or a minor snapshot change within
+the advertised V4.1 Flash model does not by itself block execution or provider failover.
+Record the snapshot when published, otherwise mark it unknown; accept possible
+behavioral differences without claiming exact snapshot equivalence. V4 Flash, V4 Pro,
+or an unresolved logical model identity remain outside this selection. An explicitly
+required snapshot pin in a task contract still applies.
 
 **DeepSeek Platform API PAYG** through `deepseek/deepseek-flash` is the secondary
 provider only after confirmed OpenCode Go quota exhaustion or provider unavailability,
 and only with applicable authorized billing and budget. Record the provider's quota
 verdict or availability evidence after bounded retries; a bare worker failure, generic
 429, unknown quota, authentication/configuration error, privacy denial, model mismatch,
-or failed test is insufficient. Verify PAYG account eligibility, exact version,
-effective effort and Orca/Pi binding before a reconciled Lead-controlled handoff.
+or failed test is insufficient. Verify PAYG account eligibility, advertised V4.1 Flash
+identity under the snapshot rule above, effective effort and Orca/Pi binding before a
+reconciled Lead-controlled handoff.
 An API key or available credit does not authorize spending. Do not enable Go Extra
 Usage, auto-recharge, or another paid pool without applicable billing authorization.
 Inspect existing overflow settings too: subscription execution must not consume an
@@ -131,14 +139,15 @@ unauthorized paid balance, even when Extra Usage was enabled before this objecti
 Both providers require workload/privacy eligibility: permitted data, region, training
 and retention terms, including any expiring ZDR agreement. Go eligibility does not
 establish DeepSeek Platform eligibility. Do not loosen privacy controls to make a
-route available. If version, effort, binding, privacy, billing or safe continuation
-cannot be verified, block affected work and record what remains unverified.
+route available. If logical model identity, effort, binding, privacy, billing or safe
+continuation cannot be verified, block affected work and record what remains unverified.
 
 ### Provider failover versus model/family fallback
 
-Provider failover keeps the exact logical model/version and effective effort; for
-DeepSeek it follows the subscription-to-PAYG gate above. It does not authorize a
-model/family fallback. Cross-model/family fallback to DeepSeek still requires the
+Provider failover keeps the authorized logical model and effective effort; DeepSeek
+snapshot differences follow the rule above. Other models retain exact-version binding.
+For DeepSeek, failover follows the subscription-to-PAYG gate above. It does not
+authorize a model/family fallback. Cross-model/family fallback to DeepSeek still requires the
 separate all-eligible-accounts quota gate below; provider unavailability alone does
 not satisfy that gate. In particular, an unavailable Claude Code route does not
 authorize Pi Anthropic or DeepSeek automatically. Workers never select either
@@ -147,8 +156,8 @@ transition themselves.
 For either transition preserve the routing profile, selected family, policy bundle,
 objective/Goal state, budgets and cumulative counters, contracts, frozen acceptance,
 candidates, evidence and recovery history. Record the reason, authority and old/new
-harness, provider/account, billing pool, exact version and effective effort in existing
-Lead state and dispatch bindings. Reconcile side effects and reverify before substantive
+harness, provider/account, billing pool, logical model, published snapshot (or unknown)
+and effective effort in existing Lead state and dispatch bindings. Reconcile side effects and reverify before substantive
 work, resume or automatic continuation. Use supported handoff/recovery only; add no
 custom middleware or routing service. Changing provider does not reset the objective.
 
@@ -160,8 +169,9 @@ existing verified quota and recovery conditions; it does not change that profile
 PR reviewers under either OpenAI profile must remain Sol: if Sol is unavailable,
 block the affected PR review rather than substitute DeepSeek.
 
-The fallback model is DeepSeek V4.1-Flash-1017, using the subscription-first
-provider order above. Verify each provider's mapping before use. For low/high alternatives,
+The fallback model is DeepSeek V4.1 Flash, using the subscription-first
+provider order above. Verify each provider's advertised model identity and runtime binding
+under the snapshot rule above before use. For low/high alternatives,
 the Lead selects based on the task; Validator defaults to low if a model is needed.
 
 Pi's CLI accepts `low`, `medium`, `high`, and `max`; acceptance of a label by the
@@ -224,8 +234,8 @@ transient retry limits. Preserve the contract, frozen acceptance, candidate iden
 correction history and all execution counters.
 
 Automatic fallback is permitted only where the installed runtime can enforce these
-conditions, the exact fallback version and role effort, and safe continuation. The
-documented `pi-multi-account` behavior also routes on non-quota failures and may
+conditions, the authorized DeepSeek V4.1 Flash identity and role effort, and safe
+continuation. The documented `pi-multi-account` behavior also routes on non-quota failures and may
 change model or family; some child processes are passive. It does not by itself prove
 this policy's quota-only cross-provider gate or role-specific effort transition. If
 the gate or safe continuation cannot be established, stop automatic continuation,
