@@ -39,26 +39,36 @@ objectives. The initial model chooses a family, not every subsequent role model.
 The common patterns A/B/C/D, proportionality budgets and all other execution,
 review, acceptance and recovery rules apply equally to both families.
 
-## Selection
+## OpenAI profile selection
 
-The Lead selects the logical model and reasoning effort at admission, considering
-complexity, uncertainty, contract clarity, architectural discretion, failure impact,
-and evidence of unresolved reasoning difficulty. These are defaults, not fixed
-assignments. Within OpenAI routing, straightforward implementation may use Terra
-medium; difficult work may start at max without passing through intermediate levels.
-Astra is available only as an explicitly requested, scoped override. Respect explicit user model/effort
-instructions and existing authority and budget limits.
+For an OpenAI-family objective, at admission select exactly one profile: `Routing: sol-terra` or
+`Routing: sol-deepseek`. The documented configurable default when unspecified is
+`sol-terra`; change that deployment default only after verifying the selected route.
+Prefer `sol-deepseek` after its live runtime binding has been verified. Record the
+profile, default or explicit selection authority, and bundle in Lead execution state
+and every worker contract. Profile selection is distinct from initial Lead family
+classification. Anthropic remains a separate available family and does not select
+an OpenAI profile. Do not silently change
+profiles during corrections, retries, recovery, Goal continuation, or quota events.
+A user-authorized routing change uses the recovery procedure and preserves counters.
 
-| Role | Standard OpenAI | Complex / critical | DeepSeek fallback |
-| --- | --- | --- | --- |
-| Lead / Plan | `gpt-5.6-sol` / medium | `gpt-6.1-sol` / high | high |
-| Explorer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |
-| Implementer | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |
-| Integrator | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |
-| Architect | `gpt-6.1-sol` / high | `gpt-6.1-sol` / high | high |
-| Reviewer | `gpt-5.6-sol` / high | `gpt-6.1-sol` / high | high |
-| Writer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |
-| Validator | deterministic tools preferred | model only when necessary | deterministic tools, otherwise low or high |
+| Role | sol-terra | sol-deepseek |
+| --- | --- | --- |
+| Lead | GPT-6.1 Sol | GPT-6.1 Sol |
+| Architect, if needed | GPT-6.1 Sol | GPT-6.1 Sol |
+| Explorer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
+| Implementer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
+| Integrator | GPT-6.1 Terra | DeepSeek V4.1 Flash |
+| Writer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
+| Reviewer | GPT-6.1 Sol | GPT-6.1 Sol |
+| Validator | deterministic tools preferred | deterministic tools preferred |
+
+Sol defaults to medium, high for difficult or critical work. Terra uses medium or
+high according to complexity, max only when justified and supported. DeepSeek uses
+low for simple/mechanical work, high for substantial implementation or difficult
+diagnosis. Verify actual effective effort; a requested CLI level is not proof.
+DeepSeek is the primary execution route in `sol-deepseek`, not a quota fallback.
+The quota fallback below remains distinct and subject to its existing admission rules.
 
 ### Anthropic logical preferences
 
@@ -78,11 +88,90 @@ Sonnet attempt is required.
 | Writer | Claude Sonnet 5.5 / medium | Claude Sonnet 5.5 / high |
 | Validator | deterministic tools preferred | Claude Sonnet 5.5 only if necessary |
 
-The DeepSeek fallback effort column in the OpenAI table applies to both families.
+### Subscription-first execution
 
-The fallback model is DeepSeek V4.1-Flash-1017, intended through the configured
-`deepseek/deepseek-flash` route. The route identifier alone does not prove the
-deployed version. Verify the provider's mapping before use. For low/high alternatives,
+For Anthropic roles, prefer the **official Claude Code CLI with the Claude
+subscription**, rather than Pi Anthropic API/OAuth. Keep the Sonnet/Opus versions,
+role preferences and efforts above. This is a harness/provider preference, not a
+family/profile change or permission to use a different model. This is the scoped
+exception to the Pi harness default: record the actual Claude Code harness in the
+existing dispatch envelope instead of its literal Pi prefix. A Lead handoff must
+retain the initial Pi family decision and reconcile the checkpoint under recovery;
+it does not admit or reclassify the objective again. Verify subscription
+entitlement, workload/privacy eligibility, active authentication/billing, exact version
+and effective effort. Use Claude Code `/status` to verify active authentication
+and billing, and authoritative session evidence for exact model and effort; Pi
+session fields do not verify a Claude Code process.
+API credentials, gateways, aliases and automatic model fallback must not silently
+replace the subscription route. A Pi Anthropic route is not subscription-equivalent;
+using it requires an explicitly authorized route and billing scope. Before claiming
+execution works, verify installed Orca support for the official CLI, launch binding,
+worker lifecycle and recovery. Otherwise report `PI_ROUTING_BLOCKED` for affected
+work; document the unsupported/unverified capability rather than inventing a wrapper.
+
+For every DeepSeek role (primary execution or admitted model/family fallback), prefer
+Pi's compatible **OpenCode Go** provider with
+`opencode-go/deepseek-v4.1-flash`. Retain the logical target
+DeepSeek V4.1 Flash and role effort. Verify the provider-advertised V4.1 Flash
+identity against its documentation/catalogue and the effective provider/model/effort
+against runtime evidence. The route identifier alone does not prove the effective binding.
+DeepSeek-V4.1-Flash-1017 is a reference snapshot, not a mandatory pin for standard
+development orchestration. An unpublished snapshot or a minor snapshot change within
+the advertised V4.1 Flash model does not by itself block execution or provider failover.
+Record the snapshot when published, otherwise mark it unknown; accept possible
+behavioral differences without claiming exact snapshot equivalence. V4 Flash, V4 Pro,
+or an unresolved logical model identity remain outside this selection. An explicitly
+required snapshot pin in a task contract still applies.
+
+**DeepSeek Platform API PAYG** through `deepseek/deepseek-flash` is the secondary
+provider only after confirmed OpenCode Go quota exhaustion or provider unavailability,
+and only with applicable authorized billing and budget. Record the provider's quota
+verdict or availability evidence after bounded retries; a bare worker failure, generic
+429, unknown quota, authentication/configuration error, privacy denial, model mismatch,
+or failed test is insufficient. Verify PAYG account eligibility, advertised V4.1 Flash
+identity under the snapshot rule above, effective effort and Orca/Pi binding before a
+reconciled Lead-controlled handoff.
+An API key or available credit does not authorize spending. Do not enable Go Extra
+Usage, auto-recharge, or another paid pool without applicable billing authorization.
+Inspect existing overflow settings too: subscription execution must not consume an
+unauthorized paid balance, even when Extra Usage was enabled before this objective.
+
+Both providers require workload/privacy eligibility: permitted data, region, training
+and retention terms, including any expiring ZDR agreement. Go eligibility does not
+establish DeepSeek Platform eligibility. Do not loosen privacy controls to make a
+route available. If logical model identity, effort, binding, privacy, billing or safe
+continuation cannot be verified, block affected work and record what remains unverified.
+
+### Provider failover versus model/family fallback
+
+Provider failover keeps the authorized logical model and effective effort; DeepSeek
+snapshot differences follow the rule above. Other models retain exact-version binding.
+For DeepSeek, failover follows the subscription-to-PAYG gate above. It does not
+authorize a model/family fallback. Cross-model/family fallback to DeepSeek still requires the
+separate all-eligible-accounts quota gate below; provider unavailability alone does
+not satisfy that gate. In particular, an unavailable Claude Code route does not
+authorize Pi Anthropic or DeepSeek automatically. Workers never select either
+transition themselves.
+
+For either transition preserve the routing profile, selected family, policy bundle,
+objective/Goal state, budgets and cumulative counters, contracts, frozen acceptance,
+candidates, evidence and recovery history. Record the reason, authority and old/new
+harness, provider/account, billing pool, logical model, published snapshot (or unknown)
+and effective effort in existing Lead state and dispatch bindings. Reconcile side effects and reverify before substantive
+work, resume or automatic continuation. Use supported handoff/recovery only; add no
+custom middleware or routing service. Changing provider does not reset the objective.
+
+For quota fallback in either family, use DeepSeek low or high according to task complexity.
+When DeepSeek is already the primary route, its failure is not a reason to treat the
+same route as a fallback or silently change profile. A permitted temporary fallback
+does not change the recorded profile. A temporary Lead fallback is subject to the
+existing verified quota and recovery conditions; it does not change that profile.
+PR reviewers under either OpenAI profile must remain Sol: if Sol is unavailable,
+block the affected PR review rather than substitute DeepSeek.
+
+The fallback model is DeepSeek V4.1 Flash, using the subscription-first
+provider order above. Verify each provider's advertised model identity and runtime binding
+under the snapshot rule above before use. For low/high alternatives,
 the Lead selects based on the task; Validator defaults to low if a model is needed.
 
 Pi's CLI accepts `low`, `medium`, `high`, and `max`; acceptance of a label by the
@@ -91,26 +180,29 @@ clamping. Verify each effective model/effort combination against runtime evidenc
 Do not invent or silently substitute unsupported levels. If verification fails, block
 the affected work or obtain an authorized selection that can be verified.
 
-Workers cannot select, escalate, or replace their own route. The Lead may revise
-selection after reconciling the task and evidence. A model or effort change never
+Workers cannot select, escalate, or replace their own route. The Lead may revise a
+role selection within the recorded profile after reconciling task and evidence; a
+profile change requires explicit authorization. A model or effort change never
 resets attempt, correction, retry, or capacity counters, nor acceptance criteria.
 
 ## Binding and account rotation
 
 Lead execution state owns the governing policy bundle, effective initial Lead model,
-selected family, family-selection authority and recovery history. Each worker dispatch
-references that governing bundle and objective state and records the selected family,
+selected family and, for OpenAI, profile, selection authority and recovery history. Each worker dispatch
+references that governing bundle and objective state and records the selected family and profile,
 assigned logical model and effort, selection rationale and authority, eligible
 provider/account scope, effective provider/account, model and effort, verification
 evidence, and worker-specific routing events. Recovery must resolve the bundle and
 original family decision from persisted Lead/objective state. If a dispatch cannot
 reliably reference that state, report `PI_ROUTING_BLOCKED`. A deterministic tool node
 needs no model binding.
-Use Pi-supported selection and authoritative runtime/session evidence before
-substantive work and after each routing event; prompt text is not a binding.
+Use supported Pi selection, or the official Claude Code launch for subscription-backed
+Anthropic, and authoritative runtime/session evidence before substantive work and
+after each routing event; prompt text is not a binding.
 
-Orca 1.4.242 `worker-start` has one model and effort, no ordered fallback list,
-and its documented launch overrides do not establish Pi worker model/effort
+Orca 1.4.257 `worker-start` still has one model and effort, no ordered fallback list.
+Its documented Claude launch overrides do not establish subscription authentication
+or live worker support, and its overrides do not document Pi worker model/effort
 binding. Do not assume `pi-subagents` `fallbackModels` applies to Orca. If a
 Pi worker's effective binding cannot be verified, report `PI_ROUTING_BLOCKED`.
 
@@ -130,6 +222,9 @@ capacity before each launch or transition. Selection does not expand budgets.
 
 ## Quota fallback and recovery
 
+This section gates model/family fallback; same-model DeepSeek provider failover
+uses the separate subscription-first gate above. Neither transition authorizes billing.
+
 The policy pre-authorizes DeepSeek fallback without another user approval only when
 confirmed quota exhaustion prevents the selected route on **all eligible accounts of the selected family**,
 after eligible account rotation. Unknown eligibility or quota is not confirmation. Temporary rate limits, network failures, authentication/configuration
@@ -139,8 +234,8 @@ transient retry limits. Preserve the contract, frozen acceptance, candidate iden
 correction history and all execution counters.
 
 Automatic fallback is permitted only where the installed runtime can enforce these
-conditions, the exact fallback version and role effort, and safe continuation. The
-documented `pi-multi-account` behavior also routes on non-quota failures and may
+conditions, the authorized DeepSeek V4.1 Flash identity and role effort, and safe
+continuation. The documented `pi-multi-account` behavior also routes on non-quota failures and may
 change model or family; some child processes are passive. It does not by itself prove
 this policy's quota-only cross-provider gate or role-specific effort transition. If
 the gate or safe continuation cannot be established, stop automatic continuation,

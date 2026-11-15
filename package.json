@@ -1,6 +1,7 @@
 {
   "name": "agent-orchestration-policy",
   "private": true,
+  "version": "2.0.0",
   "description": "Pi and Orca orchestration policy skill",
   "pi": {
     "skills": ["./skills/orchestration-policy"]

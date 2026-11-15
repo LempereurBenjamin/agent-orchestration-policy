@@ -16,7 +16,7 @@ OBJECTIVE
 
 ROUTING
 Governing policy bundle and objective state: <resolvable references>
-Pi / <recorded family> / <logical model ID> / <effort>
+Pi / <recorded family and OpenAI profile if applicable> / <logical model ID> / <effort>
 Selection rationale and authority: <reason, scope, and any explicit override>
 Eligible provider/accounts: <scope and evidence>
 Effective binding: <provider/account, model, effort, verification evidence/status>
@@ -71,6 +71,11 @@ sufficient evidence exists; do not implement speculative fixes or absorb adjacen
 Independent Explorers do not receive one another's initial conclusions.
 
 ## Implementer
+
+An outcome-oriented contract authorizes in-scope investigation, implementation,
+focused testing, troubleshooting, correction and revalidation without a separate
+dispatch for each activity. Respect frozen decisions, ownership, routing and side
+effects; escalate material contradictions or genuine non-convergence.
 
 Default WRITE OWNER. Model and effort come from the Lead-selected Implementer row.
 

@@ -8,6 +8,7 @@ required_files=(
   AGENTS.md
   COMPATIBILITY.md
   package.json
+  CHANGELOG.md
   skills/orchestration-policy/SKILL.md
   skills/orchestration-policy/references/acceptance-manifest.md
   skills/orchestration-policy/references/model-routing.md
@@ -24,7 +25,7 @@ done
 node -e '
 const fs = require("node:fs");
 const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-if (pkg.name !== "agent-orchestration-policy" || pkg.private !== true ||
+if (pkg.name !== "agent-orchestration-policy" || pkg.private !== true || !/^\d+\.\d+\.\d+$/.test(pkg.version || "") ||
     !pkg.pi || Object.keys(pkg.pi).length !== 1 ||
     !Array.isArray(pkg.pi.skills) || pkg.pi.skills.length !== 1 ||
     pkg.pi.skills[0] !== "./skills/orchestration-policy" ||
@@ -61,14 +62,20 @@ require_literal COMPATIBILITY.md '--reference references/<file>.md'
 require_literal COMPATIBILITY.md '`--full` compatibility'
 routing=skills/orchestration-policy/references/model-routing.md
 for literal in \
-  '| Lead / Plan | `gpt-5.6-sol` / medium | `gpt-6.1-sol` / high | high |' \
-  '| Explorer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |' \
-  '| Implementer | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |' \
-  '| Integrator | `gpt-6.1-terra` / high | `gpt-6.1-terra` / max | high |' \
-  '| Architect | `gpt-6.1-sol` / high | `gpt-6.1-sol` / high | high |' \
-  '| Reviewer | `gpt-5.6-sol` / high | `gpt-6.1-sol` / high | high |' \
-  '| Writer | `gpt-6.1-terra` / medium | `gpt-6.1-terra` / high | low or high |' \
-  '| Validator | deterministic tools preferred | model only when necessary | deterministic tools, otherwise low or high |' \
+  '`sol-terra`' \
+  '`sol-deepseek`' \
+  '| Lead | GPT-6.1 Sol | GPT-6.1 Sol |' \
+  '| Architect, if needed | GPT-6.1 Sol | GPT-6.1 Sol |' \
+  '| Explorer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
+  '| Implementer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
+  '| Integrator | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
+  '| Writer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
+  '| Validator | deterministic tools preferred | deterministic tools preferred |' \
+  'Sol defaults to medium, high for difficult or critical work.' \
+  'high according to complexity, max only when justified and supported.' \
+  'low for simple/mechanical work, high for substantial implementation or difficult' \
+  '| Reviewer | GPT-6.1 Sol | GPT-6.1 Sol |' \
+  'DeepSeek is the primary execution route' \
   'Workers cannot select, escalate, or replace their own route.' \
   'account actually provides the same authorized model and effective effort.' \
   'resets attempt, correction, retry, or capacity counters, nor acceptance criteria.' \
@@ -97,8 +104,36 @@ for literal in \
   'These are preferences, not proof of an executable provider binding.'; do
   require_literal "$routing" "$literal"
 done
+# Guard provider ordering and keep its gate distinct from model/family fallback.
+# These are policy-content checks; the scenarios and live limitations remain explicit.
+for literal in \
+  'official Claude Code CLI with the Claude' \
+  'subscription**, rather than Pi Anthropic API/OAuth.' \
+  '`opencode-go/deepseek-v4.1-flash`' \
+  '**DeepSeek Platform API PAYG** through `deepseek/deepseek-flash` is the secondary' \
+  'provider only after confirmed OpenCode Go quota exhaustion or provider unavailability,' \
+  'and only with applicable authorized billing and budget.' \
+  'Provider failover keeps the authorized logical model and effective effort' \
+  'separate all-eligible-accounts quota gate below' \
+  'Go eligibility does not' \
+  'objective/Goal state, budgets and cumulative counters, contracts, frozen acceptance,' \
+  'custom middleware or routing service.'; do
+  require_literal "$routing" "$literal"
+done
+require_literal tests/model-routing-scenarios.md '## Subscription-first providers and transition boundaries'
+require_literal tests/model-routing-scenarios.md 'Go advertises V4.1 Flash and runtime binding/effort are verified, but its snapshot is unpublished'
+require_literal tests/model-routing-scenarios.md 'Eligible Go-to-Platform failover keeps V4.1 Flash and effective effort but exact snapshot equivalence is unknown'
+require_literal tests/model-routing-scenarios.md 'Provider resolves to V4 Flash, V4 Pro or an unknown logical model'
+require_literal tests/model-routing-scenarios.md 'Task contract explicitly requires snapshot 1017'
+require_literal "$routing" 'DeepSeek-V4.1-Flash-1017 is a reference snapshot, not a mandatory pin for standard'
+require_literal "$routing" 'the advertised V4.1 Flash model does not by itself block execution or provider failover.'
+require_literal tests/model-routing-scenarios.md 'PAYG credentials/credit exist but billing is not authorized'
+require_literal tests/model-routing-scenarios.md 'Sol PR reviewer unavailable while Go/Platform is available'
+require_literal COMPATIBILITY.md 'Exact snapshot equivalence remains **UNVERIFIED** and is not required'
+require_literal COMPATIBILITY.md 'subscription-backed execution is **UNVERIFIED**'
+
 require_literal skills/orchestration-policy/references/recovery-and-learning.md 'Restore the recorded bundle and family'
-require_literal skills/orchestration-policy/references/worker-contracts.md 'Pi / <recorded family> / <logical model ID> / <effort>'
+require_literal skills/orchestration-policy/references/worker-contracts.md 'Pi / <recorded family and OpenAI profile if applicable> / <logical model ID> / <effort>'
 require_literal skills/orchestration-policy/references/worker-contracts.md 'Governing policy bundle and objective state: <resolvable references>'
 require_literal tests/model-routing-scenarios.md '`github-copilot/claude-opus-5.5` or `github-copilot/claude-sonnet-5.5`'
 require_literal COMPATIBILITY.md 'not a live provider acceptance'
@@ -112,6 +147,14 @@ require_literal skills/orchestration-policy/references/worker-contracts.md 'All 
 require_literal tests/acceptance-gate-scenarios.md '## 17. Speculative robustness and test selection'
 require_literal tests/acceptance-gate-scenarios.md '## 18. Proportionality budget exceeded'
 
+for literal in 'One ticket completion never completes the parent Goal.' \
+  'Use `goal_wait` only when a real external wake source is established' \
+  'Every PR requires one fresh independent automatic review' \
+  'Human approval is mandatory before merge'; do
+  require_literal skills/orchestration-policy/SKILL.md "$literal"
+done
+require_literal tests/model-routing-scenarios.md 'sol-deepseek primary is not fallback'
+require_literal tests/acceptance-gate-scenarios.md '## 19. Parent Goal backlog continuation'
 require_literal tests/model-routing-scenarios.md 'not runtime integration tests'
 require_literal COMPATIBILITY.md 'no ordered fallback list'
 require_literal COMPATIBILITY.md 'The `pi-subagents` fallback list is not an Orca capability.'
