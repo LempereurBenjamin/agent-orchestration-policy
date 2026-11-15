@@ -88,6 +88,70 @@ Sonnet attempt is required.
 | Writer | Claude Sonnet 5.5 / medium | Claude Sonnet 5.5 / high |
 | Validator | deterministic tools preferred | Claude Sonnet 5.5 only if necessary |
 
+### Subscription-first execution
+
+For Anthropic roles, prefer the **official Claude Code CLI with the Claude
+subscription**, rather than Pi Anthropic API/OAuth. Keep the Sonnet/Opus versions,
+role preferences and efforts above. This is a harness/provider preference, not a
+family/profile change or permission to use a different model. This is the scoped
+exception to the Pi harness default: record the actual Claude Code harness in the
+existing dispatch envelope instead of its literal Pi prefix. A Lead handoff must
+retain the initial Pi family decision and reconcile the checkpoint under recovery;
+it does not admit or reclassify the objective again. Verify subscription
+entitlement, workload/privacy eligibility, active authentication/billing, exact version
+and effective effort. Use Claude Code `/status` to verify active authentication
+and billing, and authoritative session evidence for exact model and effort; Pi
+session fields do not verify a Claude Code process.
+API credentials, gateways, aliases and automatic model fallback must not silently
+replace the subscription route. A Pi Anthropic route is not subscription-equivalent;
+using it requires an explicitly authorized route and billing scope. Before claiming
+execution works, verify installed Orca support for the official CLI, launch binding,
+worker lifecycle and recovery. Otherwise report `PI_ROUTING_BLOCKED` for affected
+work; document the unsupported/unverified capability rather than inventing a wrapper.
+
+For every DeepSeek role (primary execution or admitted model/family fallback), prefer
+Pi's compatible **OpenCode Go** provider with
+`opencode-go/deepseek-v4.1-flash`. Retain the logical target
+DeepSeek V4.1-Flash-1017 and role effort. The route identifier alone does not prove the
+served snapshot: establish exact version equivalence before use, including across
+providers. Do not treat V4 Flash, V4 Pro, or an unverified V4.1 alias as equivalent.
+
+**DeepSeek Platform API PAYG** through `deepseek/deepseek-flash` is the secondary
+provider only after confirmed OpenCode Go quota exhaustion or provider unavailability,
+and only with applicable authorized billing and budget. Record the provider's quota
+verdict or availability evidence after bounded retries; a bare worker failure, generic
+429, unknown quota, authentication/configuration error, privacy denial, model mismatch,
+or failed test is insufficient. Verify PAYG account eligibility, exact version,
+effective effort and Orca/Pi binding before a reconciled Lead-controlled handoff.
+An API key or available credit does not authorize spending. Do not enable Go Extra
+Usage, auto-recharge, or another paid pool without applicable billing authorization.
+Inspect existing overflow settings too: subscription execution must not consume an
+unauthorized paid balance, even when Extra Usage was enabled before this objective.
+
+Both providers require workload/privacy eligibility: permitted data, region, training
+and retention terms, including any expiring ZDR agreement. Go eligibility does not
+establish DeepSeek Platform eligibility. Do not loosen privacy controls to make a
+route available. If version, effort, binding, privacy, billing or safe continuation
+cannot be verified, block affected work and record what remains unverified.
+
+### Provider failover versus model/family fallback
+
+Provider failover keeps the exact logical model/version and effective effort; for
+DeepSeek it follows the subscription-to-PAYG gate above. It does not authorize a
+model/family fallback. Cross-model/family fallback to DeepSeek still requires the
+separate all-eligible-accounts quota gate below; provider unavailability alone does
+not satisfy that gate. In particular, an unavailable Claude Code route does not
+authorize Pi Anthropic or DeepSeek automatically. Workers never select either
+transition themselves.
+
+For either transition preserve the routing profile, selected family, policy bundle,
+objective/Goal state, budgets and cumulative counters, contracts, frozen acceptance,
+candidates, evidence and recovery history. Record the reason, authority and old/new
+harness, provider/account, billing pool, exact version and effective effort in existing
+Lead state and dispatch bindings. Reconcile side effects and reverify before substantive
+work, resume or automatic continuation. Use supported handoff/recovery only; add no
+custom middleware or routing service. Changing provider does not reset the objective.
+
 For quota fallback in either family, use DeepSeek low or high according to task complexity.
 When DeepSeek is already the primary route, its failure is not a reason to treat the
 same route as a fallback or silently change profile. A permitted temporary fallback
@@ -96,9 +160,8 @@ existing verified quota and recovery conditions; it does not change that profile
 PR reviewers under either OpenAI profile must remain Sol: if Sol is unavailable,
 block the affected PR review rather than substitute DeepSeek.
 
-The fallback model is DeepSeek V4.1-Flash-1017, intended through the configured
-`deepseek/deepseek-flash` route. The route identifier alone does not prove the
-deployed version. Verify the provider's mapping before use. For low/high alternatives,
+The fallback model is DeepSeek V4.1-Flash-1017, using the subscription-first
+provider order above. Verify each provider's mapping before use. For low/high alternatives,
 the Lead selects based on the task; Validator defaults to low if a model is needed.
 
 Pi's CLI accepts `low`, `medium`, `high`, and `max`; acceptance of a label by the
@@ -123,11 +186,13 @@ evidence, and worker-specific routing events. Recovery must resolve the bundle a
 original family decision from persisted Lead/objective state. If a dispatch cannot
 reliably reference that state, report `PI_ROUTING_BLOCKED`. A deterministic tool node
 needs no model binding.
-Use Pi-supported selection and authoritative runtime/session evidence before
-substantive work and after each routing event; prompt text is not a binding.
+Use supported Pi selection, or the official Claude Code launch for subscription-backed
+Anthropic, and authoritative runtime/session evidence before substantive work and
+after each routing event; prompt text is not a binding.
 
-Orca 1.4.242 `worker-start` has one model and effort, no ordered fallback list,
-and its documented launch overrides do not establish Pi worker model/effort
+Orca 1.4.257 `worker-start` still has one model and effort, no ordered fallback list.
+Its documented Claude launch overrides do not establish subscription authentication
+or live worker support, and its overrides do not document Pi worker model/effort
 binding. Do not assume `pi-subagents` `fallbackModels` applies to Orca. If a
 Pi worker's effective binding cannot be verified, report `PI_ROUTING_BLOCKED`.
 
@@ -146,6 +211,9 @@ worker routing reserves the single Astra/unknown slot, excluding Lead. Reconcile
 capacity before each launch or transition. Selection does not expand budgets.
 
 ## Quota fallback and recovery
+
+This section gates model/family fallback; same-model DeepSeek provider failover
+uses the separate subscription-first gate above. Neither transition authorizes billing.
 
 The policy pre-authorizes DeepSeek fallback without another user approval only when
 confirmed quota exhaustion prevents the selected route on **all eligible accounts of the selected family**,

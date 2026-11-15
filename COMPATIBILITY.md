@@ -73,8 +73,8 @@ objective when the policy requires orchestration. Confirm runtime routing using 
 in `skills/orchestration-policy/references/model-routing.md`; requested CLI options
 alone are not sufficient evidence.
 
-Keep the DeepSeek API key in local Pi credential configuration. Never add it, other
-credentials, request payloads, or session output to this repository.
+Keep provider API keys in local Pi credential configuration. Never add credentials,
+request payloads, or session output to this repository.
 
 ## Compatibility changes
 
@@ -93,3 +93,26 @@ catalogue nor requested effort proves effective provider/account/model/effort. V
 these for each deployed Pi/Orca combination. Runtime smoke tests and independent Sol
 review binding are not established by static policy scenarios. Normal Pi/Orca use
 without pi-goal remains supported under the existing capability requirements above.
+
+## Subscription-first routing verification (2026-11-15)
+
+These are source/CLI checks, not live execution proof. No credentials, provider
+settings, privacy controls or billing settings were changed; no provider inference
+smoke test ran.
+
+| Capability | Evidence and status |
+| --- | --- |
+| Claude subscription via official CLI | [Claude Code authentication](https://code.claude.com/docs/en/authentication) documents subscription login and `/status`; API credentials can select different billing. The official CLI was not found on the inspected shell PATH. Local login, subscription entitlement and effective billing are **UNVERIFIED**. Pi Anthropic API/OAuth is not a substitute for subscription authentication. |
+| Claude exact version and effort | [Model configuration](https://code.claude.com/docs/en/model-config) documents Sonnet/Opus 5.5 and medium/high effort; aliases, effort caps and automatic fallback can change the effective result. Preserve the existing role table and resolve provider-specific IDs to its exact versions. Local version/effort binding and fallback controls are **UNVERIFIED**. |
+| Orca official Claude worker | Installed Orca `1.4.257` worker-start help documents Claude model/effort overrides. Its runtime reports `not_running`; no official CLI worker, lifecycle or recovery smoke test ran. CLI support is documented; subscription-backed execution is **UNVERIFIED**. |
+| Pi OpenCode Go provider | Installed Pi `1.1.0` includes `opencode-go/deepseek-v4.1-flash`, `openai-completions`, the `https://opencode.ai/zen/go/v1` base URL, and low/high thinking mappings. Its adapter emits DeepSeek thinking/effort and adds `x-opencode-session` when supplied a session ID. [OpenCode's Pi guide](https://opencode.ai/docs/console/harnesses/pi/) documents the Go provider; [Go docs](https://opencode.ai/docs/console/go/) list Pi as a validated client and publish the newer inference endpoint. Acceptance of the installed endpoint, actual session headers, account entitlement and effective effort are **UNVERIFIED**. |
+| Exact DeepSeek equivalence | [DeepSeek Platform's model table](https://api-docs.deepseek.com/quick_start/pricing/) maps `deepseek-flash` to DeepSeek-V4.1-Flash-1017. Go lists `deepseek-v4.1-flash`, but the inspected Go documentation/catalogue does not establish its exact 1017 snapshot. Cross-provider version equivalence is **UNVERIFIED**; block affected execution until established, rather than infer equivalence from a display name. |
+| Orca Pi worker and provider failover | Orca `1.4.257` still has singular model/effort fields, no ordered fallback list, and no documented Pi launch overrides. Neither Go binding nor Go-to-Platform failover was exercised. Automatic Pi provider failover and Lead-controlled handoff remain **UNVERIFIED**; existing unsupported automatic Pi model/family fallback limitations remain. |
+| Privacy and billing eligibility | Go documents workspace region restrictions for DeepSeek and a monthly ZDR agreement (currently through 2026-11-30), plus optional Extra Usage charging a PAYG balance. Recheck these terms at dispatch. Claude subscription privacy depends on plan and data controls ([data usage](https://code.claude.com/docs/en/data-usage)); it is not API privacy equivalence. Actual workspace/data eligibility, current ZDR coverage and authorized billing for Go extra usage or DeepSeek Platform PAYG are **UNVERIFIED**. Never infer authorization from credentials or credit. |
+
+Provider failover preserves the exact model/version and effort and follows the
+Go quota/unavailability plus authorized-billing gate in `model-routing.md`.
+Model/family fallback retains its separate all-eligible-accounts quota gate.
+Neither a privacy denial nor a generic error proves provider unavailability; neither
+transition changes profiles, objective state, budgets, contracts or candidates.
+Static policy checks cannot establish live routing or Orca worker compatibility.

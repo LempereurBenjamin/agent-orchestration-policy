@@ -46,3 +46,23 @@ These scenarios describe policy expectations; they are not runtime integration t
 | Resume, retry or correction | Restore the recorded profile and bundle, verify binding and preserve counters. |
 | Unavailable or mismatched binding | Block only affected dispatch; retain evidence, propose supported remediation. |
 | Anthropic initial Lead | Anthropic family remains available under its table. |
+
+## Subscription-first providers and transition boundaries
+
+| Scenario | Expected outcome |
+| --- | --- |
+| Anthropic role admitted | Prefer official Claude Code CLI with Claude subscription; retain the Sonnet/Opus role table and effort. Verify authentication/billing, exact model, effort and Orca lifecycle before substantive work. |
+| Claude CLI is unavailable or its Orca binding is unverified | Block affected work; do not silently use Pi Anthropic API/OAuth or change family/profile. Document the missing capability. |
+| Claude alias, API key, gateway or automatic fallback changes model/billing | Stop affected continuation; reconcile and verify the authorized exact version, effort and subscription route. An alias or CLI flag is insufficient. |
+| DeepSeek primary or an admitted cross-family quota fallback | Prefer Pi opencode-go/deepseek-v4.1-flash; independently establish the pinned 1017 version and effective low/high effort. |
+| Go has confirmed quota exhaustion; authorized PAYG account, privacy, equivalent version, effort and Orca/Pi binding are verified | Lead may reconcile and hand off to DeepSeek Platform API PAYG without changing model, family or routing profile. |
+| Go provider unavailability is confirmed after bounded retries and all PAYG gates pass | Same-model provider failover is permitted; provider unavailability alone never admits a cross-model/family fallback. |
+| Generic 429, missing output, unknown quota, auth/configuration error or failed test | Insufficient evidence for Go-to-Platform failover; diagnose under bounded recovery. |
+| Go privacy denial, unsupported model or unverified snapshot | Block; do not classify this as provider unavailability or silently use PAYG. |
+| Go and Platform names match but exact version equivalence is unknown | Block affected dispatch; model catalogue names do not prove the same snapshot. |
+| PAYG credentials/credit exist but billing is not authorized | Block paid failover; do not enable Go Extra Usage, auto-recharge or another billing pool. |
+| Existing Go Extra Usage or Claude API credentials can bypass subscription billing | Verify effective billing and controls before work; pre-existing overflow settings do not authorize spending. |
+| Go privacy permits data but Platform eligibility or ZDR renewal is unknown | Block affected route; verify each provider independently without loosening privacy controls. |
+| Provider failover, model/family fallback, resume or retry | Preserve profile, family, policy bundle, objective/Goal state, budgets/counters, contracts, frozen acceptance, candidates and evidence; reconcile effects and reverify bindings. |
+| Worker requests either transition | Escalate to Lead; worker cannot reroute itself. |
+| Sol PR reviewer unavailable while Go/Platform is available | Block affected PR review; provider failover does not authorize replacing Sol with DeepSeek. |

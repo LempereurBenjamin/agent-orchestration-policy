@@ -104,6 +104,29 @@ for literal in \
   'These are preferences, not proof of an executable provider binding.'; do
   require_literal "$routing" "$literal"
 done
+# Guard provider ordering and keep its gate distinct from model/family fallback.
+# These are policy-content checks; the scenarios and live limitations remain explicit.
+for literal in \
+  'official Claude Code CLI with the Claude' \
+  'subscription**, rather than Pi Anthropic API/OAuth.' \
+  '`opencode-go/deepseek-v4.1-flash`' \
+  '**DeepSeek Platform API PAYG** through `deepseek/deepseek-flash` is the secondary' \
+  'provider only after confirmed OpenCode Go quota exhaustion or provider unavailability,' \
+  'and only with applicable authorized billing and budget.' \
+  'Provider failover keeps the exact logical model/version and effective effort' \
+  'separate all-eligible-accounts quota gate below' \
+  'Go eligibility does not' \
+  'objective/Goal state, budgets and cumulative counters, contracts, frozen acceptance,' \
+  'custom middleware or routing service.'; do
+  require_literal "$routing" "$literal"
+done
+require_literal tests/model-routing-scenarios.md '## Subscription-first providers and transition boundaries'
+require_literal tests/model-routing-scenarios.md 'Go and Platform names match but exact version equivalence is unknown'
+require_literal tests/model-routing-scenarios.md 'PAYG credentials/credit exist but billing is not authorized'
+require_literal tests/model-routing-scenarios.md 'Sol PR reviewer unavailable while Go/Platform is available'
+require_literal COMPATIBILITY.md 'Cross-provider version equivalence is **UNVERIFIED**'
+require_literal COMPATIBILITY.md 'subscription-backed execution is **UNVERIFIED**'
+
 require_literal skills/orchestration-policy/references/recovery-and-learning.md 'Restore the recorded bundle and family'
 require_literal skills/orchestration-policy/references/worker-contracts.md 'Pi / <recorded family and OpenAI profile if applicable> / <logical model ID> / <effort>'
 require_literal skills/orchestration-policy/references/worker-contracts.md 'Governing policy bundle and objective state: <resolvable references>'
