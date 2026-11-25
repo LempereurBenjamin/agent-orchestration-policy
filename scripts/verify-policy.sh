@@ -64,8 +64,8 @@ routing=skills/orchestration-policy/references/model-routing.md
 for literal in \
   '`sol-terra`' \
   '`sol-deepseek`' \
-  '| Lead | GPT-6.1 Sol | GPT-6.1 Sol |' \
-  '| Architect, if needed | GPT-6.1 Sol | GPT-6.1 Sol |' \
+  '| Lead | GPT-6.2 Sol | GPT-6.2 Sol |' \
+  '| Architect, if needed | GPT-6.2 Sol | GPT-6.2 Sol |' \
   '| Explorer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
   '| Implementer | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
   '| Integrator | GPT-6.1 Terra | DeepSeek V4.1 Flash |' \
@@ -74,7 +74,7 @@ for literal in \
   'Sol defaults to medium, high for difficult or critical work.' \
   'high according to complexity, max only when justified and supported.' \
   'low for simple/mechanical work, high for substantial implementation or difficult' \
-  '| Reviewer | GPT-6.1 Sol | GPT-6.1 Sol |' \
+  '| Reviewer | GPT-6.2 Sol | GPT-6.2 Sol |' \
   'DeepSeek is the primary execution route' \
   'Workers cannot select, escalate, or replace their own route.' \
   'account actually provides the same authorized model and effective effort.' \
@@ -150,6 +150,7 @@ require_literal tests/acceptance-gate-scenarios.md '## 18. Proportionality budge
 for literal in 'One ticket completion never completes the parent Goal.' \
   'Use `goal_wait` only when a real external wake source is established' \
   'Every PR requires one fresh independent automatic review' \
+  'using GPT-6.2 Sol for both OpenAI profiles.' \
   'Human approval is mandatory before merge'; do
   require_literal skills/orchestration-policy/SKILL.md "$literal"
 done
