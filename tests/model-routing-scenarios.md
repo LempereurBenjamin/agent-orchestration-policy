@@ -39,11 +39,13 @@ These scenarios describe policy expectations; they are not runtime integration t
 
 | Scenario | Expected outcome |
 | --- | --- |
-| `Routing: sol-terra` | Sol Lead and Reviewer, Terra execution; verify effective bindings. |
-| `Routing: sol-deepseek` | Sol Lead and Reviewer, DeepSeek execution; verify effective bindings. |
+| New objective using `Routing: sol-terra` | Verify GPT-6.2 Sol for Lead, Architect if needed, and Reviewer; retain Terra execution. |
+| New objective using `Routing: sol-deepseek` | Verify GPT-6.2 Sol for Lead, Architect if needed, and Reviewer; retain DeepSeek execution. |
+| New objective's Sol route resolves to an older Sol model | Report `PI_ROUTING_BLOCKED` for affected work until the GPT-6.2 Sol binding is verified. |
 | No profile supplied | Use the documented configurable sol-terra default until a verified change. |
 | sol-deepseek primary is not fallback | Use DeepSeek as primary; quota fallback has a separate gate. |
 | Resume, retry or correction | Restore the recorded profile and bundle, verify binding and preserve counters. |
+| Resume an active objective pinned to the previous routing bundle after installing the new bundle | Restore the recorded bundle and Sol route; require an explicit policy migration before adopting the new route. Preserve counters and reconcile uncertain effects. |
 | Unavailable or mismatched binding | Block only affected dispatch; retain evidence, propose supported remediation. |
 | Anthropic initial Lead | Anthropic family remains available under its table. |
 

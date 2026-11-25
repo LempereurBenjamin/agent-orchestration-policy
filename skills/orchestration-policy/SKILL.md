@@ -326,7 +326,7 @@ genuine terminal impasse and `goal_complete` only after verifying completion.
 Do not add a competing continuation loop or custom polling middleware.
 
 Every PR requires one fresh independent automatic review of its exact final candidate,
-using GPT-6.1 Sol for both OpenAI profiles. Scale review to actual risk: correctness,
+using GPT-6.2 Sol for both OpenAI profiles. Scale review to actual risk: correctness,
 scope, regressions and simplicity for low risk; interfaces, errors, behavioral tests
 and maintainability for medium risk; relevant security, persistence, concurrency,
 data integrity, contracts and integration evidence for high risk. Only blocking
