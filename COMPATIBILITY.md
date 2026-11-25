@@ -74,6 +74,13 @@ objective when the policy requires orchestration. Confirm runtime routing using 
 in `skills/orchestration-policy/references/model-routing.md`; requested CLI options
 alone are not sufficient evidence.
 
+The GPT-6.2 Sol migration targets the OpenAI Lead, Architect, and Reviewer roles.
+On the target installation, verify the effective logical model ID, provider/account
+and role effort for the Lead and supervised Orca workers. Use a fresh reviewer
+context for an exact candidate. Resume an objective pinned to the prior bundle to
+verify its recorded route and counters survive the update. These runtime checks
+are **UNVERIFIED** for this migration.
+
 Keep provider API keys in local Pi credential configuration. Never add credentials,
 request payloads, or session output to this repository.
 

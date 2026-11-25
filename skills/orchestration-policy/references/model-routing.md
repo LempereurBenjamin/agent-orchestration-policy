@@ -54,13 +54,13 @@ A user-authorized routing change uses the recovery procedure and preserves count
 
 | Role | sol-terra | sol-deepseek |
 | --- | --- | --- |
-| Lead | GPT-6.1 Sol | GPT-6.1 Sol |
-| Architect, if needed | GPT-6.1 Sol | GPT-6.1 Sol |
+| Lead | GPT-6.2 Sol | GPT-6.2 Sol |
+| Architect, if needed | GPT-6.2 Sol | GPT-6.2 Sol |
 | Explorer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
 | Implementer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
 | Integrator | GPT-6.1 Terra | DeepSeek V4.1 Flash |
 | Writer | GPT-6.1 Terra | DeepSeek V4.1 Flash |
-| Reviewer | GPT-6.1 Sol | GPT-6.1 Sol |
+| Reviewer | GPT-6.2 Sol | GPT-6.2 Sol |
 | Validator | deterministic tools preferred | deterministic tools preferred |
 
 Sol defaults to medium, high for difficult or critical work. Terra uses medium or
